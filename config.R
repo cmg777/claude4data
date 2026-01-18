@@ -7,12 +7,37 @@ set_seeds <- function(seed = RANDOM_SEED) {
   RNGkind("L'Ecuyer-CMRG")
 }
 
-# Paths
-DATA_DIR <- "data"
-OUTPUT_DIR <- "output"
-NOTEBOOKS_DIR <- "notebooks"
-LOG_DIR <- "log"
-CODE_DIR <- "code"
+# Project root (directory containing this config file)
+# This works whether sourced from project root or from subdirectories
+get_project_root <- function() {
+  # Try to find config.R location
+  if (exists("ofile")) {
+    # Running via source() with chdir = FALSE
+    return(dirname(normalizePath(ofile)))
+  }
+  # Check common locations
+  candidates <- c(
+    ".",           # Current directory
+    "..",          # Parent directory (if in notebooks/)
+    "../.."        # Grandparent (if deeper)
+  )
+  for (cand in candidates) {
+    if (file.exists(file.path(cand, "config.R"))) {
+      return(normalizePath(cand))
+    }
+  }
+  # Fallback to current directory
+  return(getwd())
+}
+
+PROJECT_ROOT <- get_project_root()
+
+# Paths (as absolute paths)
+DATA_DIR <- file.path(PROJECT_ROOT, "data")
+OUTPUT_DIR <- file.path(PROJECT_ROOT, "output")
+NOTEBOOKS_DIR <- file.path(PROJECT_ROOT, "notebooks")
+LOG_DIR <- file.path(PROJECT_ROOT, "log")
+CODE_DIR <- file.path(PROJECT_ROOT, "code")
 
 # Create directories if they don't exist
 dirs <- c(DATA_DIR, OUTPUT_DIR, NOTEBOOKS_DIR, LOG_DIR, CODE_DIR)
