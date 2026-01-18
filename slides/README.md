@@ -12,6 +12,8 @@ Quarto presentations for the project.
 | `rf_public_services_slides.html` | RevealJS HTML | Rendered RF presentation (18 slides)     |
 | `esda_slides.qmd`                | Quarto source | Spatial autocorrelation analysis (ESDA)  |
 | `esda_slides.html`               | RevealJS HTML | Rendered ESDA presentation (20 slides)   |
+| `solow_model_slides.qmd`         | Quarto source | Solow Growth Model and convergence       |
+| `solow_model_slides.html`        | RevealJS HTML | Rendered Solow presentation (26 slides)  |
 
 ## Viewing Slides
 
@@ -86,6 +88,37 @@ quarto preview rf_public_services_slides.qmd
 15. Key findings and conclusions
 16. Future research directions
 17. Data and reproducibility information
+
+### Solow Model Slides (`solow_model_slides.html`)
+
+**Title:** The Solow Growth Model and Economic Convergence
+
+**Replication of:** Mankiw, Romer, and Weil (1992)
+
+**Slides include:**
+
+1. Research questions and framework
+2. The Solow model theoretical foundation
+3. Steady-state predictions
+4. Data and samples (121 countries, 1960-1985)
+5. Textbook Solow: Unrestricted regression results
+6. Textbook Solow: Implied alpha (α ≈ 0.60, too high)
+7. Augmented Solow model with human capital
+8. Augmented Solow: Results (R² improved to 0.78)
+9. Implied alpha and beta (α ≈ 1/3, β ≈ 1/3)
+10. Model comparison (textbook vs. augmented)
+11. Unconditional convergence (only OECD)
+12. OECD unconditional convergence analysis
+13. Conditional convergence (all samples)
+14. Augmented conditional convergence
+15. Convergence speeds and half-lives
+16. Convergence visualization
+17. Main conclusions
+18. Policy implications
+19. Limitations and extensions
+20. Key takeaways
+21. Data and reproducibility
+22. References
 
 ## Re-rendering Slides
 

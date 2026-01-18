@@ -111,6 +111,7 @@ The Random Forest analysis reveals which public service indicators can be predic
 | `slides/eda_slides.html`                 | Exploratory Data Analysis results              |
 | `slides/rf_public_services_slides.html`  | Random Forest prediction results               |
 | `slides/esda_slides.html`                | Spatial autocorrelation analysis (ESDA)        |
+| `slides/solow_model_slides.html`         | Solow Growth Model (MRW 1992 replication)      |
 
 ## Configuration
 
@@ -125,11 +126,23 @@ from config import DATA_DIR, OUTPUT_DIR, set_seeds
 set_seeds()
 ```
 
+**Key Packages:**
+- Core: numpy, pandas, matplotlib, seaborn
+- ML: scikit-learn
+- Stats: statsmodels, stargazer
+- Geospatial: geopandas, pysal, esda, mgwr
+- Tables: tabulate
+
 ### R
 ```r
 source('../config.R')  # or source('config.R') from project root
 set_seeds()
 ```
+
+**Key Packages:**
+- tidyverse, dplyr, ggplot2
+- stargazer, car, haven
+- IRdisplay (for notebooks)
 
 ## Available Jupyter Kernels
 
