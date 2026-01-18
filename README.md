@@ -106,10 +106,11 @@ The Random Forest analysis reveals which public service indicators can be predic
 
 ## Presentations
 
-| Slides                                   | Description                          |
-|------------------------------------------|--------------------------------------|
-| `slides/eda_slides.html`                 | Exploratory Data Analysis results    |
-| `slides/rf_public_services_slides.html`  | Random Forest prediction results     |
+| Slides                                   | Description                                    |
+|------------------------------------------|------------------------------------------------|
+| `slides/eda_slides.html`                 | Exploratory Data Analysis results              |
+| `slides/rf_public_services_slides.html`  | Random Forest prediction results               |
+| `slides/esda_slides.html`                | Spatial autocorrelation analysis (ESDA)        |
 
 ## Configuration
 

@@ -10,6 +10,8 @@ Quarto presentations for the project.
 | `eda_slides.html`                | RevealJS HTML | Rendered EDA presentation (18 slides)    |
 | `rf_public_services_slides.qmd`  | Quarto source | Random Forest analysis of public services|
 | `rf_public_services_slides.html` | RevealJS HTML | Rendered RF presentation (18 slides)     |
+| `esda_slides.qmd`                | Quarto source | Spatial autocorrelation analysis (ESDA)  |
+| `esda_slides.html`               | RevealJS HTML | Rendered ESDA presentation (20 slides)   |
 
 ## Viewing Slides
 
@@ -61,6 +63,30 @@ quarto preview rf_public_services_slides.qmd
 8. Implications for researchers and policymakers
 9. Methodology notes and data availability
 
+### ESDA Slides (`esda_slides.html`)
+
+**Title:** Spatial Autocorrelation in Bolivia's Municipal Development
+
+**Slides include:**
+
+1. Overview and research question
+2. Spatial distribution of development (interactive map)
+3. Spatial weights matrix (K-nearest neighbors)
+4. Global spatial autocorrelation (Moran's I = 0.39)
+5. Moran scatterplot interpretation
+6. Local spatial autocorrelation (LISA)
+7. LISA cluster map visualization
+8. Combined LISA analysis
+9. High-High clusters (hotspots) analysis
+10. Low-Low clusters (coldspots) analysis
+11. Spatial outliers (High-Low and Low-High)
+12. Statistical summary of cluster distribution
+13. Policy implications for each cluster type
+14. Methodology notes (spatial statistics)
+15. Key findings and conclusions
+16. Future research directions
+17. Data and reproducibility information
+
 ## Re-rendering Slides
 
 After editing the `.qmd` file:
@@ -69,9 +95,13 @@ After editing the `.qmd` file:
 quarto render rf_public_services_slides.qmd --to revealjs
 ```
 
-## Features
+## Design Features
 
 - RevealJS format with slide transitions
 - Chalkboard enabled (press 'c' to toggle)
 - Slide numbers
 - Embedded figures from `output/`
+- **Professional color scheme:**
+  - Blue titles (#2874A6)
+  - Green bold text (#229954)
+  - Clean, readable typography for academic presentations
