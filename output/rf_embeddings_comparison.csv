@@ -1,0 +1,21 @@
+Category,Variable,Description,Pop-weighted,Regular,Difference,Better_Method
+Basic Utilities,sdg1_4_abs,Access to 3 Basic Services,0.6195204822338305,0.49852716795338314,0.12099331428044735,Pop-weighted
+Basic Utilities,sdg6_1_dwc,Drinking Water Coverage,0.2788627056329771,0.16735881417052612,0.11150389146245099,Pop-weighted
+Basic Utilities,sdg6_2_sc,Sanitation Coverage,0.2738773872213023,0.16885878009248145,0.10501860712882083,Pop-weighted
+Basic Utilities,sdg6_3_wwt,Wastewater Treatment,-0.0005103946150994965,0.024766278203858683,-0.02527667281895818,Regular
+Basic Utilities,sdg7_1_ec,Electricity Coverage,0.46614217524217894,0.3612402466170569,0.10490192862512204,Pop-weighted
+Education,sdg4_1_ssdrf,School Dropout Rate (Female),-0.20337756312475186,-0.5883921019334044,0.38501453880865255,Pop-weighted
+Education,sdg4_1_ssdrm,School Dropout Rate (Male),0.16489434192849783,0.09831878338953659,0.06657555853896124,Pop-weighted
+Education,sdg4_c_qti,Qualified Teachers (Initial),0.0837628456772348,0.07785196106906878,0.005910884608166023,Pop-weighted
+Education,sdg4_c_qts,Qualified Teachers (Secondary),0.08576612425934027,0.12476316834522361,-0.03899704408588334,Regular
+Education,sdg9_5_cd,Computers Delivered,-0.017658470498013834,-0.03161684081257188,0.013958370314558044,Pop-weighted
+Education,sdg9_5_eutf,Schools with Tech Floors,0.2197735652798456,0.1059522121347436,0.113821353145102,Pop-weighted
+Health,sdg3_1_idca,Institutional Childbirth,0.6929124993474187,0.5789490542306486,0.11396344511677015,Pop-weighted
+Health,sdg3_3_hivi,HIV Incidence,0.005559638987849058,0.024320771573331013,-0.018761132585481954,Regular
+Health,sdg3_3_ti,Tuberculosis Incidence,0.3704546212320238,0.36820073160075084,0.0022538896312729317,Pop-weighted
+Infrastructure,sdg11_2_samt,Mass Transit Seats,-0.42731758036865664,-0.3458481699354905,-0.08146941043316613,Regular
+Infrastructure,sdg9_1_routes,Roads/Railways,0.04500669582379835,-0.0006372138518124792,0.04564390967561083,Pop-weighted
+Infrastructure,sdg9_c_mnc,Network Coverage,0.511528225170411,0.30649404185967943,0.20503418331073153,Pop-weighted
+Institutional,sdg16_6_pbec,Budget Execution Capacity,0.05199485874955834,0.0742087316251786,-0.022213872875620266,Regular
+Institutional,sdg16_9_cr,Civil Registry Coverage,0.42835666012507834,0.3624034462705895,0.06595321385448882,Pop-weighted
+Institutional,sdg17_5_pipc,Public Investment per Capita,0.16722264135937748,0.04637576688435685,0.12084687447502063,Pop-weighted

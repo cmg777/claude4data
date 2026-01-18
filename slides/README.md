@@ -4,16 +4,18 @@ Quarto presentations for the project.
 
 ## Current Presentations
 
-| File                             | Format        | Description                              |
-|----------------------------------|---------------|------------------------------------------|
-| `eda_slides.qmd`                 | Quarto source | Exploratory Data Analysis                |
-| `eda_slides.html`                | RevealJS HTML | Rendered EDA presentation (18 slides)    |
-| `rf_public_services_slides.qmd`  | Quarto source | Random Forest analysis of public services|
-| `rf_public_services_slides.html` | RevealJS HTML | Rendered RF presentation (18 slides)     |
-| `esda_slides.qmd`                | Quarto source | Spatial autocorrelation analysis (ESDA)  |
-| `esda_slides.html`               | RevealJS HTML | Rendered ESDA presentation (20 slides)   |
-| `solow_model_slides.qmd`         | Quarto source | Solow Growth Model and convergence       |
-| `solow_model_slides.html`        | RevealJS HTML | Rendered Solow presentation (26 slides)  |
+| File                                  | Format        | Description                              |
+|---------------------------------------|---------------|------------------------------------------|
+| `eda_slides.qmd`                      | Quarto source | Exploratory Data Analysis                |
+| `eda_slides.html`                     | RevealJS HTML | Rendered EDA presentation (18 slides)    |
+| `rf_public_services_slides.qmd`       | Quarto source | Random Forest analysis of public services|
+| `rf_public_services_slides.html`      | RevealJS HTML | Rendered RF presentation (18 slides)     |
+| `esda_slides.qmd`                     | Quarto source | Spatial autocorrelation analysis (ESDA)  |
+| `esda_slides.html`                    | RevealJS HTML | Rendered ESDA presentation (20 slides)   |
+| `solow_model_slides.qmd`              | Quarto source | Solow Growth Model and convergence       |
+| `solow_model_slides.html`             | RevealJS HTML | Rendered Solow presentation (26 slides)  |
+| `embeddings_comparison_slides.qmd`    | Quarto source | Regular vs pop-weighted embeddings       |
+| `embeddings_comparison_slides.html`   | RevealJS HTML | Rendered embeddings comparison (24 slides)|
 
 ## Viewing Slides
 
@@ -120,6 +122,36 @@ quarto preview rf_public_services_slides.qmd
 21. Data and reproducibility
 22. References
 
+### Embeddings Comparison Slides (`embeddings_comparison_slides.html`)
+
+**Title:** Satellite Embeddings for Public Service Prediction: Comparing Regular vs. Population-Weighted Embeddings
+
+**Slides include:**
+
+1. Research question and approach comparison
+2. Embedding types explained
+3. Overall performance comparison (p = 0.007)
+4. Performance by category
+5. Top 5 improvements with pop-weighted
+6. Best predicted variables (both methods)
+7. Education category: Largest gains
+8. Health category performance
+9. Infrastructure category
+10. Basic utilities category
+11. Institutional category
+12. Where regular is better (5 variables)
+13. Visualization: Main results
+14. Statistical significance
+15. Why pop-weighted performs better
+16. Implications for researchers
+17. Implications for policymakers
+18. Limitations
+19. Future research directions
+20. Comparison with previous study
+21. Practical recommendations
+22. Key takeaways
+23. Data and reproducibility
+
 ## Re-rendering Slides
 
 After editing the `.qmd` file:
@@ -134,7 +166,9 @@ quarto render rf_public_services_slides.qmd --to revealjs
 - Chalkboard enabled (press 'c' to toggle)
 - Slide numbers
 - Embedded figures from `output/`
-- **Professional color scheme:**
-  - Blue titles (#2874A6)
-  - Green bold text (#229954)
+- **Professional two-color palette (Navy + Teal):**
+  - **Navy (#1E3A8A):** Titles, headers, table headers (authority & trust) - WCAG AAA (9.7:1)
+  - **Teal (#0D9488):** Bold text, subtitles, emphasis (clarity & innovation) - WCAG AA (3.8:1)
   - Clean, readable typography for academic presentations
+  - Enhanced with callout boxes, badges, and improved table styling
+  - Full accessibility compliance with excellent contrast ratios

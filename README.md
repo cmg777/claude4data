@@ -106,12 +106,13 @@ The Random Forest analysis reveals which public service indicators can be predic
 
 ## Presentations
 
-| Slides                                   | Description                                    |
-|------------------------------------------|------------------------------------------------|
-| `slides/eda_slides.html`                 | Exploratory Data Analysis results              |
-| `slides/rf_public_services_slides.html`  | Random Forest prediction results               |
-| `slides/esda_slides.html`                | Spatial autocorrelation analysis (ESDA)        |
-| `slides/solow_model_slides.html`         | Solow Growth Model (MRW 1992 replication)      |
+| Slides                                        | Description                                    |
+|-----------------------------------------------|------------------------------------------------|
+| `slides/eda_slides.html`                      | Exploratory Data Analysis results              |
+| `slides/rf_public_services_slides.html`       | Random Forest prediction results               |
+| `slides/esda_slides.html`                     | Spatial autocorrelation analysis (ESDA)        |
+| `slides/solow_model_slides.html`              | Solow Growth Model (MRW 1992 replication)      |
+| `slides/embeddings_comparison_slides.html`    | Regular vs pop-weighted embeddings comparison  |
 
 ## Configuration
 
