@@ -2,22 +2,22 @@
 
 **READ THIS FILE FIRST** upon entering this project.
 
-This file contains critical rules and context for working on **[INSERT PROJECT NAME]**. These rules are non-negotiable.
+This file contains critical rules and context for working on claude4data. These rules are non-negotiable.
 
 ---
 
 ## Critical Rules
 
 ### 1. NEVER DELETE DATA
-Under no circumstances are you ever to DELETE any data files. This includes `.dta`, `.xlsx`, `.csv`, `.shp`, or any other data format.
+Under no circumstances are you ever to DELETE any data files. This includes `.dta`, `.xlsx`, `.csv`, `.shp` `.geojson`, or any other data format.
 
 ### 2. NEVER DELETE PROGRAMS
-Under no circumstances are you ever to DELETE any program files. This includes `.do`, `.R`, `.py`, or any other script format.
+Under no circumstances are you ever to DELETE any program files. This includes `.do`, `.R`, `.py` `.ipynb`, or any other script format.
 
 ### 3. USE THE LEGACY FOLDER
-The `./legacy/` folder contains a complete snapshot of the original project structure (created **[INSERT DATE]**). This is sacred and should never be modified.
+The `./legacy/` folder contains a complete snapshot of the original project structure (created 20260118 ). This is sacred and should never be modified.
 
-**One-Time Exception (COMPLETED):** On **[INSERT DATE]**, we performed a one-time move of all original files into `./legacy/` to preserve the original project state. This was the only permitted "move" operation.
+**One-Time Exception (COMPLETED):** On 20260118 , we performed a one-time move of all original files into `./legacy/` to preserve the original project state. This was the only permitted "move" operation.
 
 **Going forward:**
 - NEVER move files directly between working directories
@@ -25,7 +25,7 @@ The `./legacy/` folder contains a complete snapshot of the original project stru
 - If reorganizing, copy files to new locations (never move)
 
 ### 4. STAY WITHIN THIS DIRECTORY
-Under no circumstances are you ever to GO UP OUT OF THIS ONE FOLDER called `[./INSERT_ROOT_FOLDER_NAME]`. All work must remain within this project directory.
+Under no circumstances are you ever to GO UP OUT OF THIS ONE FOLDER called claude4data. All work must remain within this project directory.
 
 ### 5. COPY, DON'T MOVE
 When working with files:
@@ -52,6 +52,12 @@ The `./log/` directory contains progress logs that preserve conversation context
 
 ## Project Context
 
-- **Project Title:** [INSERT TITLE]
-- **Authors:** [INSERT NAMES]
-- **Goal:** [INSERT BRIEF GOAL]
+- **Project Title:** Using Claude for Data Science Workflows
+- **Project Directory:** claude4data
+- **Legacy Directory:** ./legacy/
+- **Log Directory:** ./log/
+- **Data Formats:** .dta, .xlsx, .csv, .shp .geojson
+- **Program Formats:** .do, .R, .py, .ipynb
+- **Primary Tools:** Claude Code, Python, R, Stata
+- **Authors:** Carlos Mendez
+- **Goal:** Data science tasks using Claude Code
