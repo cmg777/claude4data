@@ -44,6 +44,13 @@ The `./log/` directory contains progress logs that preserve conversation context
 - After major decisions
 - When context is building up
 
+**What to include:**
+- Current state of the project
+- Summary of work done (include key results, tables or figures)
+- Key decisions made
+- Any issues or blockers
+- Next steps planned
+
 **How:** Create timestamped entries (`YYYY-MM-DD_HHMM.md`) documenting what was done, current state, and next steps.
 
 **On startup:** Always check `./log/` for recent entries to understand what was happening before.

@@ -6,19 +6,22 @@ This directory contains figures, tables, and results generated from analysis scr
 
 ### Figures
 
-| File | Source | Description |
-| ---- | ------ | ----------- |
-| `eda_overview.png` | `01_eda.py` | EDA overview with IMDS distribution and correlations |
-| `rf_imds_satelliteEmbeddings2017.png` | `02_random_forest.py` | IMDS prediction: actual vs predicted + feature importance |
-| `rf_public_services_comparison.png` | `03_rf_public_services.py` | R² scores for 20 public service indicators |
-| `imds_distribution.png` | `01_data_exploration.ipynb` | IMDS histogram and boxplot (Python notebook) |
-| `imds_distribution_R.png` | `01_data_exploration_R.ipynb` | IMDS histogram and boxplot (R notebook) |
+| File                                  | Source                       | Description                                      |
+|---------------------------------------|------------------------------|--------------------------------------------------|
+| `eda_overview.png`                    | `01_eda.py`                  | EDA overview (Python)                            |
+| `eda_overview_R.png`                  | `01_eda.R`                   | EDA overview with 4-panel visualization (R)      |
+| `rf_imds_satelliteEmbeddings2017.png` | `02_random_forest.py`        | IMDS prediction: actual vs predicted             |
+| `rf_public_services_comparison.png`   | `03_rf_public_services.py`   | R² scores for 20 public service indicators       |
+| `imds_distribution.png`               | `01_data_exploration.ipynb`  | IMDS histogram and boxplot (Python notebook)     |
+| `imds_distribution_R.png`             | `01_data_exploration_R.ipynb`| IMDS histogram and boxplot (R notebook)          |
 
 ### Data Files
 
-| File | Source | Description |
-| ---- | ------ | ----------- |
+| File                             | Source                     | Description                                         |
+|----------------------------------|----------------------------|-----------------------------------------------------|
 | `rf_public_services_results.csv` | `03_rf_public_services.py` | Model results with R², RMSE, MAE for each indicator |
+| `imds_by_department.csv`         | `01_eda.R`                 | IMDS statistics by department                       |
+| `public_services_summary.csv`    | `01_eda.R`                 | Public service indicators summary                   |
 
 ## Key Results
 

@@ -52,7 +52,8 @@ claude4data/
 │   └── rawData/            # Raw input data
 ├── notebooks/              # Jupyter notebooks (Python & R)
 ├── code/                   # Analysis scripts
-│   ├── 01_eda.py           # Exploratory data analysis
+│   ├── 01_eda.py           # Exploratory data analysis (Python)
+│   ├── 01_eda.R            # Exploratory data analysis (R)
 │   ├── 02_random_forest.py # IMDS prediction model
 │   └── 03_rf_public_services.py  # Public services analysis
 ├── output/                 # Figures, tables, and results
@@ -103,7 +104,12 @@ The Random Forest analysis reveals which public service indicators can be predic
 | School Dropout (Female) | -0.588 | Education |
 | Mass Transit Seats | -0.346 | Infrastructure |
 
-See `slides/rf_public_services_slides.html` for the full presentation.
+## Presentations
+
+| Slides                                   | Description                          |
+|------------------------------------------|--------------------------------------|
+| `slides/eda_slides.html`                 | Exploratory Data Analysis results    |
+| `slides/rf_public_services_slides.html`  | Random Forest prediction results     |
 
 ## Configuration
 

@@ -4,10 +4,12 @@ Quarto presentations for the project.
 
 ## Current Presentations
 
-| File | Format | Description |
-| ---- | ------ | ----------- |
-| `rf_public_services_slides.qmd` | Quarto source | Random Forest analysis of public services |
-| `rf_public_services_slides.html` | RevealJS HTML | Rendered presentation (18 slides) |
+| File                             | Format        | Description                              |
+|----------------------------------|---------------|------------------------------------------|
+| `eda_slides.qmd`                 | Quarto source | Exploratory Data Analysis                |
+| `eda_slides.html`                | RevealJS HTML | Rendered EDA presentation (18 slides)    |
+| `rf_public_services_slides.qmd`  | Quarto source | Random Forest analysis of public services|
+| `rf_public_services_slides.html` | RevealJS HTML | Rendered RF presentation (18 slides)     |
 
 ## Viewing Slides
 
@@ -24,6 +26,21 @@ quarto preview rf_public_services_slides.qmd
 ```
 
 ## Presentation Contents
+
+### EDA Slides (`eda_slides.html`)
+
+**Title:** Exploratory Data Analysis - Bolivia's Municipal Development Indicators
+
+**Slides include:**
+
+1. Dataset overview (339 municipalities, 152 variables)
+2. IMDS distribution and statistics
+3. IMDS by department comparison
+4. Public service indicators summary
+5. Satellite embeddings overview
+6. Key findings and implications
+
+### RF Public Services Slides (`rf_public_services_slides.html`)
 
 **Title:** Predicting Public Services from Satellite Imagery
 

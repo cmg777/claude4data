@@ -36,13 +36,23 @@ Scripts for data processing and analysis.
 
 ## Current Scripts
 
-| Script | Description |
-|--------|-------------|
-| `01_eda.py` | Exploratory data analysis of IMDS and SDG indicators |
-| `02_random_forest.py` | Random Forest prediction of IMDS from satellite embeddings |
-| `03_rf_public_services.py` | Comparative analysis of 20 public service indicators |
+### Python Scripts
+
+| Script                     | Description                                                |
+|----------------------------|------------------------------------------------------------|
+| `01_eda.py`                | Exploratory data analysis of IMDS and SDG indicators       |
+| `02_random_forest.py`      | Random Forest prediction of IMDS from satellite embeddings |
+| `03_rf_public_services.py` | Comparative analysis of 20 public service indicators       |
+
+### R Scripts
+
+| Script       | Description                                              |
+|--------------|----------------------------------------------------------|
+| `01_eda.R`   | Exploratory data analysis with tidyverse and ggplot2     |
 
 ## Running Scripts
+
+### Python
 
 Scripts should be run from the `code/` directory:
 
@@ -50,6 +60,13 @@ Scripts should be run from the `code/` directory:
 cd code
 source ../claude4data/bin/activate
 python 03_rf_public_services.py
+```
+
+### R
+
+```bash
+cd code
+Rscript 01_eda.R
 ```
 
 ## Data Sources
@@ -67,3 +84,6 @@ Results are saved to `../output/`:
 - `rf_public_services_results.csv` - Model performance metrics
 - `rf_public_services_comparison.png` - Visualization of R² scores
 - `rf_imds_satelliteEmbeddings2017.png` - IMDS prediction results
+- `eda_overview_R.png` - EDA visualization (R)
+- `imds_by_department.csv` - IMDS statistics by department
+- `public_services_summary.csv` - Public service indicators summary
