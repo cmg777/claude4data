@@ -68,3 +68,6 @@ The `./log/` directory contains progress logs that preserve conversation context
 - **Primary Tools:** Claude Code, Python, R, Stata
 - **Authors:** Carlos Mendez
 - **Goal:** Data science tasks using Claude Code
+  
+## About the slides folder
+The `slides/` folder contains Quarto presentations created to showcase the results of the current session or specific analyses. The design and structure of these slides are tailored to effectively communicate the findings from the data analyses performed in this project. The slides should creatly interpret the results. Also, the design should be clean, beautiful, professional, suitable for academic or professional presentations.

@@ -2,3 +2,20 @@
 .Rhistory
 .RData
 .Ruserdata
+
+# Python virtual environment
+claude4data/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment variables
+.env
+
+# macOS
+.DS_Store
