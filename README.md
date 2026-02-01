@@ -55,7 +55,8 @@ claude4data/
 │   ├── 01_eda.py           # Exploratory data analysis (Python)
 │   ├── 01_eda.R            # Exploratory data analysis (R)
 │   ├── 02_random_forest.py # IMDS prediction model
-│   └── 03_rf_public_services.py  # Public services analysis
+│   ├── 03_rf_public_services.py  # Public services analysis
+│   └── 04_rf_public_services_comparison.py  # Regular vs pop-weighted embeddings comparison
 ├── output/                 # Figures, tables, and results
 ├── slides/                 # Quarto presentations
 ├── log/                    # Session progress logs
@@ -85,26 +86,53 @@ Data is streamed from: [github.com/quarcs-lab/ds4bolivia](https://github.com/qua
 
 ## Key Findings
 
-The Random Forest analysis reveals which public service indicators can be predicted from satellite imagery:
+### Random Forest Analysis: Public Service Prediction
 
-**Best Predicted (R² > 0.30):**
+**Best Predicted Indicators (Pop-weighted Embeddings, R² > 0.50):**
 
-| Indicator | R² | Category |
-|-----------|------|----------|
-| Institutional Childbirth | 0.579 | Health |
-| Access to 3 Basic Services | 0.499 | Basic Utilities |
-| Tuberculosis Incidence | 0.368 | Health |
-| Civil Registry Coverage | 0.362 | Institutional |
-| Electricity Coverage | 0.361 | Basic Utilities |
+| Indicator | R² | Category | Improvement over Regular |
+|-----------|------|----------|--------------------------||
+| Institutional Childbirth | 0.693 | Health | +0.114 |
+| Access to 3 Basic Services | 0.620 | Basic Utilities | +0.121 |
+| Network Coverage | 0.512 | Infrastructure | +0.205 |
 
-**Poorly Predicted (R² < 0):**
+### Population-Weighted vs Regular Embeddings Comparison
 
-| Indicator | R² | Category |
-|-----------|--------|----------|
-| School Dropout (Female) | -0.588 | Education |
-| Mass Transit Seats | -0.346 | Infrastructure |
+Our latest analysis comparing regular and population-weighted satellite embeddings reveals:
 
-## Presentations
+**Key Results:**
+- **80% win rate:** Pop-weighted embeddings outperform regular embeddings in 16 out of 20 indicators
+- **Statistical significance:** p = 0.036 (paired t-test)
+- **Average improvement:** +0.041 R² score (+28% relative gain)
+- **Largest improvement:** Network Coverage (+0.205 R²)
+
+**Category-Level Performance:**
+
+| Category | Regular R² | Pop-weighted R² | Improvement |
+|----------|------------|-----------------|-------------|
+| Health | 0.324 | 0.356 | +0.032 |
+| Basic Utilities | 0.244 | 0.326 | +0.082 |
+| Infrastructure | -0.014 | 0.043 | +0.057 |
+| Institutional | 0.161 | 0.216 | +0.055 |
+| Education | -0.019 | 0.059 | +0.078 |
+
+**Bottom Line:** Population weighting focuses satellite signals on inhabited areas, reducing noise from uninhabited terrain and significantly improving prediction accuracy for most public service indicators.
+
+**Full analysis:** See `docs/rf_embeddings_comparison_report.html`
+
+## Documentation & Reports
+
+### Analysis Reports
+
+| Document | Format | Description |
+|----------|--------|-------------|
+| `docs/rf_embeddings_comparison_report.html` | HTML | **Comprehensive comparison report** of regular vs pop-weighted satellite embeddings (recommended) |
+| `docs/rf_embeddings_comparison_report.md` | Markdown | Same report in markdown format |
+| `docs/rf_embeddings_comparison_report.pdf` | PDF | Printable version |
+
+**Features:** Executive summary, statistical analysis (paired t-test), detailed results tables, Mermaid.js visualizations, policy implications
+
+### Presentations
 
 | Slides                                        | Description                                    |
 |-----------------------------------------------|------------------------------------------------|
