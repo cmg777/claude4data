@@ -1,0 +1,116 @@
+---
+title: "[FILL: Title of the paper]"
+subtitle: "[FILL: Subtitle of the paper]"
+
+author:
+  - name: "[FILL: Author One]"
+    affiliations:
+      - name: "[FILL: University]"
+        city: "[FILL: City]"
+        country: "[FILL: Country]"
+    orcid: "[FILL: 0000-0000-0000-0000]"
+    email: "[FILL: email@example.com]"
+    corresponding: true
+  - name: "[FILL: Author Two]"
+    affiliations:
+      - name: "[FILL: University]"
+        city: "[FILL: City]"
+        country: "[FILL: Country]"
+    orcid: "[FILL: 0000-0000-0000-0000]"
+
+abstract: |
+  [FILL: Write your abstract here. Summarize the research question, methods, key findings, and implications.]
+
+keywords:
+  - "[FILL: keyword 1]"
+  - "[FILL: keyword 2]"
+  - "[FILL: keyword 3]"
+
+date: today
+
+bibliography: references.bib
+---
+
+## Introduction {#sec-introduction}
+
+Regional economic disparities remain a central concern in development economics.
+Understanding the relationship between GDP per capita and life expectancy
+across regions is critical for designing **effective policy interventions**.
+
+This paper uses a novel synthetic dataset to examine these patterns,
+employing both parametric and non-parametric methods [@keola2015monitoring].
+
+Our results suggest a strong positive correlation between economic output
+and health outcomes, with significant heterogeneity across geographic clusters.
+
+This study contributes to the literature in two ways. First, we provide
+a multi-language reproducible workflow. Second, we demonstrate how
+*modern tools* can enhance transparency in empirical research.
+
+The rest of this article is organized as follows.
+@sec-literature provides an overview of the related literature.
+@sec-data introduces the data and methods.
+@sec-results presents the results and discussion.
+Finally, @sec-conclusion offers some concluding remarks.
+
+## Related literature {#sec-literature}
+
+The relationship between income and health has been extensively studied
+since the seminal work of @keola2015monitoring. Recent advances
+in spatial econometrics have enabled more nuanced analyses of regional
+disparities^[See also the World Bank regional development reports.].
+
+## Data and methods {#sec-data}
+
+[FILL: Describe the data sources, variables, and sample.]
+
+[FILL: Explain the analytical methods and models used.]
+
+### Data
+
+[FILL: Describe the dataset. Include sources, time period, and key variables.]
+
+The following figure, generated in [N1: Sample Data Exploration](notebooks/notebook-01.ipynb), provides an overview of the data.
+
+{{< embed notebooks/notebook-01.ipynb#fig-sample >}}
+
+The following table reports summary statistics by region.
+
+{{< embed notebooks/notebook-01.ipynb#tbl-summary >}}
+
+The same analysis is replicated in R ([N2: Sample R Analysis](notebooks/notebook-02.ipynb)) and Stata ([N3: Sample Stata Analysis](notebooks/notebook-03.ipynb)) to
+demonstrate multi-language support.
+
+{{< embed notebooks/notebook-02.ipynb#fig-r-sample >}}
+
+{{< embed notebooks/notebook-02.ipynb#tbl-r-summary >}}
+
+{{< embed notebooks/notebook-03.ipynb#fig-stata-sample >}}
+
+{{< embed notebooks/notebook-03.ipynb#stata-summary >}}
+
+### Methods
+
+[FILL: Describe the econometric or statistical methods.]
+
+## Results and discussion {#sec-results}
+
+[FILL: Present and interpret the main findings.]
+
+[FILL: Discuss implications and compare with existing literature.]
+
+## Concluding remarks {#sec-conclusion}
+
+[FILL: Summarize the main findings and their implications.]
+
+[FILL: Discuss limitations and directions for future research.]
+
+## Acknowledgments {.appendix}
+
+[FILL: Acknowledge funding sources, collaborators, and data providers.]
+
+## Data and code availability {.appendix}
+
+The data and code used in this study are available at [FILL: repository URL].
+
+## References {.unnumbered}

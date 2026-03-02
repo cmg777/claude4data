@@ -1,0 +1,42 @@
+project:
+  type: manuscript
+  render:
+    - "*.qmd"
+    - "notebooks/*.ipynb"
+    - "!legacy/"
+    - "!templates/"
+
+manuscript:
+  article: index.qmd
+  notebooks:
+    - notebook: notebooks/notebook-01.ipynb
+      title: "N1: Sample Data Exploration"
+    - notebook: notebooks/notebook-02.ipynb
+      title: "N2: Sample R Analysis"
+    - notebook: notebooks/notebook-03.ipynb
+      title: "N3: Sample Stata Analysis"
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    lightbox: true
+    citation-location: document
+
+  pdf:
+    documentclass: scrartcl
+    papersize: letter
+    number-sections: true
+    colorlinks: true
+    keep-tex: true
+    notebook-links: false
+
+  docx:
+    notebook-links: false
+
+execute:
+  freeze: auto
+
+editor: visual

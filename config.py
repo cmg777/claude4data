@@ -1,24 +1,39 @@
+"""
+Project configuration for reproducibility.
+
+Usage in notebooks:
+    import sys
+    sys.path.insert(0, "..")
+    from config import set_seeds, DATA_DIR
+    set_seeds()
+"""
+
 import random
 import numpy as np
 import os
 from pathlib import Path
 
+# ---------------------------------------------------------------------------
 # Reproducibility
+# ---------------------------------------------------------------------------
 RANDOM_SEED = 42
 
+
 def set_seeds(seed=RANDOM_SEED):
+    """Set random seeds for reproducibility across libraries."""
     random.seed(seed)
     np.random.seed(seed)
-    # Add torch.manual_seed(seed) if using PyTorch
-    # Add tf.random.set_seed(seed) if using TensorFlow
-    os.environ['PYTHONHASHSEED'] = str(seed)
+    os.environ["PYTHONHASHSEED"] = str(seed)
 
-# Project root (directory containing this config file)
+
+# ---------------------------------------------------------------------------
+# Project paths
+# ---------------------------------------------------------------------------
 PROJECT_ROOT = Path(__file__).parent.resolve()
-
-# Paths (as Path objects for easy joining with /)
-DATA_DIR = PROJECT_ROOT / 'data'
-OUTPUT_DIR = PROJECT_ROOT / 'output'
-NOTEBOOKS_DIR = PROJECT_ROOT / 'notebooks'
-LOG_DIR = PROJECT_ROOT / 'log'
-CODE_DIR = PROJECT_ROOT / 'code'
+DATA_DIR = PROJECT_ROOT / "data"
+RAW_DATA_DIR = DATA_DIR / "rawData"
+CODE_DIR = PROJECT_ROOT / "code"
+NOTEBOOKS_DIR = PROJECT_ROOT / "notebooks"
+IMAGES_DIR = PROJECT_ROOT / "images"
+TABLES_DIR = PROJECT_ROOT / "tables"
+HANDOFFS_DIR = PROJECT_ROOT / "handoffs"

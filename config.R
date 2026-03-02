@@ -1,44 +1,38 @@
+# Project configuration for reproducibility
+#
+# Usage in notebooks:
+#   source("../config.R")
+#   set_seeds()
+
+# ---------------------------------------------------------------------------
 # Reproducibility
+# ---------------------------------------------------------------------------
 RANDOM_SEED <- 42
 
 set_seeds <- function(seed = RANDOM_SEED) {
   set.seed(seed)
-  # For parallel processing
   RNGkind("L'Ecuyer-CMRG")
 }
 
-# Project root (directory containing this config file)
-# This works whether sourced from project root or from subdirectories
+# ---------------------------------------------------------------------------
+# Project paths
+# ---------------------------------------------------------------------------
 get_project_root <- function() {
-  # Try to find config.R location
-  if (exists("ofile")) {
-    # Running via source() with chdir = FALSE
-    return(dirname(normalizePath(ofile)))
-  }
-  # Check common locations
-  candidates <- c(
-    ".",           # Current directory
-    "..",          # Parent directory (if in notebooks/)
-    "../.."        # Grandparent (if deeper)
-  )
+  # Try common locations relative to where the script is run
+  candidates <- c(".", "..", "../..")
   for (cand in candidates) {
     if (file.exists(file.path(cand, "config.R"))) {
       return(normalizePath(cand))
     }
   }
-  # Fallback to current directory
   return(getwd())
 }
 
 PROJECT_ROOT <- get_project_root()
-
-# Paths (as absolute paths)
-DATA_DIR <- file.path(PROJECT_ROOT, "data")
-OUTPUT_DIR <- file.path(PROJECT_ROOT, "output")
+DATA_DIR     <- file.path(PROJECT_ROOT, "data")
+RAW_DATA_DIR <- file.path(PROJECT_ROOT, "data", "rawData")
+CODE_DIR     <- file.path(PROJECT_ROOT, "code")
 NOTEBOOKS_DIR <- file.path(PROJECT_ROOT, "notebooks")
-LOG_DIR <- file.path(PROJECT_ROOT, "log")
-CODE_DIR <- file.path(PROJECT_ROOT, "code")
-
-# Create directories if they don't exist
-dirs <- c(DATA_DIR, OUTPUT_DIR, NOTEBOOKS_DIR, LOG_DIR, CODE_DIR)
-invisible(lapply(dirs, function(d) if (!dir.exists(d)) dir.create(d, recursive = TRUE)))
+IMAGES_DIR   <- file.path(PROJECT_ROOT, "images")
+TABLES_DIR   <- file.path(PROJECT_ROOT, "tables")
+HANDOFFS_DIR <- file.path(PROJECT_ROOT, "handoffs")

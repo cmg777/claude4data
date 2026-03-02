@@ -1,0 +1,10 @@
+# Jupytext configuration
+# Each notebook stores its pairing format in metadata.
+# Default pairing: .ipynb + .md:myst
+#
+# Sync workflow:
+#   uv run jupytext --sync notebooks/<file>.md
+#   uv run jupytext --sync notebooks/<file>.ipynb
+
+# Strip MyST/Sphinx metadata that leaks into Quarto's rendered output
+cell_metadata_filter = "-_sphinx_cell_id,-execution,-vscode"
