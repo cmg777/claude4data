@@ -172,9 +172,21 @@ Followed by a title block: `title: "NX: Introduction to Machine Learning — Ran
 
 ### Notebook sections
 
-Between code cells, include **educational markdown** explaining each ML concept
-in the context of regional development. The notebook is a teaching tool — explain
-*why* each step matters, not just how to do it.
+Each code cell should be sandwiched between two kinds of markdown:
+
+- **Before the cell** — conceptual explanation: *why* this step matters, what
+  the technique is, how it fits into the ML pipeline. Written before execution,
+  so it does not reference specific output values.
+- **After the cell** — interpretation of results: what the actual output *means*
+  for a beginner. These interpretation cells are added after execution (see
+  Step 4.5) and should reference specific numbers from the cell output (R²
+  values, sample counts, best parameters, etc.), explain what they imply, and
+  connect to the Bolivian development context where relevant. For figures,
+  describe what patterns to look for in the plot. Keep each interpretation to
+  2–4 sentences.
+
+This two-layer structure turns the notebook into a self-contained tutorial
+where a reader can follow both the reasoning and the findings.
 
 | Section | Content | Figures/Tables |
 |---------|---------|----------------|
@@ -222,6 +234,40 @@ After execution, re-sync to capture outputs in the `.md` pair:
 
 ```bash
 uv run jupytext --sync notebooks/notebook-NN.ipynb
+```
+
+---
+
+## Step 4.5: Interpret results
+
+After execution, read the executed `.ipynb` file to see the actual output values
+(printed text, metric numbers, figure renders). Then edit the `.md` file to
+insert interpretation markdown cells **after** each major code cell. The goal is
+that a beginner reading the notebook sees each result immediately followed by a
+plain-language explanation of what it means.
+
+What to interpret after each cell:
+
+| After cell | Interpret |
+|------------|-----------|
+| Data loading | Number of municipalities loaded, any dropped rows, what that means for coverage |
+| Target distribution histogram | Distribution shape, mean/median values, what skewness implies for development |
+| Correlation heatmap | Which embeddings correlate most strongly, what that might suggest about satellite features |
+| Train/test split | Sample sizes in each set, whether they are adequate for ML |
+| Baseline CV scores | What the R² value means in plain language, how stable the scores are (std dev) |
+| Hyperparameter tuning | Best parameters found, magnitude of improvement over baseline |
+| Evaluation metrics (R², RMSE, MAE) | What each number means concretely — e.g., "an RMSE of X means predictions are off by X points on average" |
+| Actual vs predicted scatter | How tight the scatter is around the 45° line, any outlier patterns |
+| Residuals plot | Whether residuals look randomly scattered (good) or show systematic bias (problematic) |
+| MDI feature importance | Which features dominate, what embedding dimensions might represent physically |
+| Permutation importance | How it compares with MDI, which is more trustworthy and why |
+| Partial dependence plots | Non-linear effects visible, any threshold patterns, what they suggest |
+| Results table | Baseline vs tuned summary, overall takeaway |
+
+After adding all interpretation cells, re-sync to update the `.ipynb`:
+
+```bash
+uv run jupytext --sync notebooks/notebook-NN.md
 ```
 
 ---
