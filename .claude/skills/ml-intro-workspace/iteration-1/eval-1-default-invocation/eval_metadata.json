@@ -2,5 +2,19 @@
   "eval_id": 1,
   "eval_name": "default-invocation",
   "prompt": "/project:ml-intro",
-  "assertions": []
+  "assertions": [
+    {"text": "Script uses exact DS4Bolivia raw GitHub URLs (master branch, /sdg/sdg.csv and /satelliteEmbeddings/satelliteEmbeddings2017.csv)"},
+    {"text": "Uses asdf_id for join key, A00-A63 for features, imds as target variable"},
+    {"text": "Both script and notebook import from config.py and call set_seeds()"},
+    {"text": "Uses train_test_split with test_size=0.2 and random_state=RANDOM_SEED"},
+    {"text": "Implements k-fold cross-validation on training set"},
+    {"text": "Uses RandomizedSearchCV or GridSearchCV for hyperparameter tuning"},
+    {"text": "All plt.savefig() calls target images/ directory (not inline-only)"},
+    {"text": "CSV result tables saved to tables/ directory"},
+    {"text": "Notebook .md uses correct MyST Jupytext frontmatter with formats: ipynb,md:myst"},
+    {"text": "Notebook figure cells use #| label: fig-* directives"},
+    {"text": "Includes partial dependence plots using PartialDependenceDisplay"},
+    {"text": "Script implements local caching of downloaded data to data/rawData/"},
+    {"text": "Includes permutation importance (not just MDI/built-in feature importance)"}
+  ]
 }

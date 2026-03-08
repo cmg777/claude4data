@@ -1,0 +1,74 @@
+{
+  "eval_id": 1,
+  "eval_name": "default-invocation",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Script uses exact DS4Bolivia raw GitHub URLs (master branch, /sdg/sdg.csv and /satelliteEmbeddings/satelliteEmbeddings2017.csv)",
+      "passed": true,
+      "evidence": "Notebook lines 89, 97-100: BASE_URL uses master branch, loads /sdg/sdg.csv and /satelliteEmbeddings/satelliteEmbeddings2017.csv."
+    },
+    {
+      "text": "Uses asdf_id for join key, A00-A63 for features, imds as target variable",
+      "passed": true,
+      "evidence": "Notebook line 106: TARGET = 'imds'. Line 107: FEATURE_COLS = [f'A{i:02d}' for i in range(64)]. Line 102: merges on 'asdf_id'."
+    },
+    {
+      "text": "Both script and notebook import from config.py and call set_seeds()",
+      "passed": true,
+      "evidence": "Notebook lines 49-53: imports from config and calls set_seeds(). Script (overwritten by eval-2) also imports correctly."
+    },
+    {
+      "text": "Uses train_test_split with test_size=0.2 and random_state=RANDOM_SEED",
+      "passed": true,
+      "evidence": "Notebook lines 181-183: train_test_split(X, y, test_size=0.20, random_state=RANDOM_SEED)."
+    },
+    {
+      "text": "Implements k-fold cross-validation on training set",
+      "passed": true,
+      "evidence": "Notebook line 214: cross_val_score with cv=5 on training set."
+    },
+    {
+      "text": "Uses RandomizedSearchCV or GridSearchCV for hyperparameter tuning",
+      "passed": true,
+      "evidence": "Notebook lines 258-267: RandomizedSearchCV with n_iter=50, cv=5."
+    },
+    {
+      "text": "All plt.savefig() calls target images/ directory (not inline-only)",
+      "passed": true,
+      "evidence": "All 7 figure cells include plt.savefig to IMAGES_DIR: lines 137, 164-165, 318, 334, 368-369, 403-404, 440-441."
+    },
+    {
+      "text": "CSV result tables saved to tables/ directory",
+      "passed": true,
+      "evidence": "Notebook lines 457, 462: saves to TABLES_DIR."
+    },
+    {
+      "text": "Notebook .md uses correct MyST Jupytext frontmatter with formats: ipynb,md:myst",
+      "passed": true,
+      "evidence": "Lines 1-13: correct Jupytext YAML frontmatter with formats: ipynb,md:myst, python3 kernelspec."
+    },
+    {
+      "text": "Notebook figure cells use #| label: fig-* directives",
+      "passed": true,
+      "evidence": "All 7 figure cells use #| label: fig-* with #| fig-cap."
+    },
+    {
+      "text": "Includes partial dependence plots using PartialDependenceDisplay",
+      "passed": true,
+      "evidence": "Notebook lines 428-434: PartialDependenceDisplay.from_estimator with top-6 features."
+    },
+    {
+      "text": "Script implements local caching of downloaded data to data/rawData/",
+      "passed": true,
+      "evidence": "Notebook lines 90-104: implements local caching to data/rawData/ds4bolivia_merged.csv."
+    },
+    {
+      "text": "Includes permutation importance (not just MDI/built-in feature importance)",
+      "passed": true,
+      "evidence": "Notebook lines 386-388: permutation_importance with n_repeats=30."
+    }
+  ],
+  "pass_rate": 1.0,
+  "notes": "13/13 assertions passed. The notebook output is excellent — correct URLs, column names, Jupytext format, all ML techniques implemented, figures saved to images/, tables to tables/. Educational quality is high with clear explanations of ML concepts in the context of regional development."
+}

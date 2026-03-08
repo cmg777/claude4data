@@ -73,7 +73,15 @@ from config import set_seeds, RANDOM_SEED, IMAGES_DIR, TABLES_DIR, DATA_DIR
 set_seeds()
 ```
 
-Then import numpy, pandas, matplotlib, seaborn, and scikit-learn modules.
+Then import numpy, pandas, matplotlib, seaborn, scikit-learn modules, `scipy.stats.randint`,
+and `IPython.display.Markdown` (for the notebook).
+
+Define two configuration variables near the top of the script:
+- `TARGET` — the column name (default `"imds"`, or `$ARGUMENTS` if provided)
+- `TARGET_LABEL` — a human-readable label (e.g., `"IMDS"` or `"SDG 1 (No Poverty)"`)
+
+Use `TARGET_LABEL` in all plot titles and axis labels so they adapt automatically
+when the target variable changes.
 
 ### Workflow sections
 
@@ -85,8 +93,8 @@ merge on `asdf_id`, cache locally. Extract `X` (columns `A00`–`A63`) and
 `y` (column `imds`). Drop rows with missing values and report count.
 
 **2. EDA** — Two figures saved to `images/`:
-- `ml_imds_distribution.png` — histogram of IMDS values
-- `ml_embedding_correlations.png` — heatmap of top-10 correlated embeddings with IMDS
+- `ml_target_distribution.png` — histogram of the target variable
+- `ml_embedding_correlations.png` — heatmap of top-10 correlated embeddings with target
 
 Use `plt.savefig(..., dpi=300, bbox_inches="tight")` for all figures.
 
@@ -156,6 +164,8 @@ Followed by a title block: `title: "NX: Introduction to Machine Learning — Ran
 
 - Code cells use ```` ```{code-cell} ipython3 ````
 - First cell: config import + `set_seeds()` (see `notebooks/notebook-01.md` for exact pattern)
+- Second cell: all library imports including `from IPython.display import Markdown`.
+  Also define `TARGET`, `TARGET_LABEL`, and `FEATURE_COLS` here.
 - Figure cells: `#| label: fig-name` + `#| fig-cap: "..."` — save to `images/`
 - Table cells: `#| label: tbl-name` + `#| tbl-cap: "..."` — only for `Markdown(df.to_markdown())` output — save to `tables/`
 - Do NOT use `tbl-` prefix for non-table output (it crashes Quarto's parser)
@@ -170,7 +180,7 @@ in the context of regional development. The notebook is a teaching tool — expl
 |---------|---------|----------------|
 | Overview | What IMDS is, what satellite embeddings are, learning objectives | — |
 | Data Loading | Load from DS4Bolivia, explain the dataset | — |
-| EDA | Why EDA before modeling | `fig-imds-distribution`, `fig-embedding-correlations` |
+| EDA | Why EDA before modeling | `fig-target-distribution`, `fig-embedding-correlations` |
 | Train/Test Split | Data leakage concept, 80/20 ratio, reproducibility | — |
 | Model Training | RF algorithm: bagging, feature subsampling, ensemble | — |
 | Cross-Validation | k-fold CV, why more reliable than single split | — |

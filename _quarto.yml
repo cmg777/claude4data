@@ -15,6 +15,8 @@ manuscript:
       title: "N2: Sample R Analysis"
     - notebook: notebooks/notebook-03.ipynb
       title: "N3: Sample Stata Analysis"
+    - notebook: notebooks/notebook-04.ipynb
+      title: "N4: Introduction to Machine Learning — Random Forest Regression"
 
 format:
   html:

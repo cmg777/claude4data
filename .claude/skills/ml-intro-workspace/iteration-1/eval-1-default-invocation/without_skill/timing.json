@@ -1,0 +1,7 @@
+{
+  "total_tokens": 18536,
+  "duration_ms": 68280,
+  "total_duration_seconds": 68.3,
+  "status": "failed",
+  "failure_reason": "Permission denied for Write/Bash tools in worktree isolation"
+}

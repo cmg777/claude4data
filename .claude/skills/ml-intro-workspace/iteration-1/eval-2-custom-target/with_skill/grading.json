@@ -1,0 +1,79 @@
+{
+  "eval_id": 2,
+  "eval_name": "custom-target",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Script uses exact DS4Bolivia raw GitHub URLs (master branch, /sdg/sdg.csv and /satelliteEmbeddings/satelliteEmbeddings2017.csv)",
+      "passed": true,
+      "evidence": "Line 60: BASE_URL uses master branch. Lines 75-78: loads /sdg/sdg.csv and /satelliteEmbeddings/satelliteEmbeddings2017.csv exactly."
+    },
+    {
+      "text": "Uses asdf_id for join key, A00-A63 for features, sdg1 as target variable (not imds)",
+      "passed": true,
+      "evidence": "Line 66: TARGET = 'sdg1'. Line 68: FEATURE_COLS = [f'A{i:02d}' for i in range(64)]. Line 81: merges on 'asdf_id'."
+    },
+    {
+      "text": "Both script and notebook import from config.py and call set_seeds()",
+      "passed": false,
+      "evidence": "Script: lines 22-25 correctly import and call set_seeds(). Notebook: lines 49-53 correctly import and call set_seeds(). HOWEVER, the notebook uses TARGET='imds' (line 106) not 'sdg1', showing inconsistency between script and notebook for this eval."
+    },
+    {
+      "text": "Uses train_test_split with test_size=0.2 and random_state=RANDOM_SEED",
+      "passed": true,
+      "evidence": "Script line 151-153: train_test_split(X, y, test_size=0.20, random_state=RANDOM_SEED). Notebook line 181-183: identical."
+    },
+    {
+      "text": "Implements k-fold cross-validation on training set",
+      "passed": true,
+      "evidence": "Script line 168: cross_val_score with cv=5. Notebook line 214: cross_val_score with cv=5."
+    },
+    {
+      "text": "Uses RandomizedSearchCV or GridSearchCV for hyperparameter tuning",
+      "passed": true,
+      "evidence": "Script lines 205-214: RandomizedSearchCV with n_iter=50, cv=5. Notebook lines 258-267: identical."
+    },
+    {
+      "text": "All plt.savefig() calls target images/ directory (not inline-only)",
+      "passed": true,
+      "evidence": "Script saves to IMAGES_DIR for all 7 figures (lines 115, 138, 251, 266, 294, 321, 350). Notebook saves to IMAGES_DIR for all figure cells."
+    },
+    {
+      "text": "CSV result tables saved to tables/ directory",
+      "passed": true,
+      "evidence": "Script lines 369, 375: saves to TABLES_DIR. Notebook lines 457, 462: saves to TABLES_DIR."
+    },
+    {
+      "text": "Notebook .md uses correct MyST Jupytext frontmatter with formats: ipynb,md:myst",
+      "passed": true,
+      "evidence": "Notebook lines 1-13: correct Jupytext frontmatter with formats: ipynb,md:myst and python3 kernelspec."
+    },
+    {
+      "text": "Notebook figure cells use #| label: fig-* directives",
+      "passed": true,
+      "evidence": "Lines 126, 147, 300, 322, 351, 383, 422: all figure cells use #| label: fig-* format with fig-cap."
+    },
+    {
+      "text": "Includes partial dependence plots using PartialDependenceDisplay",
+      "passed": true,
+      "evidence": "Script lines 340-353: PartialDependenceDisplay.from_estimator with top-6 features, 2x3 grid. Notebook lines 428-434: identical."
+    },
+    {
+      "text": "Script implements local caching of downloaded data to data/rawData/",
+      "passed": true,
+      "evidence": "Script lines 61, 70-83: checks CACHE_PATH, loads from disk or downloads and saves to data/rawData/ds4bolivia_merged.csv."
+    },
+    {
+      "text": "Includes permutation importance (not just MDI/built-in feature importance)",
+      "passed": true,
+      "evidence": "Script lines 304-306: permutation_importance with n_repeats=30. Notebook lines 386-388: identical."
+    },
+    {
+      "text": "Uses sdg1 as target variable throughout (script and notebook), not imds",
+      "passed": false,
+      "evidence": "Script correctly uses TARGET='sdg1' (line 66). But the notebook uses TARGET='imds' (line 106). The two agents (eval-1 and eval-2) wrote to the same filesystem paths — eval-1 wrote the notebook with imds, eval-2 overwrote the script with sdg1, but the notebook was not overwritten. This is a test infrastructure issue, not a skill issue."
+    }
+  ],
+  "pass_rate": 0.857,
+  "notes": "12/14 assertions passed. The 2 failures are due to test infrastructure (both worktree agents wrote to same paths, causing script/notebook mismatch). The script correctly uses sdg1. The notebook was written by the eval-1 agent using imds. Both files are individually high quality."
+}

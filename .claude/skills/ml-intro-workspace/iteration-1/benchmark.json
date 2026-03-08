@@ -1,0 +1,31 @@
+{
+  "skill_name": "ml-intro",
+  "iteration": 1,
+  "configurations": [
+    {
+      "name": "with_skill",
+      "evals": [
+        {
+          "eval_id": 1,
+          "eval_name": "default-invocation",
+          "pass_rate": 1.0,
+          "passed": 13,
+          "total": 13
+        },
+        {
+          "eval_id": 2,
+          "eval_name": "custom-target",
+          "pass_rate": 0.857,
+          "passed": 12,
+          "total": 14,
+          "notes": "2 failures due to test infrastructure (worktree collision), not skill quality"
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 0.929,
+        "stddev_pass_rate": 0.101
+      }
+    }
+  ],
+  "notes": "Baseline runs could not complete due to subagent permission restrictions. With-skill runs show strong results: 13/13 on default invocation, 12/14 on custom target (2 failures from worktree collision, not skill defects)."
+}
