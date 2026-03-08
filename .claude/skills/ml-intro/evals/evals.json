@@ -1,0 +1,23 @@
+{
+  "skill_name": "ml-intro",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/project:ml-intro",
+      "expected_output": "Creates code/ml_intro_rf.py, notebooks/notebook-04.ipynb + .md, 7 figures in images/, 2 CSVs in tables/, updates _quarto.yml, installs scikit-learn and scipy if needed. Uses imds as default target, A00-A63 as features.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "/project:ml-intro sdg1",
+      "expected_output": "Same as eval 1 but uses sdg1 as the target variable instead of imds. All figures and tables should reflect this different target. The notebook title and explanations should mention SDG1 (No Poverty) rather than IMDS.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want to create a machine learning tutorial that predicts development outcomes in Bolivia using satellite data. Can you set that up as a script and notebook?",
+      "expected_output": "Should recognize this as a use case for /project:ml-intro and produce the same deliverables. Since no target is specified, defaults to imds.",
+      "files": []
+    }
+  ]
+}

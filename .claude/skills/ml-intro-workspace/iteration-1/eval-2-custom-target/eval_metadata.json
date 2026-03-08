@@ -1,0 +1,6 @@
+{
+  "eval_id": 2,
+  "eval_name": "custom-target",
+  "prompt": "/project:ml-intro sdg1",
+  "assertions": []
+}
