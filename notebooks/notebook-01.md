@@ -16,6 +16,8 @@ kernelspec:
 title: "N1: Sample Data Exploration"
 ---
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-01.ipynb)
+
 ## Overview
 
 This notebook demonstrates the template workflow: generating synthetic data,
@@ -24,6 +26,9 @@ Quarto's `{{< embed >}}` shortcode.
 
 ```{code-cell} ipython3
 import sys
+if "google.colab" in sys.modules:
+    !git clone --depth 1 https://github.com/cmg777/claude4data.git /content/claude4data 2>/dev/null || true
+    %cd /content/claude4data/notebooks
 sys.path.insert(0, "..")
 from config import set_seeds, DATA_DIR
 

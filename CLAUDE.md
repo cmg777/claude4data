@@ -16,14 +16,14 @@ For full documentation (installation, workflows, Overleaf sync, reproducibility)
 
 | Field | Value |
 | ----- | ----- |
-| **Title** | `[FILL: Project title]` |
-| **Authors** | `[FILL: Author names and affiliations]` |
-| **Stage** | `[FILL: Idea / Data collection / Analysis / Writing / Revision]` |
-| **Primary tools** | R, Python, Stata, Quarto, LaTeX |
+| **Title** | Predicting Municipal Sustainable Development from Satellite Imagery in Bolivia |
+| **Authors** | Carlos Mendez (Nagoya University) |
+| **Stage** | Analysis |
+| **Primary tools** | Python, R, Stata, Quarto, LaTeX |
 | **Reference manager** | Zotero (exports to `references.bib`) |
 | **Manuscript** | `index.qmd` (Quarto manuscript project) |
 | **Environment** | `uv` + `pyproject.toml` (Python 3.12) |
-| **Data source** | `[FILL: e.g., OSF repository, survey, API]` |
+| **Data source** | [DS4Bolivia](https://github.com/quarcs-lab/ds4bolivia) — SDG indices, satellite embeddings, region names for 339 municipalities |
 
 ---
 
@@ -49,46 +49,22 @@ These are non-negotiable behavioral constraints.
 | `pyproject.toml` / `uv.lock` | Python dependencies |
 | `jupytext.toml` | Cell metadata filter |
 | `notebooks/` | Jupyter notebooks (`.ipynb` + `.md:myst` pairs) |
+| `code/ml_intro_rf.py` | Standalone Random Forest ML script |
 | `data/rawData/` | Raw source data (never modify) |
 | `scripts/render.sh` | Clean render + Overleaf staging |
 | `handoffs/` | Session handoff reports |
-| `.claude/skills/` | 24 skill definitions (SKILL.md with YAML frontmatter) |
+| `.claude/skills/ml-intro/` | ML intro skill (Random Forest tutorial generation) |
 | `.env` | API keys and secrets (gitignored, never commit) |
 
 ---
 
 ## Skills
 
-Invoke with `/project:<name>`. See `README.md` § Available Skills for full descriptions and SKILL.md links.
+Invoke with `/project:<name>`.
 
-**Build & Execution** -- Side-effect skills, manual invocation only.
-
-| `/project:render` | `/project:execute` | `/project:init` | `/project:sync-tex` |
-| --- | --- | --- | --- |
-
-**Notebook & Presentation Creation** -- Create new files; accept arguments.
-
-| `/project:new-notebook` | `/project:new-analysis` | `/project:new-slide-deck` |
-| --- | --- | --- |
-
-**Writing & Results** -- Draft prose, interpret output, format tables.
-
-| `/project:draft-section` | `/project:abstract` | `/project:interpret-results` |
-| --- | --- | --- |
-| `/project:regression-table` | `/project:robustness-table` | `/project:referee-response` |
-
-**References & Data** -- Manage citations, literature notes, data docs.
-
-| `/project:cite` | `/project:literature-note` | `/project:codebook` |
-| --- | --- | --- |
-
-**Quality Checks & Audits** -- Read-only; can be auto-invoked when relevant.
-
-| `/project:bib-check` | `/project:data-audit` | `/project:freeze-check` |
-| --- | --- | --- |
-| `/project:check-env` | `/project:submission-prep` | `/project:figures-gallery` |
-
-**Session Management** -- `/project:handoff` and `/project:env-snapshot`
+| Skill | What It Does |
+| ----- | ------------ |
+| `/project:ml-intro` | Create an introductory Random Forest ML workflow (script + notebook) predicting Bolivia's IMDS from satellite embeddings. Accepts optional target variable argument. |
 
 ---
 
@@ -122,6 +98,7 @@ These are non-obvious pitfalls. See `README.md` for full context.
 
 - **`--inplace` is required** for `jupyter execute` -- without it, outputs are discarded
 - **Register new notebooks** in `_quarto.yml` under `manuscript.notebooks`
+- **Single-line markdown paragraphs** in notebooks -- Jupytext preserves `\n` in `.ipynb` cell sources and VS Code renders them as literal line breaks. Write each paragraph as one continuous line.
 - **Stata cell directives** use `*|` prefix (not `#|`), e.g., `*| label: fig-name`
 - **Never use `tbl-` prefix** for Stata text output cells -- it triggers Quarto's table parser and crashes. Use a plain label (e.g., `stata-summary`)
 - **Never use `pip install`** -- it bypasses the lockfile. Always use `uv add`

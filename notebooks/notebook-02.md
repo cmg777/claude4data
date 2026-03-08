@@ -16,6 +16,8 @@ kernelspec:
 title: "N2: Sample R Analysis"
 ---
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-02.ipynb)
+
 ## Overview
 
 This notebook demonstrates the R workflow: generating synthetic data,
@@ -24,6 +26,10 @@ Quarto's `{{< embed >}}` shortcode. It mirrors `notebook-01` (Python) using R.
 
 ```{code-cell} r
 # Reproducibility setup
+if (dir.exists("/content")) {
+    system("git clone --depth 1 https://github.com/cmg777/claude4data.git /content/claude4data 2>/dev/null || true")
+    setwd("/content/claude4data/notebooks")
+}
 source("../config.R")
 set_seeds()
 ```

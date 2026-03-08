@@ -4,7 +4,6 @@ description: Create an introductory Random Forest ML workflow (script + notebook
 argument-hint: "[optional: target variable name, default imds]"
 disable-model-invocation: true
 user-invocable: true
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch
 ---
 
 # ML Introduction: Random Forest with Satellite Embeddings
@@ -169,6 +168,7 @@ Followed by a title block: `title: "NX: Introduction to Machine Learning — Ran
 - Figure cells: `#| label: fig-name` + `#| fig-cap: "..."` — save to `images/`
 - Table cells: `#| label: tbl-name` + `#| tbl-cap: "..."` — only for `Markdown(df.to_markdown())` output — save to `tables/`
 - Do NOT use `tbl-` prefix for non-table output (it crashes Quarto's parser)
+- **Single-line paragraphs** — Every markdown paragraph must be written as one continuous line with no hard line breaks. Jupytext preserves `\n` characters inside `.ipynb` cell sources, and VS Code's notebook viewer renders them as literal line breaks, making sentences appear "cut" mid-line. This applies to both conceptual explanations before code cells and interpretation paragraphs after them.
 
 ### Notebook sections
 
@@ -238,31 +238,71 @@ uv run jupytext --sync notebooks/notebook-NN.ipynb
 
 ---
 
-## Step 4.5: Interpret results
+## Step 4.5: Interpret results — THIS IS THE MOST IMPORTANT STEP
 
-After execution, read the executed `.ipynb` file to see the actual output values
-(printed text, metric numbers, figure renders). Then edit the `.md` file to
-insert interpretation markdown cells **after** each major code cell. The goal is
-that a beginner reading the notebook sees each result immediately followed by a
-plain-language explanation of what it means.
+The interpretation cells are what transform this notebook from a code demo into
+a genuine tutorial. Without them, a beginner sees numbers and plots but has no
+idea what they mean. Every code cell that produces output needs a markdown cell
+immediately after it that explains the result in plain language.
 
-What to interpret after each cell:
+### How to do it
 
-| After cell | Interpret |
-|------------|-----------|
-| Data loading | Number of municipalities loaded, any dropped rows, what that means for coverage |
-| Target distribution histogram | Distribution shape, mean/median values, what skewness implies for development |
-| Correlation heatmap | Which embeddings correlate most strongly, what that might suggest about satellite features |
-| Train/test split | Sample sizes in each set, whether they are adequate for ML |
-| Baseline CV scores | What the R² value means in plain language, how stable the scores are (std dev) |
-| Hyperparameter tuning | Best parameters found, magnitude of improvement over baseline |
-| Evaluation metrics (R², RMSE, MAE) | What each number means concretely — e.g., "an RMSE of X means predictions are off by X points on average" |
-| Actual vs predicted scatter | How tight the scatter is around the 45° line, any outlier patterns |
-| Residuals plot | Whether residuals look randomly scattered (good) or show systematic bias (problematic) |
-| MDI feature importance | Which features dominate, what embedding dimensions might represent physically |
-| Permutation importance | How it compares with MDI, which is more trustworthy and why |
-| Partial dependence plots | Non-linear effects visible, any threshold patterns, what they suggest |
-| Results table | Baseline vs tuned summary, overall takeaway |
+1. **Read the executed `.ipynb`** — open the notebook file and look at each
+   cell's printed output (metrics, counts, parameter values). Write down the
+   key numbers.
+2. **Edit the `.md` file** — after each code cell that produces output, insert
+   a new markdown paragraph (not a new section heading) that interprets the
+   result. Use the actual numbers from the output. Write each paragraph as a
+   single continuous line (no soft wraps) — see the cell conventions rule above.
+3. **Re-sync** — run `uv run jupytext --sync notebooks/notebook-NN.md` to
+   propagate the interpretation cells back to the `.ipynb`.
+
+### What good interpretation looks like
+
+Here is a concrete example. Suppose the evaluation cell prints:
+```
+Tuned Test R²:   0.4139
+Tuned Test RMSE: 17.31
+Tuned Test MAE:  13.07
+```
+
+A good interpretation cell inserted after it would be:
+
+```
+The tuned model explains about 41% of the variation in IMDS scores across Bolivia's 339 municipalities (R² = 0.41). An RMSE of 17.3 means the model's predictions are typically off by about 17 index points on the 0–100 scale — meaningful but far from precise. The MAE of 13.1 confirms this: on average, a prediction misses by 13 points. This tells us satellite imagery captures real poverty-related patterns, but many factors that drive municipal development (governance, infrastructure, migration) are invisible from space.
+```
+
+Notice: it quotes exact numbers, explains what they mean for a non-expert, and
+connects to the Bolivian development context. This is the standard for every
+interpretation cell.
+
+### Cells that need interpretation
+
+Every code cell that prints output or shows a figure needs an interpretation
+cell immediately after it. At minimum, cover these:
+
+| After cell | What to explain |
+|------------|-----------------|
+| Data loading | How many municipalities loaded, any dropped rows, national coverage |
+| Target histogram | Distribution shape, mean vs median, what skewness means for inequality |
+| Correlation heatmap | Which embeddings correlate most, what that suggests physically |
+| Train/test split | Sample sizes (e.g., "271 train, 68 test"), whether adequate |
+| Baseline evaluation | R² in plain language ("explains X% of variation"), RMSE/MAE in target units |
+| CV scores | Mean and std dev, what variability tells us about dataset size |
+| Tuning results | Best parameters found, how much improvement over baseline |
+| Final evaluation | All three metrics with interpretation, overall model quality |
+| Actual vs predicted | How tight the scatter is, whether extremes are compressed |
+| Residuals | Whether random (good) or patterned (problematic) |
+| MDI importance | Top features, what embedding dimensions might represent |
+| Permutation importance | Comparison with MDI, which is more reliable |
+| Partial dependence | Non-linear effects, threshold patterns, what they suggest |
+| Results table | Baseline vs tuned summary, overall takeaway for the research question |
+
+### Verification
+
+Before finishing, count the interpretation cells in the `.md` file. There
+should be at least 10 interpretation paragraphs that reference specific numbers
+from the executed output. If there are fewer, go back and add more.
 
 After adding all interpretation cells, re-sync to update the `.ipynb`:
 
@@ -279,6 +319,9 @@ Check all outputs exist:
 - 2 tables in `tables/ml_*.csv`
 - Both notebook files (`*.ipynb` + `*.md`)
 - Notebook registered in `_quarto.yml`
+- At least 10 interpretation paragraphs in the `.md` file that reference
+  specific numeric values from the executed output (R², RMSE, sample counts,
+  best parameters, etc.). If fewer than 10 exist, go back to Step 4.5.
 
 Run the standalone script to confirm it works independently:
 

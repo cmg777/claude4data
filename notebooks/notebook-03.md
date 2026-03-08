@@ -16,6 +16,8 @@ kernelspec:
 title: "N3: Sample Stata Analysis"
 ---
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-03.ipynb)
+
 ## Overview
 
 This notebook demonstrates the Stata workflow: generating synthetic data,
