@@ -112,9 +112,9 @@ ax.axvline(
 )
 ax.legend()
 plt.tight_layout()
-plt.savefig(IMAGES_DIR / "ml_sdg1_distribution.png", dpi=300, bbox_inches="tight")
+plt.savefig(IMAGES_DIR / "ml_target_distribution.png", dpi=300, bbox_inches="tight")
 plt.close()
-print("Saved: images/ml_sdg1_distribution.png")
+print("Saved: images/ml_target_distribution.png")
 
 # Figure 2: Heatmap of top-10 correlated embeddings with SDG 1
 # Identifying which embedding dimensions correlate most strongly with SDG 1

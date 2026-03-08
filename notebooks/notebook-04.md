@@ -66,6 +66,7 @@ from sklearn.model_selection import (
 from sklearn.metrics import mean_absolute_error, r2_score, root_mean_squared_error
 from sklearn.inspection import PartialDependenceDisplay, permutation_importance
 from scipy.stats import randint
+from IPython.display import Markdown
 
 sns.set_theme(style="whitegrid")
 
@@ -123,7 +124,7 @@ distribution of our target variable and helps identify which features might be
 most informative. This step can also uncover data quality issues and outliers.
 
 ```{code-cell} ipython3
-#| label: fig-sdg1-distribution
+#| label: fig-target-distribution
 #| fig-cap: "Distribution of SDG 1 (No Poverty) scores across 339 Bolivian municipalities. The red dashed line marks the mean; orange marks the median."
 
 fig, ax = plt.subplots(figsize=(8, 5))
@@ -137,7 +138,7 @@ ax.axvline(
 )
 ax.legend()
 plt.tight_layout()
-plt.savefig(IMAGES_DIR / "ml_sdg1_distribution.png", dpi=300, bbox_inches="tight")
+plt.savefig(IMAGES_DIR / "ml_target_distribution.png", dpi=300, bbox_inches="tight")
 plt.show()
 ```
 
@@ -463,8 +464,6 @@ params_df = pd.DataFrame(
     [{"Parameter": k, "Value": str(v)} for k, v in search.best_params_.items()]
 )
 params_df.to_csv(TABLES_DIR / "ml_rf_best_params.csv", index=False)
-
-from IPython.display import Markdown
 
 Markdown(results_df.to_markdown(index=False))
 ```
