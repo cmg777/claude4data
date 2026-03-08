@@ -1,0 +1,21 @@
+{
+  "eval_id": 2,
+  "eval_name": "custom-target",
+  "prompt": "/project:ml-intro sdg1",
+  "assertions": [
+    {"text": "Script uses exact DS4Bolivia raw GitHub URLs (master branch)"},
+    {"text": "Uses sdg1 as target variable (not imds) in both script and notebook"},
+    {"text": "Both script and notebook import from config.py and call set_seeds()"},
+    {"text": "Uses train_test_split with test_size=0.2 and random_state=RANDOM_SEED"},
+    {"text": "Implements k-fold cross-validation on training set"},
+    {"text": "Uses RandomizedSearchCV or GridSearchCV for hyperparameter tuning"},
+    {"text": "All plt.savefig() calls target images/ directory"},
+    {"text": "CSV result tables saved to tables/ directory"},
+    {"text": "Notebook .md uses correct MyST Jupytext frontmatter"},
+    {"text": "Includes partial dependence plots"},
+    {"text": "Includes permutation importance"},
+    {"text": "TARGET_LABEL adapts to sdg1 (not hardcoded to IMDS)"},
+    {"text": "Notebook contains interpretation markdown after at least 5 code cells that reference specific numeric output values"},
+    {"text": "Interpretation text explains results in beginner-friendly language with context about Bolivian development"}
+  ]
+}
