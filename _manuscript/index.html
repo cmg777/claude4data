@@ -6,12 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="[FILL: Author One]">
-<meta name="author" content="[FILL: Author Two]">
-<meta name="dcterms.date" content="2026-02-27">
-<meta name="keywords" content="[FILL: keyword 1], [FILL: keyword 2], [FILL: keyword 3]">
+<meta name="author" content="Carlos Mendez">
+<meta name="dcterms.date" content="2026-03-09">
+<meta name="keywords" content="computational notebooks, reproducible research, Python, R, Stata, data science">
 
-<title>[FILL: Title of the paper]</title>
+<title>Computational Notebooks in Python, R, and Stata</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,30 +58,10 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -97,21 +76,17 @@ div.csl-indent {
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta name="citation_title" content="[FILL: Title of the paper]">
-<meta name="citation_abstract" content="[FILL: Write your abstract here. Summarize the research question, methods, key findings, and implications.]
+<meta name="citation_title" content="Computational Notebooks in Python, R, and Stata">
+<meta name="citation_abstract" content="This document introduces computational notebooks as a practical tool for data science across three programming languages: Python, R, and Stata. Through five companion notebooks, we demonstrate how Jupyter-based environments support reproducible workflows ranging from exploratory data analysis to machine learning and causal inference. The first three notebooks present a common data exploration task implemented independently in Python, R, and Stata, illustrating how each language handles data generation, visualization, and summary statistics within the same notebook platform. The fourth notebook introduces Random Forest regression for predicting Bolivia&amp;amp;#039;s Municipal Sustainable Development Index from satellite image embeddings. The fifth notebook demonstrates Double Machine Learning for causal inference using the Pennsylvania Reemployment Bonus experiment. Together, these notebooks provide a hands-on reference for researchers and students working across multiple computational environments.
 ">
-<meta name="citation_keywords" content="[FILL: keyword 1],[FILL: keyword 2],[FILL: keyword 3]">
-<meta name="citation_author" content="[FILL: Author One]">
-<meta name="citation_author" content="[FILL: Author Two]">
-<meta name="citation_publication_date" content="2026-02-27">
-<meta name="citation_cover_date" content="2026-02-27">
+<meta name="citation_keywords" content="computational notebooks,reproducible research,Python,R,Stata,data science">
+<meta name="citation_author" content="Carlos Mendez">
+<meta name="citation_publication_date" content="2026-03-09">
+<meta name="citation_cover_date" content="2026-03-09">
 <meta name="citation_year" content="2026">
-<meta name="citation_online_date" content="2026-02-27">
+<meta name="citation_online_date" content="2026-03-09">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=Monitoring economic development from space: Using nighttime light and land cover data to measure economic growth;,citation_author=Souknilanh Keola;,citation_author=Magnus Andersson;,citation_author=Ola Hall;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_volume=66;,citation_journal_title=World Development;,citation_publisher=Elsevier;">
 </head>
@@ -121,31 +96,23 @@ div.csl-indent {
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <div class="quarto-title-block"><div><h1 class="title">[FILL: Title of the paper]</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-            <p class="subtitle lead">[FILL: Subtitle of the paper]</p>
+      <div class="quarto-title-block"><div><h1 class="title">Computational Notebooks in Python, R, and Stata</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+            <p class="subtitle lead">A Multi-Language Guide to Data Science Workflows</p>
           </div>
 
     
     <div class="quarto-title-meta-container">
       <div class="quarto-title-meta-column-start">
             <div class="quarto-title-meta-author">
-          <div class="quarto-title-meta-heading">Authors</div>
+          <div class="quarto-title-meta-heading">Author</div>
           <div class="quarto-title-meta-heading">Affiliation</div>
           
                 <div class="quarto-title-meta-contents">
-            <p class="author">[FILL: Author One] <a href="mailto:[FILL: email@example.com]" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/[FILL: 0000-0000-0000-0000]" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            <p class="author">Carlos Mendez <a href="mailto:carlos@gsid.nagoya-u.ac.jp" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0001-5765-2741" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
           </div>
                 <div class="quarto-title-meta-contents">
                     <p class="affiliation">
-                        [FILL: University]
-                      </p>
-                  </div>
-                      <div class="quarto-title-meta-contents">
-            <p class="author">[FILL: Author Two] <a href="https://orcid.org/[FILL: 0000-0000-0000-0000]" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
-          </div>
-                <div class="quarto-title-meta-contents">
-                    <p class="affiliation">
-                        [FILL: University]
+                        Nagoya University
                       </p>
                   </div>
                     </div>
@@ -156,7 +123,7 @@ div.csl-indent {
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">February 27, 2026</p>
+              <p class="date">March 9, 2026</p>
             </div>
           </div>
           
@@ -170,14 +137,14 @@ div.csl-indent {
     <div>
       <div class="abstract">
         <div class="block-title">Abstract</div>
-        <p>[FILL: Write your abstract here. Summarize the research question, methods, key findings, and implications.]</p>
+        <p>This document introduces computational notebooks as a practical tool for data science across three programming languages: Python, R, and Stata. Through five companion notebooks, we demonstrate how Jupyter-based environments support reproducible workflows ranging from exploratory data analysis to machine learning and causal inference. The first three notebooks present a common data exploration task implemented independently in Python, R, and Stata, illustrating how each language handles data generation, visualization, and summary statistics within the same notebook platform. The fourth notebook introduces Random Forest regression for predicting Bolivia’s Municipal Sustainable Development Index from satellite image embeddings. The fifth notebook demonstrates Double Machine Learning for causal inference using the Pennsylvania Reemployment Bonus experiment. Together, these notebooks provide a hands-on reference for researchers and students working across multiple computational environments.</p>
       </div>
     </div>
 
     <div>
       <div class="keywords">
         <div class="block-title">Keywords</div>
-        <p>[FILL: keyword 1], [FILL: keyword 2], [FILL: keyword 3]</p>
+        <p>computational notebooks, reproducible research, Python, R, Stata, data science</p>
       </div>
     </div>
 
@@ -190,19 +157,28 @@ div.csl-indent {
    
   <ul>
   <li><a href="#sec-introduction" id="toc-sec-introduction" class="nav-link active" data-scroll-target="#sec-introduction">Introduction</a></li>
-  <li><a href="#sec-literature" id="toc-sec-literature" class="nav-link" data-scroll-target="#sec-literature">Related literature</a></li>
-  <li><a href="#sec-data" id="toc-sec-data" class="nav-link" data-scroll-target="#sec-data">Data and methods</a>
+  <li><a href="#sec-python" id="toc-sec-python" class="nav-link" data-scroll-target="#sec-python">Data Exploration in Python</a></li>
+  <li><a href="#sec-r" id="toc-sec-r" class="nav-link" data-scroll-target="#sec-r">Data Exploration in R</a></li>
+  <li><a href="#sec-stata" id="toc-sec-stata" class="nav-link" data-scroll-target="#sec-stata">Data Exploration in Stata</a></li>
+  <li><a href="#sec-ml" id="toc-sec-ml" class="nav-link" data-scroll-target="#sec-ml">Machine Learning with Random Forest</a>
   <ul class="collapse">
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#target-variable" id="toc-target-variable" class="nav-link" data-scroll-target="#target-variable">Target variable</a></li>
+  <li><a href="#model-performance" id="toc-model-performance" class="nav-link" data-scroll-target="#model-performance">Model performance</a></li>
+  <li><a href="#feature-importance" id="toc-feature-importance" class="nav-link" data-scroll-target="#feature-importance">Feature importance</a></li>
+  <li><a href="#partial-dependence" id="toc-partial-dependence" class="nav-link" data-scroll-target="#partial-dependence">Partial dependence</a></li>
   </ul></li>
-  <li><a href="#sec-results" id="toc-sec-results" class="nav-link" data-scroll-target="#sec-results">Results and discussion</a></li>
-  <li><a href="#sec-conclusion" id="toc-sec-conclusion" class="nav-link" data-scroll-target="#sec-conclusion">Concluding remarks</a></li>
+  <li><a href="#sec-causal" id="toc-sec-causal" class="nav-link" data-scroll-target="#sec-causal">Causal Inference with Double Machine Learning</a>
+  <ul class="collapse">
+  <li><a href="#the-research-question" id="toc-the-research-question" class="nav-link" data-scroll-target="#the-research-question">The research question</a></li>
+  <li><a href="#comparing-estimation-methods" id="toc-comparing-estimation-methods" class="nav-link" data-scroll-target="#comparing-estimation-methods">Comparing estimation methods</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  </ul></li>
+  <li><a href="#sec-conclusion" id="toc-sec-conclusion" class="nav-link" data-scroll-target="#sec-conclusion">Concluding Remarks</a></li>
   
   
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/notebook-01-preview.html"><i class="bi bi-journal-code"></i>N1: Sample Data Exploration</a></li><li><a href="notebooks/notebook-02-preview.html"><i class="bi bi-journal-code"></i>N2: Sample R Analysis</a></li><li><a href="notebooks/notebook-03-preview.html"><i class="bi bi-journal-code"></i>N3: Sample Stata Analysis</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/notebook-01-preview.html"><i class="bi bi-journal-code"></i>N1: Sample Data Exploration</a></li><li><a href="notebooks/notebook-02-preview.html"><i class="bi bi-journal-code"></i>N2: Sample R Analysis</a></li><li><a href="notebooks/notebook-03-preview.html"><i class="bi bi-journal-code"></i>N3: Sample Stata Analysis</a></li><li><a href="notebooks/notebook-04-preview.html"><i class="bi bi-journal-code"></i>N4: Introduction to Machine Learning — Random Forest Regression</a></li><li><a href="notebooks/notebook-05-preview.html"><i class="bi bi-journal-code"></i>N5: Introduction to Causal Inference — Double Machine Learning</a></li></ul></div></nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
@@ -215,26 +191,24 @@ div.csl-indent {
 
 <section id="sec-introduction" class="level2">
 <h2 class="anchored" data-anchor-id="sec-introduction">Introduction</h2>
-<p>Regional economic disparities remain a central concern in development economics. Understanding the relationship between GDP per capita and life expectancy across regions is critical for designing <strong>effective policy interventions</strong>.</p>
-<p>This paper uses a novel synthetic dataset to examine these patterns, employing both parametric and non-parametric methods <span class="citation" data-cites="keola2015monitoring">(<a href="#ref-keola2015monitoring" role="doc-biblioref">Keola, Andersson, and Hall 2015</a>)</span>.</p>
-<p>Our results suggest a strong positive correlation between economic output and health outcomes, with significant heterogeneity across geographic clusters.</p>
-<p>This study contributes to the literature in two ways. First, we provide a multi-language reproducible workflow. Second, we demonstrate how <em>modern tools</em> can enhance transparency in empirical research.</p>
-<p>The rest of this article is organized as follows. <a href="#sec-literature" class="quarto-xref">Section&nbsp;2</a> provides an overview of the related literature. <a href="#sec-data" class="quarto-xref">Section&nbsp;3</a> introduces the data and methods. <a href="#sec-results" class="quarto-xref">Section&nbsp;4</a> presents the results and discussion. Finally, <a href="#sec-conclusion" class="quarto-xref">Section&nbsp;5</a> offers some concluding remarks.</p>
+<p>Computational notebooks have become a standard tool for reproducible data science, combining code, output, and narrative in a single document. While Python dominates the Jupyter ecosystem, researchers in the social sciences and economics often work in R or Stata. This document demonstrates that all three languages can be used effectively within Jupyter notebooks, and that the same analytical tasks can be accomplished across environments.</p>
+<p>The companion notebooks use data from the <a href="https://github.com/quarcs-lab/ds4bolivia">DS4Bolivia</a> project as a running example. The dataset covers 339 Bolivian municipalities and includes the Municipal Sustainable Development Index (IMDS), 64-dimensional satellite image embeddings, and regional identifiers.</p>
+<p>The five notebooks are organized as follows:</p>
+<ul>
+<li><a href="./notebooks/notebook-01-preview.html">N1: Sample Data Exploration</a> — Exploratory data analysis in Python</li>
+<li><a href="./notebooks/notebook-02-preview.html">N2: Sample R Analysis</a> — The same exploration in R</li>
+<li><a href="./notebooks/notebook-03-preview.html">N3: Sample Stata Analysis</a> — The same exploration in Stata</li>
+<li><a href="./notebooks/notebook-04-preview.html">N4: Introduction to Machine Learning — Random Forest Regression</a> — Predicting sustainable development from satellite embeddings</li>
+<li><a href="./notebooks/notebook-05-preview.html">N5: Introduction to Causal Inference — Double Machine Learning</a> — Estimating causal effects with debiased ML methods</li>
+</ul>
+<p>Each section below introduces one notebook, summarizes its content, and embeds selected figures and tables. Readers are encouraged to open the full notebooks for complete code and discussion.</p>
 </section>
-<section id="sec-literature" class="level2">
-<h2 class="anchored" data-anchor-id="sec-literature">Related literature</h2>
-<p>The relationship between income and health has been extensively studied since the seminal work of <span class="citation" data-cites="keola2015monitoring">Keola, Andersson, and Hall (<a href="#ref-keola2015monitoring" role="doc-biblioref">2015</a>)</span>. Recent advances in spatial econometrics have enabled more nuanced analyses of regional disparities<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
-</section>
-<section id="sec-data" class="level2">
-<h2 class="anchored" data-anchor-id="sec-data">Data and methods</h2>
-<p>[FILL: Describe the data sources, variables, and sample.]</p>
-<p>[FILL: Explain the analytical methods and models used.]</p>
-<section id="data" class="level3">
-<h3 class="anchored" data-anchor-id="data">Data</h3>
-<p>[FILL: Describe the dataset. Include sources, time period, and key variables.]</p>
-<p>The following figure, generated in <a href="./notebooks/notebook-01-preview.html">N1: Sample Data Exploration</a>, provides an overview of the data.</p>
+<section id="sec-python" class="level2">
+<h2 class="anchored" data-anchor-id="sec-python">Data Exploration in Python</h2>
+<p>The first notebook (<a href="./notebooks/notebook-01-preview.html">N1: Sample Data Exploration</a>) demonstrates a standard exploratory data analysis workflow in Python. It generates a synthetic dataset of 80 regions grouped into four geographic clusters, each with simulated GDP per capita and life expectancy values. The notebook illustrates how to set up a reproducible environment using a shared configuration file (<code>config.py</code>), create publication-quality visualizations with Matplotlib and Seaborn, and compute summary statistics with Pandas.</p>
+<p>The scatter plot below shows the relationship between GDP per capita and life expectancy across the simulated regions, colored by geographic cluster.</p>
 <div class="quarto-embed-nb-cell">
-<div id="cell-fig-sample" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.529747Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.529626Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.608118Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.607671Z&quot;}}" data-execution_count="3">
+<div id="cell-fig-sample" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div id="fig-sample" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -249,10 +223,10 @@ Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expec
 </div>
 </div>
 </div>
-<p><a href="#tbl-summary" class="quarto-xref">Table&nbsp;1</a> reports summary statistics by region.</p>
+<p>The following table reports summary statistics by region.</p>
 <div class="quarto-embed-nb-cell">
-<div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.609280Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.609182Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.624122Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.623714Z&quot;}}" data-execution_count="4">
-<div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.609280Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.609182Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.624122Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.623714Z&quot;}}" data-execution_count="4">
+<div class="cell" data-execution_count="4">
+<div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Summary statistics by region.
@@ -325,9 +299,14 @@ Table&nbsp;1: Summary statistics by region.
 </div>
 </div>
 </div>
-<p>The same analysis is replicated in R (<a href="./notebooks/notebook-02-preview.html">N2: Sample R Analysis</a>) and Stata (<a href="./notebooks/notebook-03-preview.html">N3: Sample Stata Analysis</a>) to demonstrate multi-language support.</p>
+<p>This notebook serves as a template that researchers can adapt to their own datasets. The key takeaway is the basic workflow: load data, visualize distributions and relationships, and summarize key variables — all within a single reproducible document.</p>
+</section>
+<section id="sec-r" class="level2">
+<h2 class="anchored" data-anchor-id="sec-r">Data Exploration in R</h2>
+<p>The second notebook (<a href="./notebooks/notebook-02-preview.html">N2: Sample R Analysis</a>) replicates the same exploratory analysis using R. It demonstrates how to run R code inside a Jupyter notebook using the IRkernel, generate equivalent visualizations with ggplot2, and produce formatted tables with <code>knitr::kable()</code>.</p>
+<p>The scatter plot below shows the same GDP-life expectancy relationship rendered with ggplot2.</p>
 <div class="quarto-embed-nb-cell">
-<div id="cell-fig-r-sample" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="3">
+<div id="cell-fig-r-sample" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div id="fig-r-sample" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -343,8 +322,8 @@ Figure&nbsp;2: Synthetic regional indicators: GDP per capita vs.&nbsp;life expec
 </div>
 </div>
 <div class="quarto-embed-nb-cell">
-<div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="4">
-<div id="tbl-r-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;r&quot;}}" data-execution_count="4">
+<div class="cell" data-execution_count="4">
+<div id="tbl-r-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-r-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Summary statistics by region (R).
@@ -365,8 +344,14 @@ Table&nbsp;2: Summary statistics by region (R).
 </div>
 </div>
 </div>
+<p>Although this notebook is straightforward, it highlights several practical points for R users: configuring an R kernel in Jupyter, sourcing a shared configuration file (<code>config.R</code>) for reproducibility, and using R’s visualization and table-formatting ecosystem within the notebook environment. For researchers more comfortable in R than Python, this notebook provides a familiar entry point into the Jupyter workflow.</p>
+</section>
+<section id="sec-stata" class="level2">
+<h2 class="anchored" data-anchor-id="sec-stata">Data Exploration in Stata</h2>
+<p>The third notebook (<a href="./notebooks/notebook-03-preview.html">N3: Sample Stata Analysis</a>) completes the multi-language comparison by performing the same analysis in Stata. It uses the <code>nbstata</code> kernel, which allows Stata commands to run directly inside Jupyter notebooks — a relatively recent development that brings Stata into the computational notebook ecosystem.</p>
+<p>The scatter plot below shows the GDP-life expectancy relationship using Stata’s <code>twoway scatter</code> graphics.</p>
 <div class="quarto-embed-nb-cell">
-<div id="cell-fig-stata-sample" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T11:25:20.176229Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T11:25:20.176084Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T11:25:21.331217Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T11:25:21.330918Z&quot;}}" data-execution_count="3">
+<div id="cell-fig-stata-sample" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div id="fig-stata-sample" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -382,7 +367,7 @@ Figure&nbsp;3: Synthetic regional indicators: GDP per capita vs.&nbsp;life expec
 </div>
 </div>
 <div class="quarto-embed-nb-cell">
-<div id="stata-summary" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T11:25:21.332500Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T11:25:21.332397Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T11:25:21.372787Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T11:25:21.372493Z&quot;}}" data-execution_count="4">
+<div id="stata-summary" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Summary statistics: Mean, SD, N
@@ -413,48 +398,290 @@ region |  gdp_pe~a  life_e~y
 </div>
 </div>
 </div>
+<p>This notebook is particularly valuable for researchers who rely on Stata for their primary analysis. It demonstrates that Stata users do not need to abandon their preferred tool to benefit from the reproducibility and documentation advantages of computational notebooks. The notebook covers data generation with Stata syntax, graphing with <code>twoway</code>, and summary statistics with <code>tabstat</code>.</p>
 </section>
-<section id="methods" class="level3">
-<h3 class="anchored" data-anchor-id="methods">Methods</h3>
-<p>[FILL: Describe the econometric or statistical methods.]</p>
+<section id="sec-ml" class="level2">
+<h2 class="anchored" data-anchor-id="sec-ml">Machine Learning with Random Forest</h2>
+<p>The fourth notebook (<a href="./notebooks/notebook-04-preview.html">N4: Introduction to Machine Learning — Random Forest Regression</a>) moves beyond exploratory analysis to introduce a complete machine learning workflow in Python. It predicts Bolivia’s Municipal Sustainable Development Index (IMDS) from 64-dimensional satellite image embeddings using Random Forest regression.</p>
+<section id="target-variable" class="level3">
+<h3 class="anchored" data-anchor-id="target-variable">Target variable</h3>
+<p>The IMDS scores across 339 municipalities range from 0 to 100 and follow a roughly bell-shaped distribution with a slight right skew (mean = 51.1, median = 50.5).</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-target-distribution" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-08T13:19:57.273116Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-08T13:19:57.272900Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-08T13:19:57.780707Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-08T13:19:57.779840Z&quot;}}" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div id="fig-target-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-target-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-notebook-04-fig-target-distribution-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Distribution of IMDS scores across Bolivia’s municipalities. The dashed line marks the mean, the dotted line marks the median."><img src="index_files/figure-html/notebooks-notebook-04-fig-target-distribution-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-target-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Distribution of IMDS scores across Bolivia’s municipalities. The dashed line marks the mean, the dotted line marks the median.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-performance" class="level3">
+<h3 class="anchored" data-anchor-id="model-performance">Model performance</h3>
+<p>The dataset is split into 271 training and 68 test municipalities. A baseline Random Forest model is trained with 5-fold cross-validation, followed by hyperparameter tuning via randomized search over 50 parameter combinations. The table below compares the baseline and tuned models on the held-out test set.</p>
+<div class="quarto-embed-nb-cell">
+<div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-08T13:21:14.099240Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-08T13:21:14.098916Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-08T13:21:14.118624Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-08T13:21:14.116672Z&quot;}}" data-execution_count="16">
+<div id="tbl-ml-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-08T13:21:14.099240Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-08T13:21:14.098916Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-08T13:21:14.118624Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-08T13:21:14.116672Z&quot;}}" data-execution_count="16">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ml-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Random Forest regression results: baseline vs tuned model performance on the test set.
+</figcaption>
+<div aria-describedby="tbl-ml-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: right;">Baseline</th>
+<th style="text-align: right;">Tuned</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.2307</td>
+<td style="text-align: right;">0.2297</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: right;">6.52</td>
+<td style="text-align: right;">6.52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MAE</td>
+<td style="text-align: right;">4.68</td>
+<td style="text-align: right;">4.72</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Both models achieve an R-squared of approximately 0.23 and an RMSE of about 6.5 points, indicating that satellite embeddings capture meaningful but limited development signals. The scatter plot of actual versus predicted values illustrates the typical regression-to-the-mean pattern.</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-actual-vs-predicted" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-08T13:20:59.156442Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-08T13:20:59.156096Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-08T13:20:59.524350Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-08T13:20:59.522931Z&quot;}}" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div id="fig-actual-vs-predicted" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-actual-vs-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-notebook-04-fig-actual-vs-predicted-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Actual vs predicted IMDS scores on the test set. The dashed line represents perfect prediction."><img src="index_files/figure-html/notebooks-notebook-04-fig-actual-vs-predicted-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-actual-vs-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Actual vs predicted IMDS scores on the test set. The dashed line represents perfect prediction.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="feature-importance" class="level3">
+<h3 class="anchored" data-anchor-id="feature-importance">Feature importance</h3>
+<p>A key advantage of Random Forest models is their interpretability through feature importance measures. The permutation importance plot below shows the top features ranked by their contribution to predictive accuracy.</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-importance-permutation" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-08T13:21:00.339174Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-08T13:21:00.338913Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-08T13:21:11.689068Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-08T13:21:11.688054Z&quot;}}" data-execution_count="14">
+<div class="cell-output cell-output-display">
+<div id="fig-importance-permutation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-importance-permutation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-notebook-04-fig-importance-permutation-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Top-20 satellite embedding features ranked by permutation importance (mean decrease in R² when feature is shuffled)."><img src="index_files/figure-html/notebooks-notebook-04-fig-importance-permutation-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-importance-permutation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Top-20 satellite embedding features ranked by permutation importance (mean decrease in R² when feature is shuffled).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Importance is distributed across many embedding dimensions rather than concentrated in a few, suggesting that multiple aspects of the satellite imagery contribute to predicting sustainable development outcomes.</p>
+</section>
+<section id="partial-dependence" class="level3">
+<h3 class="anchored" data-anchor-id="partial-dependence">Partial dependence</h3>
+<p>Partial dependence plots reveal non-linear relationships between individual features and the predicted IMDS. Several features exhibit threshold effects where the marginal relationship changes at specific values.</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-partial-dependence" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-08T13:21:11.692259Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-08T13:21:11.691085Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-08T13:21:14.096752Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-08T13:21:14.095673Z&quot;}}" data-execution_count="15">
+<div class="cell-output cell-output-display">
+<div id="fig-partial-dependence" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-partial-dependence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-notebook-04-fig-partial-dependence-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Partial dependence plots for the top-6 most important satellite embedding features, showing how each feature’s value affects the predicted IMDS score."><img src="index_files/figure-html/notebooks-notebook-04-fig-partial-dependence-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-partial-dependence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Partial dependence plots for the top-6 most important satellite embedding features, showing how each feature’s value affects the predicted IMDS score.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>For full details on the methodology and hyperparameter search, see the <a href="./notebooks/notebook-04-preview.html">complete notebook</a>.</p>
 </section>
 </section>
-<section id="sec-results" class="level2">
-<h2 class="anchored" data-anchor-id="sec-results">Results and discussion</h2>
-<p>[FILL: Present and interpret the main findings.]</p>
-<p>[FILL: Discuss implications and compare with existing literature.]</p>
+<section id="sec-causal" class="level2">
+<h2 class="anchored" data-anchor-id="sec-causal">Causal Inference with Double Machine Learning</h2>
+<p>The fifth notebook (<a href="./notebooks/notebook-05-preview.html">N5: Introduction to Causal Inference — Double Machine Learning</a>) introduces causal inference methods using the Pennsylvania Reemployment Bonus experiment as a case study. It demonstrates how Double Machine Learning (DoubleML) corrects for the confounding bias that affects naive regression estimates.</p>
+<section id="the-research-question" class="level3">
+<h3 class="anchored" data-anchor-id="the-research-question">The research question</h3>
+<p>The central question is whether offering a cash bonus to unemployed workers causally reduces the duration of unemployment. The dataset includes 5,099 workers — 3,354 in the control group and 1,745 who received the bonus treatment.</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-outcome-by-treatment" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:23.932648Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:23.932463Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:24.361177Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:24.360391Z&quot;}}" data-execution_count="4">
+<div class="cell-output cell-output-display">
+<div id="fig-outcome-by-treatment" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-outcome-by-treatment-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-notebook-05-fig-outcome-by-treatment-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Distribution of log unemployment duration by treatment group. The bonus group shows a slightly lower mean."><img src="index_files/figure-html/notebooks-notebook-05-fig-outcome-by-treatment-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-outcome-by-treatment-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Distribution of log unemployment duration by treatment group. The bonus group shows a slightly lower mean.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="comparing-estimation-methods" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-estimation-methods">Comparing estimation methods</h3>
+<p>The notebook compares four estimation approaches: naive OLS (without covariates), OLS with covariates, DoubleML with Random Forest learners, and DoubleML with Lasso learners. Naive OLS overestimates the treatment effect by approximately 17% compared to the debiased DoubleML estimates.</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-coefficient-comparison" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:31.768536Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:31.768330Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:31.989205Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:31.988409Z&quot;}}" data-execution_count="12">
+<div class="cell-output cell-output-display">
+<div id="fig-coefficient-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coefficient-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-notebook-05-fig-coefficient-comparison-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Comparison of causal effect estimates across methods. Error bars show 95% confidence intervals for DoubleML methods."><img src="index_files/figure-html/notebooks-notebook-05-fig-coefficient-comparison-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coefficient-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Comparison of causal effect estimates across methods. Error bars show 95% confidence intervals for DoubleML methods.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<p>The DoubleML estimates indicate that the bonus reduces log unemployment duration by approximately 0.07 (about 7%), and this effect is statistically significant. The table below summarizes the results across all methods.</p>
+<div class="quarto-embed-nb-cell">
+<div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:32.204365Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:32.204171Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:32.231112Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:32.230302Z&quot;}}" data-execution_count="14">
+<div id="tbl-doubleml-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:32.204365Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:32.204171Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:32.231112Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:32.230302Z&quot;}}" data-execution_count="14">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-doubleml-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: Comparison of treatment effect estimates across methods.
+</figcaption>
+<div aria-describedby="tbl-doubleml-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 19%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: left;">Std Error</th>
+<th style="text-align: left;">p-value</th>
+<th style="text-align: left;">95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Naive OLS</td>
+<td style="text-align: right;">-0.0855</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OLS + Covariates</td>
+<td style="text-align: right;">-0.0717</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DoubleML (RF)</td>
+<td style="text-align: right;">-0.0736</td>
+<td style="text-align: left;">0.0354</td>
+<td style="text-align: left;">0.0378</td>
+<td style="text-align: left;">[-0.1430, -0.0041]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DoubleML (Lasso)</td>
+<td style="text-align: right;">-0.0712</td>
+<td style="text-align: left;">0.0354</td>
+<td style="text-align: left;">0.0445</td>
+<td style="text-align: left;">[-0.1406, -0.0018]</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>The confidence intervals for the DoubleML estimates lie entirely to the left of zero, confirming statistical significance. The results are robust across different ML learners (Random Forest and Lasso).</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-confint" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:31.991551Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:31.991336Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:32.202159Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:32.201007Z&quot;}}" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div id="fig-confint" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-notebook-05-fig-confint-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: 95% confidence intervals for the DoubleML causal effect estimates using two different ML learners."><img src="index_files/figure-html/notebooks-notebook-05-fig-confint-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: 95% confidence intervals for the DoubleML causal effect estimates using two different ML learners.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>For the full methodological treatment — including the Partially Linear Regression framework, cross-fitting procedure, and discussion of assumptions — see the <a href="./notebooks/notebook-05-preview.html">complete notebook</a>.</p>
+</section>
 </section>
 <section id="sec-conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="sec-conclusion">Concluding remarks</h2>
-<p>[FILL: Summarize the main findings and their implications.]</p>
-<p>[FILL: Discuss limitations and directions for future research.]</p>
+<h2 class="anchored" data-anchor-id="sec-conclusion">Concluding Remarks</h2>
+<p>This document has introduced five computational notebooks spanning three programming languages and three analytical approaches:</p>
+<ul>
+<li><strong>Notebooks 1–3</strong> demonstrate that Python, R, and Stata can all operate within the Jupyter notebook environment, producing comparable results for the same exploratory analysis task. This lowers barriers for researchers who prefer one language but want the benefits of reproducible, self-documenting workflows.</li>
+<li><strong>Notebook 4</strong> provides a hands-on introduction to machine learning with Random Forest regression, showing how satellite image embeddings can predict municipal development outcomes — explaining approximately 23% of the variance in Bolivia’s IMDS.</li>
+<li><strong>Notebook 5</strong> introduces causal inference with Double Machine Learning, illustrating how debiased estimation corrects for confounding bias relative to naive OLS approaches.</li>
+</ul>
+<p>Together, these notebooks serve as a practical reference for researchers and students learning to work with computational notebooks across multiple programming environments.</p>
 </section>
 
 
 <section id="references" class="level2 unnumbered">
-
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 <!-- -->
-
 
 </section>
 
-
 <div id="quarto-appendix" class="default"><section id="acknowledgments" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Acknowledgments</h2><div class="quarto-appendix-contents">
 
-<p>[FILL: Acknowledge funding sources, collaborators, and data providers.]</p>
-</div></section><section id="data-and-code-availability" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Data and code availability</h2><div class="quarto-appendix-contents">
+<p>This research uses data from the <a href="https://github.com/quarcs-lab/ds4bolivia">DS4Bolivia</a> project. The analytical workflow was developed at Nagoya University.</p>
+</div></section><section id="data-and-code-availability" class="level2 appendix"><h2 class="anchored quarto-appendix-heading">Data and Code Availability</h2><div class="quarto-appendix-contents">
 
-<p>The data and code used in this study are available at [FILL: repository URL].</p>
-</div></section><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-keola2015monitoring" class="csl-entry" role="listitem">
-Keola, Souknilanh, Magnus Andersson, and Ola Hall. 2015. <span>“Monitoring Economic Development from Space: Using Nighttime Light and Land Cover Data to Measure Economic Growth.”</span> <em>World Development</em> 66: 322–34.
-</div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>See also the World Bank regional development reports.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main>
+<p>The data and code used in this study are available at <a href="https://github.com/quarcs-lab/ds4bolivia">https://github.com/quarcs-lab/ds4bolivia</a>. All notebooks are fully reproducible using the <code>uv</code> environment manager and the dependencies specified in <code>pyproject.toml</code>.</p>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -908,121 +1135,172 @@ Keola, Souknilanh, Magnus Andersson, and Ola Hall. 2015. <span>“Monitoring Eco
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "[FILL: Title of the paper]"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "[FILL: Subtitle of the paper]"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Computational Notebooks in Python, R, and Stata"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "A Multi-Language Guide to Data Science Workflows"</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: "[FILL: Author One]"</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: "Carlos Mendez"</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: "[FILL: University]"</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">        city: "[FILL: City]"</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">        country: "[FILL: Country]"</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: "[FILL: 0000-0000-0000-0000]"</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">    email: "[FILL: email@example.com]"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: "Nagoya University"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">        city: "Nagoya"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">        country: "Japan"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: "0000-0001-5765-2741"</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">    email: "carlos@gsid.nagoya-u.ac.jp"</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">    corresponding: true</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: "[FILL: Author Two]"</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">    affiliations:</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">      - name: "[FILL: University]"</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">        city: "[FILL: City]"</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">        country: "[FILL: Country]"</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">    orcid: "[FILL: 0000-0000-0000-0000]"</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="an">abstract:</span><span class="co"> |</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">  [FILL: Write your abstract here. Summarize the research question, methods, key findings, and implications.]</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="an">keywords:</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">  - "[FILL: keyword 1]"</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">  - "[FILL: keyword 2]"</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">  - "[FILL: keyword 3]"</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="an">abstract:</span><span class="co"> |</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">  This document introduces computational notebooks as a practical tool for data science across three programming languages: Python, R, and Stata. Through five companion notebooks, we demonstrate how Jupyter-based environments support reproducible workflows ranging from exploratory data analysis to machine learning and causal inference. The first three notebooks present a common data exploration task implemented independently in Python, R, and Stata, illustrating how each language handles data generation, visualization, and summary statistics within the same notebook platform. The fourth notebook introduces Random Forest regression for predicting Bolivia's Municipal Sustainable Development Index from satellite image embeddings. The fifth notebook demonstrates Double Machine Learning for causal inference using the Pennsylvania Reemployment Bonus experiment. Together, these notebooks provide a hands-on reference for researchers and students working across multiple computational environments.</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="an">keywords:</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">  - "computational notebooks"</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">  - "reproducible research"</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">  - "Python"</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">  - "R"</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">  - "Stata"</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">  - "data science"</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction {#sec-introduction}</span></span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>Regional economic disparities remain a central concern in development economics.</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>Understanding the relationship between GDP per capita and life expectancy</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>across regions is critical for designing **effective policy interventions**.</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>This paper uses a novel synthetic dataset to examine these patterns,</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>employing both parametric and non-parametric methods <span class="co">[</span><span class="ot">@keola2015monitoring</span><span class="co">]</span>.</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>Our results suggest a strong positive correlation between economic output</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>and health outcomes, with significant heterogeneity across geographic clusters.</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>This study contributes to the literature in two ways. First, we provide</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>a multi-language reproducible workflow. Second, we demonstrate how</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>*modern tools* can enhance transparency in empirical research.</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>The rest of this article is organized as follows.</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>@sec-literature provides an overview of the related literature.</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>@sec-data introduces the data and methods.</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>@sec-results presents the results and discussion.</span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>Finally, @sec-conclusion offers some concluding remarks.</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="fu">## Related literature {#sec-literature}</span></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>The relationship between income and health has been extensively studied</span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>since the seminal work of @keola2015monitoring. Recent advances</span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>in spatial econometrics have enabled more nuanced analyses of regional</span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>disparities^<span class="co">[</span><span class="ot">See also the World Bank regional development reports.</span><span class="co">]</span>.</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction {#sec-introduction}</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>Computational notebooks have become a standard tool for reproducible data science, combining code, output, and narrative in a single document. While Python dominates the Jupyter ecosystem, researchers in the social sciences and economics often work in R or Stata. This document demonstrates that all three languages can be used effectively within Jupyter notebooks, and that the same analytical tasks can be accomplished across environments.</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>The companion notebooks use data from the <span class="co">[</span><span class="ot">DS4Bolivia</span><span class="co">](https://github.com/quarcs-lab/ds4bolivia)</span> project as a running example. The dataset covers 339 Bolivian municipalities and includes the Municipal Sustainable Development Index (IMDS), 64-dimensional satellite image embeddings, and regional identifiers.</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>The five notebooks are organized as follows:</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">N1: Sample Data Exploration</span><span class="co">](notebooks/notebook-01.ipynb)</span> — Exploratory data analysis in Python</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">N2: Sample R Analysis</span><span class="co">](notebooks/notebook-02.ipynb)</span> — The same exploration in R</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">N3: Sample Stata Analysis</span><span class="co">](notebooks/notebook-03.ipynb)</span> — The same exploration in Stata</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">N4: Introduction to Machine Learning — Random Forest Regression</span><span class="co">](notebooks/notebook-04.ipynb)</span> — Predicting sustainable development from satellite embeddings</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">N5: Introduction to Causal Inference — Double Machine Learning</span><span class="co">](notebooks/notebook-05.ipynb)</span> — Estimating causal effects with debiased ML methods</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>Each section below introduces one notebook, summarizes its content, and embeds selected figures and tables. Readers are encouraged to open the full notebooks for complete code and discussion.</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Exploration in Python {#sec-python}</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>The first notebook (<span class="co">[</span><span class="ot">N1: Sample Data Exploration</span><span class="co">](notebooks/notebook-01.ipynb)</span>) demonstrates a standard exploratory data analysis workflow in Python. It generates a synthetic dataset of 80 regions grouped into four geographic clusters, each with simulated GDP per capita and life expectancy values. The notebook illustrates how to set up a reproducible environment using a shared configuration file (<span class="in">`config.py`</span>), create publication-quality visualizations with Matplotlib and Seaborn, and compute summary statistics with Pandas.</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>The scatter plot below shows the relationship between GDP per capita and life expectancy across the simulated regions, colored by geographic cluster.</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-01.ipynb#fig-sample &gt;}}</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>The following table reports summary statistics by region.</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-01.ipynb#tbl-summary &gt;}}</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>This notebook serves as a template that researchers can adapt to their own datasets. The key takeaway is the basic workflow: load data, visualize distributions and relationships, and summarize key variables — all within a single reproducible document.</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Exploration in R {#sec-r}</span></span>
 <span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data and methods {#sec-data}</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>The second notebook (<span class="co">[</span><span class="ot">N2: Sample R Analysis</span><span class="co">](notebooks/notebook-02.ipynb)</span>) replicates the same exploratory analysis using R. It demonstrates how to run R code inside a Jupyter notebook using the IRkernel, generate equivalent visualizations with ggplot2, and produce formatted tables with <span class="in">`knitr::kable()`</span>.</span>
 <span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Describe the data sources, variables, and sample.</span><span class="co">]</span></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>The scatter plot below shows the same GDP-life expectancy relationship rendered with ggplot2.</span>
 <span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Explain the analytical methods and models used.</span><span class="co">]</span></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-02.ipynb#fig-r-sample &gt;}}</span>
 <span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-02.ipynb#tbl-r-summary &gt;}}</span>
 <span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Describe the dataset. Include sources, time period, and key variables.</span><span class="co">]</span></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>Although this notebook is straightforward, it highlights several practical points for R users: configuring an R kernel in Jupyter, sourcing a shared configuration file (<span class="in">`config.R`</span>) for reproducibility, and using R's visualization and table-formatting ecosystem within the notebook environment. For researchers more comfortable in R than Python, this notebook provides a familiar entry point into the Jupyter workflow.</span>
 <span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>The following figure, generated in <span class="co">[</span><span class="ot">N1: Sample Data Exploration</span><span class="co">](notebooks/notebook-01.ipynb)</span>, provides an overview of the data.</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Exploration in Stata {#sec-stata}</span></span>
 <span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-01.ipynb#fig-sample &gt;}}</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>The third notebook (<span class="co">[</span><span class="ot">N3: Sample Stata Analysis</span><span class="co">](notebooks/notebook-03.ipynb)</span>) completes the multi-language comparison by performing the same analysis in Stata. It uses the <span class="in">`nbstata`</span> kernel, which allows Stata commands to run directly inside Jupyter notebooks — a relatively recent development that brings Stata into the computational notebook ecosystem.</span>
 <span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>@tbl-summary reports summary statistics by region.</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>The scatter plot below shows the GDP-life expectancy relationship using Stata's <span class="in">`twoway scatter`</span> graphics.</span>
 <span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-01.ipynb#tbl-summary &gt;}}</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-03.ipynb#fig-stata-sample &gt;}}</span>
 <span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>The same analysis is replicated in R (<span class="co">[</span><span class="ot">N2: Sample R Analysis</span><span class="co">](notebooks/notebook-02.ipynb)</span>) and Stata (<span class="co">[</span><span class="ot">N3: Sample Stata Analysis</span><span class="co">](notebooks/notebook-03.ipynb)</span>) to</span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>demonstrate multi-language support.</span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-02.ipynb#fig-r-sample &gt;}}</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-02.ipynb#tbl-r-summary &gt;}}</span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-03.ipynb#fig-stata-sample &gt;}}</span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-03.ipynb#stata-summary &gt;}}</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="fu">### Methods</span></span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Describe the econometric or statistical methods.</span><span class="co">]</span></span>
-<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="fu">## Results and discussion {#sec-results}</span></span>
-<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Present and interpret the main findings.</span><span class="co">]</span></span>
-<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Discuss implications and compare with existing literature.</span><span class="co">]</span></span>
-<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a><span class="fu">## Concluding remarks {#sec-conclusion}</span></span>
-<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Summarize the main findings and their implications.</span><span class="co">]</span></span>
-<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Discuss limitations and directions for future research.</span><span class="co">]</span></span>
-<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a><span class="fu">## Acknowledgments {.appendix}</span></span>
-<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">FILL: Acknowledge funding sources, collaborators, and data providers.</span><span class="co">]</span></span>
-<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data and code availability {.appendix}</span></span>
-<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a>The data and code used in this study are available at <span class="co">[</span><span class="ot">FILL: repository URL</span><span class="co">]</span>.</span>
-<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="fu">## References {.unnumbered}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-03.ipynb#stata-summary &gt;}}</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>This notebook is particularly valuable for researchers who rely on Stata for their primary analysis. It demonstrates that Stata users do not need to abandon their preferred tool to benefit from the reproducibility and documentation advantages of computational notebooks. The notebook covers data generation with Stata syntax, graphing with <span class="in">`twoway`</span>, and summary statistics with <span class="in">`tabstat`</span>.</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="fu">## Machine Learning with Random Forest {#sec-ml}</span></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>The fourth notebook (<span class="co">[</span><span class="ot">N4: Introduction to Machine Learning — Random Forest Regression</span><span class="co">](notebooks/notebook-04.ipynb)</span>) moves beyond exploratory analysis to introduce a complete machine learning workflow in Python. It predicts Bolivia's Municipal Sustainable Development Index (IMDS) from 64-dimensional satellite image embeddings using Random Forest regression.</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="fu">### Target variable</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>The IMDS scores across 339 municipalities range from 0 to 100 and follow a roughly bell-shaped distribution with a slight right skew (mean = 51.1, median = 50.5).</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-04.ipynb#fig-target-distribution &gt;}}</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="fu">### Model performance</span></span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>The dataset is split into 271 training and 68 test municipalities. A baseline Random Forest model is trained with 5-fold cross-validation, followed by hyperparameter tuning via randomized search over 50 parameter combinations. The table below compares the baseline and tuned models on the held-out test set.</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-04.ipynb#tbl-ml-results &gt;}}</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>Both models achieve an R-squared of approximately 0.23 and an RMSE of about 6.5 points, indicating that satellite embeddings capture meaningful but limited development signals. The scatter plot of actual versus predicted values illustrates the typical regression-to-the-mean pattern.</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-04.ipynb#fig-actual-vs-predicted &gt;}}</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="fu">### Feature importance</span></span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a>A key advantage of Random Forest models is their interpretability through feature importance measures. The permutation importance plot below shows the top features ranked by their contribution to predictive accuracy.</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-04.ipynb#fig-importance-permutation &gt;}}</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>Importance is distributed across many embedding dimensions rather than concentrated in a few, suggesting that multiple aspects of the satellite imagery contribute to predicting sustainable development outcomes.</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="fu">### Partial dependence</span></span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a>Partial dependence plots reveal non-linear relationships between individual features and the predicted IMDS. Several features exhibit threshold effects where the marginal relationship changes at specific values.</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-04.ipynb#fig-partial-dependence &gt;}}</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a>For full details on the methodology and hyperparameter search, see the <span class="co">[</span><span class="ot">complete notebook</span><span class="co">](notebooks/notebook-04.ipynb)</span>.</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Causal Inference with Double Machine Learning {#sec-causal}</span></span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a>The fifth notebook (<span class="co">[</span><span class="ot">N5: Introduction to Causal Inference — Double Machine Learning</span><span class="co">](notebooks/notebook-05.ipynb)</span>) introduces causal inference methods using the Pennsylvania Reemployment Bonus experiment as a case study. It demonstrates how Double Machine Learning (DoubleML) corrects for the confounding bias that affects naive regression estimates.</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="fu">### The research question</span></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a>The central question is whether offering a cash bonus to unemployed workers causally reduces the duration of unemployment. The dataset includes 5,099 workers — 3,354 in the control group and 1,745 who received the bonus treatment.</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-05.ipynb#fig-outcome-by-treatment &gt;}}</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparing estimation methods</span></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a>The notebook compares four estimation approaches: naive OLS (without covariates), OLS with covariates, DoubleML with Random Forest learners, and DoubleML with Lasso learners. Naive OLS overestimates the treatment effect by approximately 17% compared to the debiased DoubleML estimates.</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-05.ipynb#fig-coefficient-comparison &gt;}}</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a><span class="fu">### Results</span></span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a>The DoubleML estimates indicate that the bonus reduces log unemployment duration by approximately 0.07 (about 7%), and this effect is statistically significant. The table below summarizes the results across all methods.</span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-05.ipynb#tbl-doubleml-results &gt;}}</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>The confidence intervals for the DoubleML estimates lie entirely to the left of zero, confirming statistical significance. The results are robust across different ML learners (Random Forest and Lasso).</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/notebook-05.ipynb#fig-confint &gt;}}</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a>For the full methodological treatment — including the Partially Linear Regression framework, cross-fitting procedure, and discussion of assumptions — see the <span class="co">[</span><span class="ot">complete notebook</span><span class="co">](notebooks/notebook-05.ipynb)</span>.</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a><span class="fu">## Concluding Remarks {#sec-conclusion}</span></span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>This document has introduced five computational notebooks spanning three programming languages and three analytical approaches:</span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Notebooks 1–3** demonstrate that Python, R, and Stata can all operate within the Jupyter notebook environment, producing comparable results for the same exploratory analysis task. This lowers barriers for researchers who prefer one language but want the benefits of reproducible, self-documenting workflows.</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Notebook 4** provides a hands-on introduction to machine learning with Random Forest regression, showing how satellite image embeddings can predict municipal development outcomes — explaining approximately 23% of the variance in Bolivia's IMDS.</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Notebook 5** introduces causal inference with Double Machine Learning, illustrating how debiased estimation corrects for confounding bias relative to naive OLS approaches.</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a>Together, these notebooks serve as a practical reference for researchers and students learning to work with computational notebooks across multiple programming environments.</span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a><span class="fu">## Acknowledgments {.appendix}</span></span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a>This research uses data from the <span class="co">[</span><span class="ot">DS4Bolivia</span><span class="co">](https://github.com/quarcs-lab/ds4bolivia)</span> project. The analytical workflow was developed at Nagoya University.</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data and Code Availability {.appendix}</span></span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a>The data and code used in this study are available at <span class="co">[</span><span class="ot">https://github.com/quarcs-lab/ds4bolivia</span><span class="co">](https://github.com/quarcs-lab/ds4bolivia)</span>. All notebooks are fully reproducible using the <span class="in">`uv`</span> environment manager and the dependencies specified in <span class="in">`pyproject.toml`</span>.</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a><span class="fu">## References {.unnumbered}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});

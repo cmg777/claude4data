@@ -215,11 +215,17 @@
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">      
 
-       <section id="overview" class="level2">
+       <div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid figure-img"></p>
+<figcaption>Open In Colab</figcaption>
+</figure>
+</div>
+<section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>This notebook demonstrates the Stata workflow: generating synthetic data, producing labeled figures and tables that are embedded in the manuscript via Quarto’s <code>{{&lt; embed &gt;}}</code> shortcode. It mirrors <code>notebook-01</code> (Python) using Stata.</p>
 <p><strong>Prerequisites:</strong> Stata must be installed and the <code>nbstata</code> Jupyter kernel must be registered. See <code>notebooks/README.md</code> for setup instructions.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="st2-setup" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T11:25:19.443346Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T11:25:19.443096Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T11:25:20.093111Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T11:25:20.092666Z&quot;}}" data-execution_count="1">
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="st2-setup" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>* Reproducibility setup</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">clear</span> <span class="ot">all</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">set</span> <span class="dv">seed</span> 42</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -227,7 +233,7 @@
 <style>div.jp-Notebook .datagrid-container {min-height: 448px; }</style>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="st3-data" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T11:25:20.094855Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T11:25:20.094671Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T11:25:20.174081Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T11:25:20.173582Z&quot;}}" data-execution_count="2">
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="st3-data" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>* Generate synthetic <span class="kw">cross</span>-sectional <span class="kw">data</span> (80 regions, 4 clusters)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">quietly</span> {</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">set</span> <span class="kw">obs</span> 80</span>
@@ -261,7 +267,7 @@ Sorted by:
      Note: Dataset has changed since last saved.</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-fig-stata-sample" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T11:25:20.176229Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T11:25:20.176084Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T11:25:21.331217Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T11:25:21.330918Z&quot;}}" data-execution_count="3">
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-fig-stata-sample" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">twoway</span> <span class="co">///</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">scatter</span> life_expectancy gdp_per_capita <span class="kw">if</span> region == <span class="st">"North"</span>, mcolor(<span class="bn">blue</span>)    <span class="bn">msymbol</span>(<span class="bn">circle</span>)) <span class="co">///</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    (<span class="kw">scatter</span> life_expectancy gdp_per_capita <span class="kw">if</span> region == <span class="st">"South"</span>, mcolor(<span class="kw">red</span>)     <span class="bn">msymbol</span>(diamond)) <span class="co">///</span></span>
@@ -275,7 +281,7 @@ Sorted by:
 <div id="fig-stata-sample" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-stata-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-03_files/figure-html/fig-stata-sample-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster (Stata)."><img src="notebook-03_files/figure-html/fig-stata-sample-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-03_files/figure-html/fig-stata-sample-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster (Stata)."><img src="notebook-03_files/figure-html/fig-stata-sample-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stata-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster (Stata).
@@ -284,7 +290,7 @@ Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expec
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="stata-summary" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T11:25:21.332500Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T11:25:21.332397Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T11:25:21.372787Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T11:25:21.372493Z&quot;}}" data-execution_count="4">
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="stata-summary" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">tabstat</span> gdp_per_capita life_expectancy, <span class="kw">by</span>(region) stat(<span class="kw">mean</span> <span class="fu">sd</span> <span class="fu">count</span>) <span class="kw">format</span>(%9.1f)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>

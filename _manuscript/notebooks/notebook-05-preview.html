@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="generator" content="quarto-1.8.27">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+    <title>N5: Introduction to Causal Inference — Double Machine Learning</title>
+    <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      div.columns{display: flex; gap: min(4vw, 1.5em);}
+      div.column{flex: auto; overflow-x: auto;}
+      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+      ul.task-list{list-style: none;}
+      ul.task-list li input[type="checkbox"] {
+        width: 0.8em;
+        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+        vertical-align: middle;
+      }
+      /* CSS for syntax highlighting */
+      html { -webkit-text-size-adjust: 100%; }
+      pre > code.sourceCode { white-space: pre; position: relative; }
+      pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+      pre > code.sourceCode > span:empty { height: 1.2em; }
+      .sourceCode { overflow: visible; }
+      code.sourceCode > span { color: inherit; text-decoration: inherit; }
+      div.sourceCode { margin: 1em 0; }
+      pre.sourceCode { margin: 0; }
+      @media screen {
+      div.sourceCode { overflow: auto; }
+      }
+      @media print {
+      pre > code.sourceCode { white-space: pre-wrap; }
+      pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+      }
+      pre.numberSource code
+        { counter-reset: source-line 0; }
+      pre.numberSource code > span
+        { position: relative; left: -4em; counter-increment: source-line; }
+      pre.numberSource code > span > a:first-child::before
+        { content: counter(source-line);
+          position: relative; left: -1em; text-align: right; vertical-align: baseline;
+          border: none; display: inline-block;
+          -webkit-touch-callout: none; -webkit-user-select: none;
+          -khtml-user-select: none; -moz-user-select: none;
+          -ms-user-select: none; user-select: none;
+          padding: 0 4px; width: 4em;
+        }
+      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+      div.sourceCode
+        {   }
+      @media screen {
+      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+      }
+    </style>
+
+    <style>
+      body.hypothesis-enabled #quarto-embed-header {
+        padding-right: 36px;
+      }
+
+      #quarto-embed-header {
+        height: 3em;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: solid 1px;
+      }
+
+      #quarto-embed-header h6 {
+        font-size: 1.1em;
+        padding-top: 0.6em;
+        margin-left: 1em;
+        margin-right: 1em;
+        font-weight: 400;
+      }
+
+      #quarto-embed-header a.quarto-back-link,
+      #quarto-embed-header a.quarto-download-embed {
+        font-size: 0.8em;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        margin-left: 1em;
+        margin-right: 1em;
+      }
+
+      .quarto-back-container {
+        padding-left: 0.5em;
+        display: flex;
+      }
+
+      .headroom {
+          will-change: transform;
+          transition: transform 200ms linear;
+      }
+
+      .headroom--pinned {
+          transform: translateY(0%);
+      }
+
+      .headroom--unpinned {
+          transform: translateY(-100%);
+      }      
+    </style>
+
+    <script>
+    window.document.addEventListener("DOMContentLoaded", function () {
+
+      var header = window.document.querySelector("#quarto-embed-header");
+      const titleBannerEl = window.document.querySelector("body > #title-block-header");
+      if (titleBannerEl) {
+        titleBannerEl.style.paddingTop = header.clientHeight + "px";
+      }
+      const contentEl = window.document.getElementById('quarto-content');
+      for (const child of contentEl.children) {
+        child.style.paddingTop = header.clientHeight + "px";
+        child.style.marginTop = "1em";
+      }
+
+      // Use the article root if the `back` call doesn't work. This isn't perfect
+      // but should typically work
+      window.quartoBackToArticle = () => {
+        var currentUrl = window.location.href;
+        window.history.back();
+        setTimeout(() => {
+            // if location was not changed in 100 ms, then there is no history back
+            if(currentUrl === window.location.href){              
+                // redirect to site root
+                window.location.href = "../index.html";
+            }
+        }, 100);
+      }
+
+      const headroom = new window.Headroom(header, {
+        tolerance: 5,
+        onPin: function () {
+        },
+        onUnpin: function () {
+        },
+      });
+      headroom.init();
+    });
+    </script>
+
+    
+<script src="../site_libs/manuscript-notebook/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a74871fe4945b66d259aafc266475145.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script> 
+      </head>
+
+  <body class="quarto-notebook quarto-light">
+    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
+      
+      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link" href=""><i class="bi bi-caret-left"></i> Back to Article</a>
+      <h6><i class="bi bi-journal-code"></i> N5: Introduction to Causal Inference — Double Machine Learning</h6>
+
+            <a href="../notebooks/notebook-05.ipynb" class="btn btn-primary quarto-download-embed" download="notebook-05.ipynb">Download Notebook</a>
+          </div>
+
+     <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">N5: Introduction to Causal Inference — Double Machine Learning</h1>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+        
+        <div class="quarto-title-meta">
+
+                
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      </div>
+    </div>
+
+
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#case-study-does-a-cash-bonus-shorten-unemployment" id="toc-case-study-does-a-cash-bonus-shorten-unemployment" class="nav-link active" data-scroll-target="#case-study-does-a-cash-bonus-shorten-unemployment">Case Study: Does a Cash Bonus Shorten Unemployment?</a>
+  <ul class="collapse">
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  </ul></li>
+  <li><a href="#data-loading-the-pennsylvania-bonus-experiment" id="toc-data-loading-the-pennsylvania-bonus-experiment" class="nav-link" data-scroll-target="#data-loading-the-pennsylvania-bonus-experiment">Data Loading: The Pennsylvania Bonus Experiment</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">      
+
+       <div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid figure-img"></p>
+<figcaption>Open In Colab</figcaption>
+</figure>
+</div>
+<section id="case-study-does-a-cash-bonus-shorten-unemployment" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-does-a-cash-bonus-shorten-unemployment">Case Study: Does a Cash Bonus Shorten Unemployment?</h2>
+<p>Imagine you are a policymaker in Pennsylvania in the 1980s. Unemployment is high, and you want to know: <strong>if we offer cash bonuses to unemployed workers who find new jobs quickly, will they actually find jobs faster?</strong> This is not just a prediction question — it is a <em>causal</em> question. We need to know whether the bonus <em>causes</em> shorter unemployment, not just whether bonus recipients happen to have shorter spells. This distinction matters because if the bonus only appears effective due to confounding factors (like age or industry), spending money on it would be wasteful. In this tutorial, we use <strong>Double Machine Learning (DoubleML)</strong> to estimate the causal effect of the bonus while rigorously controlling for confounding variables using modern machine learning methods.</p>
+<p><strong>Why not just compare averages?</strong> A common first instinct is to simply compare the average unemployment duration of workers who received the bonus versus those who did not. But this comparison can be misleading. Think of a classic example: ice cream sales and drowning deaths are positively correlated — but ice cream does not <em>cause</em> drowning. The hidden confounder is summer heat, which drives both. Similarly, if bonus recipients differ systematically from non-recipients in age, race, or industry, a simple comparison confuses the effect of those characteristics with the effect of the bonus itself.</p>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h3>
+<ul>
+<li>Understand the difference between <em>causal inference</em> and <em>prediction</em> in data science</li>
+<li>Learn the Partially Linear Regression (PLR) model and its key equations</li>
+<li>Understand <em>cross-fitting</em> — how DoubleML uses sample splitting to produce valid statistical inference</li>
+<li>Interpret causal estimates: coefficients, standard errors, p-values, and confidence intervals</li>
+<li>Compare naive OLS estimates with debiased Double ML estimates</li>
+</ul>
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="a5f2da17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:21.068587Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:21.068402Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:21.145186Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:21.144339Z&quot;}}" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"google.colab"</span> <span class="kw">in</span> sys.modules:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>pip install <span class="op">-</span>q doubleml</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>git clone <span class="op">--</span>depth <span class="dv">1</span> https:<span class="op">//</span>github.com<span class="op">/</span>cmg777<span class="op">/</span>claude4data.git <span class="op">/</span>content<span class="op">/</span>claude4data <span class="dv">2</span><span class="op">&gt;/</span>dev<span class="op">/</span>null <span class="op">||</span> true</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>cd <span class="op">/</span>content<span class="op">/</span>claude4data<span class="op">/</span>notebooks</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">".."</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> config <span class="im">import</span> set_seeds, RANDOM_SEED, IMAGES_DIR, TABLES_DIR</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>set_seeds()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="e8de49ee" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:21.147142Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:21.146918Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:23.759721Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:23.758943Z&quot;}}" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.base <span class="im">import</span> clone</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, LinearRegression</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> doubleml <span class="im">import</span> DoubleMLData, DoubleMLPLR</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> doubleml.datasets <span class="im">import</span> fetch_bonus</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>OUTCOME <span class="op">=</span> <span class="st">"inuidur1"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>OUTCOME_LABEL <span class="op">=</span> <span class="st">"Log Unemployment Duration"</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>TREATMENT <span class="op">=</span> <span class="st">"tg"</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>TREATMENT_LABEL <span class="op">=</span> <span class="st">"Cash Bonus (tg)"</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>COVARIATES <span class="op">=</span> [</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">"female"</span>, <span class="st">"black"</span>, <span class="st">"othrace"</span>, <span class="st">"dep1"</span>, <span class="st">"dep2"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"q2"</span>, <span class="st">"q3"</span>, <span class="st">"q4"</span>, <span class="st">"q5"</span>, <span class="st">"q6"</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"agelt35"</span>, <span class="st">"agegt54"</span>, <span class="st">"durable"</span>, <span class="st">"lusd"</span>, <span class="st">"husd"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+</section>
+<div id="b620292a" class="cell markdown">
+<section id="data-loading-the-pennsylvania-bonus-experiment" class="level2">
+<h2 class="anchored" data-anchor-id="data-loading-the-pennsylvania-bonus-experiment">Data Loading: The Pennsylvania Bonus Experiment</h2>
+<p>The Pennsylvania Bonus dataset comes from a real labor market experiment conducted in the 1980s. Unemployed workers were assigned to either receive a cash bonus for finding a new job quickly (treatment group) or receive no bonus (control group). The dataset includes 15 covariates capturing demographic and labor market characteristics. We load it directly from the <code>doubleml</code> package using <code>fetch_bonus()</code>.</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="d4e00ed9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:23.761734Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:23.761460Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:23.930665Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:23.929695Z&quot;}}" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> fetch_bonus(<span class="st">"DataFrame"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dataset shape: </span><span class="sc">{</span>df<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Observations: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Treatment groups:"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[TREATMENT].value_counts().rename({<span class="dv">0</span>: <span class="st">"Control"</span>, <span class="dv">1</span>: <span class="st">"Bonus"</span>}))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Outcome (</span><span class="sc">{</span>OUTCOME<span class="sc">}</span><span class="ss">) summary:"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df[OUTCOME].describe().<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset shape: (5099, 26)
+Observations: 5099
+
+Treatment groups:
+tg
+Control    3354
+Bonus      1745
+Name: count, dtype: int64
+
+Outcome (inuidur1) summary:
+count    5099.000
+mean        2.028
+std         1.215
+min         0.000
+25%         1.099
+50%         2.398
+75%         3.219
+max         3.951
+Name: inuidur1, dtype: float64</code></pre>
+</div>
+</div></div>
+<div id="52c66892" class="cell markdown">
+<p>The dataset contains 5,099 unemployed workers: 3,354 in the control group and 1,745 in the bonus group. The outcome variable <code>inuidur1</code> is the <em>log</em> of unemployment duration, which ranges from 0.0 to 3.95 with a mean of 2.03. Using log-transformed duration means that our estimated coefficients will represent approximate <em>percentage changes</em> in unemployment duration — a coefficient of -0.07 corresponds to roughly a 7% reduction.</p>
+<section id="exploratory-data-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h2>
+<section id="outcome-distribution-by-treatment-group" class="level3">
+<h3 class="anchored" data-anchor-id="outcome-distribution-by-treatment-group">Outcome Distribution by Treatment Group</h3>
+<p>Before any modeling, let us visualize how unemployment duration differs between the two groups. If the bonus works, we would expect the bonus group to have a lower average duration.</p>
+</section>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-fig-outcome-by-treatment" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:23.932648Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:23.932463Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:24.361177Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:24.360391Z&quot;}}" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> group, label, color <span class="kw">in</span> [(<span class="dv">0</span>, <span class="st">"Control"</span>, <span class="st">"#6a9bcc"</span>), (<span class="dv">1</span>, <span class="st">"Bonus"</span>, <span class="st">"#d97757"</span>)]:</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    subset <span class="op">=</span> df[df[TREATMENT] <span class="op">==</span> group][OUTCOME]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    ax.hist(subset, bins<span class="op">=</span><span class="dv">30</span>, alpha<span class="op">=</span><span class="fl">0.6</span>, label<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>label<span class="sc">}</span><span class="ss"> (mean=</span><span class="sc">{</span>subset<span class="sc">.</span>mean()<span class="sc">:.3f}</span><span class="ss">)"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span>color, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(OUTCOME_LABEL)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Count"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="ss">f"Distribution of </span><span class="sc">{</span>OUTCOME_LABEL<span class="sc">}</span><span class="ss"> by Treatment Group"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>plt.savefig(IMAGES_DIR <span class="op">/</span> <span class="st">"tut_doubleml_outcome_by_treatment.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-outcome-by-treatment" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-outcome-by-treatment-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
+<a href="notebook-05_files/figure-html/fig-outcome-by-treatment-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: Distribution of log unemployment duration by treatment group. The bonus group shows a slightly lower mean."><img src="notebook-05_files/figure-html/fig-outcome-by-treatment-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-outcome-by-treatment-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Distribution of log unemployment duration by treatment group. The bonus group shows a slightly lower mean.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div>
+<div id="7b927953" class="cell markdown">
+<p>The histograms show substantial overlap between the two groups, with the bonus group (orange) having a slightly lower mean (1.98) compared to the control group (2.05). The difference is small relative to the spread of the data, which is why we need formal statistical methods to determine whether this difference is real or just noise.</p>
+<section id="covariate-balance" class="level3">
+<h3 class="anchored" data-anchor-id="covariate-balance">Covariate Balance</h3>
+<p>A critical check in any causal analysis is whether the treatment and control groups are <em>balanced</em> — do they look similar on observable characteristics? If the groups differ substantially on covariates, a simple comparison of outcomes would be confounded.</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-fig-covariate-balance" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:24.363145Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:24.362951Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:24.740512Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:24.739679Z&quot;}}" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>covariate_means <span class="op">=</span> df.groupby(TREATMENT)[COVARIATES].mean()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(COVARIATES))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> <span class="fl">0.35</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>ax.bar(x <span class="op">-</span> width <span class="op">/</span> <span class="dv">2</span>, covariate_means.loc[<span class="dv">0</span>], width, label<span class="op">=</span><span class="st">"Control"</span>, color<span class="op">=</span><span class="st">"#6a9bcc"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>ax.bar(x <span class="op">+</span> width <span class="op">/</span> <span class="dv">2</span>, covariate_means.loc[<span class="dv">1</span>], width, label<span class="op">=</span><span class="st">"Bonus"</span>, color<span class="op">=</span><span class="st">"#d97757"</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(x)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels(COVARIATES, rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">"right"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Mean Value"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Covariate Balance: Control vs Bonus Group"</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.savefig(IMAGES_DIR <span class="op">/</span> <span class="st">"tut_doubleml_covariate_balance.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-covariate-balance" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-covariate-balance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
+<a href="notebook-05_files/figure-html/fig-covariate-balance-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;2: Mean values of covariates in control vs bonus groups. Similar heights indicate good balance."><img src="notebook-05_files/figure-html/fig-covariate-balance-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-covariate-balance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Mean values of covariates in control vs bonus groups. Similar heights indicate good balance.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div>
+<div id="724456da" class="cell markdown">
+<p>The covariate means are quite similar across treatment and control groups, which is expected in a randomized experiment. This is good news — it means the simple difference in means is not likely to be severely biased. However, even small imbalances can matter with large samples, and DoubleML provides a principled way to adjust for them.</p>
+<section id="the-confounding-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-confounding-problem">The Confounding Problem</h2>
+<p>Even when covariates look balanced, subtle confounding can bias causal estimates. <strong>Confounding</strong> occurs when a variable influences both the treatment (bonus assignment) and the outcome (unemployment duration). For example, if workers in durable-goods industries are both more likely to receive the bonus <em>and</em> tend to have longer unemployment spells, then a naive comparison would underestimate the bonus effect.</p>
+<p>The standard approach — adding covariates to a linear regression — works if the relationships are truly linear. But what if the effect of age on unemployment is non-linear, or interactions between covariates matter? This is where <strong>Double Machine Learning</strong> shines: it uses flexible ML methods to model these complex confounding relationships, while still producing valid causal estimates with proper standard errors.</p>
+</section>
+<section id="naive-ols-baseline" class="level2">
+<h2 class="anchored" data-anchor-id="naive-ols-baseline">Naive OLS Baseline</h2>
+<p>As a benchmark, we first run a simple OLS regression of unemployment duration on the treatment indicator alone (ignoring confounders), and then with all covariates included.</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="e996f986" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:24.742390Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:24.742202Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:24.752938Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:24.752177Z&quot;}}" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Naive OLS: no covariates</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ols <span class="op">=</span> LinearRegression()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ols.fit(df[[TREATMENT]], df[OUTCOME])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>naive_coef <span class="op">=</span> ols.coef_[<span class="dv">0</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># OLS with covariates</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ols_full <span class="op">=</span> LinearRegression()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>ols_full.fit(df[[TREATMENT] <span class="op">+</span> COVARIATES], df[OUTCOME])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>ols_full_coef <span class="op">=</span> ols_full.coef_[<span class="dv">0</span>]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Naive OLS coefficient (no covariates): </span><span class="sc">{</span>naive_coef<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"OLS with covariates coefficient:       </span><span class="sc">{</span>ols_full_coef<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Naive OLS coefficient (no covariates): -0.0855
+OLS with covariates coefficient:       -0.0717</code></pre>
+</div>
+</div></div>
+<div id="adfb39d2" class="cell markdown">
+<p>The naive OLS gives a coefficient of -0.0855, suggesting the bonus reduces log unemployment duration by about 8.6%. Adding covariates changes the estimate to -0.0717 (about 7.2%). The shift tells us that confounders do matter — the naive estimate was slightly exaggerated because it picked up some confounding variation. But OLS assumes linear relationships between covariates and outcome; DoubleML relaxes this assumption.</p>
+<section id="what-is-double-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-double-machine-learning">What is Double Machine Learning?</h2>
+<p>Double Machine Learning (DoubleML) is a framework for estimating causal effects while using flexible machine learning methods to control for confounders. It was developed by Chernozhukov et al.&nbsp;(2018) and solves a key problem: when you use ML to adjust for confounders, the regularization bias from the ML models contaminates your causal estimate, making standard errors and p-values unreliable.</p>
+<section id="the-partially-linear-regression-plr-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-partially-linear-regression-plr-model">The Partially Linear Regression (PLR) Model</h3>
+<p>The PLR model describes the data-generating process with two equations:</p>
+<p><strong>Outcome equation:</strong></p>
+<p><span class="math display">\[Y = D \cdot \theta_0 + g_0(X) + \zeta\]</span></p>
+<p>This says that unemployment duration (<span class="math inline">\(Y\)</span>) depends on the bonus (<span class="math inline">\(D\)</span>) through the causal effect <span class="math inline">\(\theta_0\)</span>, plus a potentially complex function <span class="math inline">\(g_0(X)\)</span> of the covariates (capturing how demographics and labor market conditions affect unemployment), plus unobserved noise <span class="math inline">\(\zeta\)</span>. The key parameter <span class="math inline">\(\theta_0\)</span> is what we want to estimate — it tells us the causal effect of receiving the bonus on log unemployment duration.</p>
+<p><strong>Treatment equation:</strong></p>
+<p><span class="math display">\[D = m_0(X) + V\]</span></p>
+<p>This says that bonus assignment (<span class="math inline">\(D\)</span>) depends on covariates through a function <span class="math inline">\(m_0(X)\)</span>, plus residual variation <span class="math inline">\(V\)</span>. Even in a randomized experiment, treatment assignment can be correlated with covariates (especially with imperfect randomization or stratified designs).</p>
+</section>
+<section id="the-partialling-out-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="the-partialling-out-estimator">The Partialling-Out Estimator</h3>
+<p>DoubleML estimates <span class="math inline">\(\theta_0\)</span> by “partialling out” the confounders from both the outcome and the treatment:</p>
+<p><span class="math display">\[\hat{\theta}_0 = \frac{\sum_i (Y_i - \hat{g}_0(X_i)) \cdot (D_i - \hat{m}_0(X_i))}{\sum_i (D_i - \hat{m}_0(X_i))^2}\]</span></p>
+<p>In plain language: (1) use ML to predict <span class="math inline">\(Y\)</span> from <span class="math inline">\(X\)</span> and compute the residual — this is <span class="math inline">\(Y\)</span> “cleaned” of confounder effects; (2) use ML to predict <span class="math inline">\(D\)</span> from <span class="math inline">\(X\)</span> and compute the residual — this is <span class="math inline">\(D\)</span> “cleaned” of confounder effects; (3) regress the cleaned outcome on the cleaned treatment. The result is an estimate of <span class="math inline">\(\theta_0\)</span> that is robust to the complexity of <span class="math inline">\(g_0\)</span> and <span class="math inline">\(m_0\)</span>.</p>
+</section>
+<section id="cross-fitting-why-it-matters" class="level3">
+<h3 class="anchored" data-anchor-id="cross-fitting-why-it-matters">Cross-Fitting: Why It Matters</h3>
+<p>There is a catch: if you use the same data to estimate <span class="math inline">\(\hat{g}_0\)</span> and <span class="math inline">\(\hat{m}_0\)</span> as you use to estimate <span class="math inline">\(\theta_0\)</span>, the ML regularization bias leaks into your causal estimate. DoubleML solves this with <strong>cross-fitting</strong> (also called sample splitting): it splits the data into K folds, estimates the nuisance functions (<span class="math inline">\(\hat{g}_0\)</span>, <span class="math inline">\(\hat{m}_0\)</span>) on K-1 folds, and computes residuals on the held-out fold. This ensures the ML predictions are always out-of-sample, eliminating overfitting bias and producing valid standard errors, p-values, and confidence intervals.</p>
+</section>
+</section>
+<section id="setting-up-doubleml" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-doubleml">Setting Up DoubleML</h2>
+<p>We create a <code>DoubleMLData</code> object by specifying the outcome column, treatment column, and covariate columns. Then we set up two Random Forest learners — one for each nuisance function. We use <code>clone()</code> from scikit-learn to ensure each learner is an independent copy.</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="a9db610c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:24.754913Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:24.754719Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:24.765675Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:24.764735Z&quot;}}" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dml_data <span class="op">=</span> DoubleMLData(df, y_col<span class="op">=</span>OUTCOME, d_cols<span class="op">=</span>TREATMENT, x_cols<span class="op">=</span>COVARIATES)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dml_data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>================== DoubleMLData Object ==================
+
+------------------ Data summary      ------------------
+Outcome variable: inuidur1
+Treatment variable(s): ['tg']
+Covariates: ['female', 'black', 'othrace', 'dep1', 'dep2', 'q2', 'q3', 'q4', 'q5', 'q6', 'agelt35', 'agegt54', 'durable', 'lusd', 'husd']
+Instrument variable(s): None
+No. Observations: 5099
+------------------ DataFrame info    ------------------
+&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 5099 entries, 0 to 5098
+Columns: 26 entries, index to dep2
+dtypes: float64(3), int64(23)
+memory usage: 1.0 MB
+</code></pre>
+</div>
+</div></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="fddb5f90" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:24.767562Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:24.767376Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:24.771448Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:24.770625Z&quot;}}" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>learner <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">500</span>, max_features<span class="op">=</span><span class="st">"sqrt"</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                max_depth<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span>RANDOM_SEED)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>ml_l_rf <span class="op">=</span> clone(learner)  <span class="co"># Learner for E[Y|X]</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>ml_m_rf <span class="op">=</span> clone(learner)  <span class="co"># Learner for E[D|X]</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"ml_l (outcome model): </span><span class="sc">{</span><span class="bu">type</span>(ml_l_rf)<span class="sc">.</span><span class="va">__name__</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"ml_m (treatment model): </span><span class="sc">{</span><span class="bu">type</span>(ml_m_rf)<span class="sc">.</span><span class="va">__name__</span><span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  n_estimators=</span><span class="sc">{</span>learner<span class="sc">.</span>n_estimators<span class="sc">}</span><span class="ss">, max_depth=</span><span class="sc">{</span>learner<span class="sc">.</span>max_depth<span class="sc">}</span><span class="ss">, max_features='</span><span class="sc">{</span>learner<span class="sc">.</span>max_features<span class="sc">}</span><span class="ss">'"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ml_l (outcome model): RandomForestRegressor
+ml_m (treatment model): RandomForestRegressor
+  n_estimators=500, max_depth=5, max_features='sqrt'</code></pre>
+</div>
+</div></div>
+<div id="f09aba14" class="cell markdown">
+<p>The <code>DoubleMLData</code> object confirms we have 5,099 observations with <code>inuidur1</code> as outcome, <code>tg</code> as treatment, and 15 covariates. The Random Forest learners use 500 trees with max depth 5 — a moderately complex model that can capture non-linear relationships without severe overfitting.</p>
+<section id="fitting-the-plr-model" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-the-plr-model">Fitting the PLR Model</h2>
+<p>Now we fit the DoubleML PLR model. Under the hood, this performs 5-fold cross-fitting: for each fold, it (1) trains the outcome model <code>ml_l</code> on the other 4 folds, (2) trains the treatment model <code>ml_m</code> on the other 4 folds, (3) computes residuals on the held-out fold. Then it combines all residuals to estimate <span class="math inline">\(\theta_0\)</span>.</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="59759e7c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:24.773336Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:24.773153Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:31.187719Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:31.186791Z&quot;}}" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(RANDOM_SEED)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dml_plr_rf <span class="op">=</span> DoubleMLPLR(dml_data, ml_l_rf, ml_m_rf, n_folds<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dml_plr_rf.fit()</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dml_plr_rf.summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        coef   std err         t     P&gt;|t|     2.5 %    97.5 %
+tg -0.073565  0.035424 -2.076723  0.037827 -0.142994 -0.004136</code></pre>
+</div>
+</div></div>
+<div id="8e1038e6" class="cell markdown">
+<p>The DoubleML estimate of the bonus effect is -0.0736 with a standard error of 0.0354, giving a t-statistic of -2.08 and a p-value of 0.038. Since the p-value is below 0.05, we can reject the null hypothesis that the bonus has no effect at the 5% significance level. The negative sign means the bonus <em>reduces</em> unemployment duration — workers who received the bonus found jobs faster.</p>
+<section id="interpreting-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-results">Interpreting the Results</h2>
+<p>Let us unpack the key numbers from the DoubleML output:</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="f38ec47f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:31.190055Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:31.189800Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:31.195288Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:31.194544Z&quot;}}" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rf_coef <span class="op">=</span> dml_plr_rf.coef[<span class="dv">0</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rf_se <span class="op">=</span> dml_plr_rf.se[<span class="dv">0</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>rf_pval <span class="op">=</span> dml_plr_rf.pval[<span class="dv">0</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>rf_ci <span class="op">=</span> dml_plr_rf.confint().values[<span class="dv">0</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Coefficient (θ₀):  </span><span class="sc">{</span>rf_coef<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Standard Error:    </span><span class="sc">{</span>rf_se<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"p-value:           </span><span class="sc">{</span>rf_pval<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"95% CI:            [</span><span class="sc">{</span>rf_ci[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>rf_ci[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">]"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Interpretation:"</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  The bonus reduces log unemployment duration by </span><span class="sc">{</span><span class="bu">abs</span>(rf_coef)<span class="sc">:.4f}</span><span class="ss">."</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  This corresponds to approximately a </span><span class="sc">{</span><span class="bu">abs</span>(rf_coef)<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">% reduction."</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  We are 95% confident the true effect lies between"</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span><span class="bu">abs</span>(rf_ci[<span class="dv">1</span>])<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">% and </span><span class="sc">{</span><span class="bu">abs</span>(rf_ci[<span class="dv">0</span>])<span class="op">*</span><span class="dv">100</span><span class="sc">:.1f}</span><span class="ss">% reduction."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coefficient (θ₀):  -0.0736
+Standard Error:    0.0354
+p-value:           0.0378
+95% CI:            [-0.1430, -0.0041]
+
+Interpretation:
+  The bonus reduces log unemployment duration by 0.0736.
+  This corresponds to approximately a 7.4% reduction.
+  We are 95% confident the true effect lies between
+  0.4% and 14.3% reduction.</code></pre>
+</div>
+</div></div>
+<div id="fa0b9362" class="cell markdown">
+<p>The coefficient of -0.0736 means that receiving the cash bonus reduces log unemployment duration by about 7.4%. The 95% confidence interval runs from -0.143 to -0.004, meaning we are 95% confident the true effect is between a 14.3% reduction and a 0.4% reduction. The interval does not contain zero, which is consistent with the statistically significant p-value of 0.038.</p>
+<section id="sensitivity-does-the-choice-of-ml-learner-matter" class="level2">
+<h2 class="anchored" data-anchor-id="sensitivity-does-the-choice-of-ml-learner-matter">Sensitivity: Does the Choice of ML Learner Matter?</h2>
+<p>A natural concern is whether the results depend on using Random Forest specifically. We re-run the analysis with Lasso (a linear regularized model) to check robustness.</p>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="c1a0a40d" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:31.197515Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:31.197320Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:31.766311Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:31.765508Z&quot;}}" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ml_l_lasso <span class="op">=</span> LassoCV()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ml_m_lasso <span class="op">=</span> LassoCV()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(RANDOM_SEED)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>dml_plr_lasso <span class="op">=</span> DoubleMLPLR(dml_data, ml_l_lasso, ml_m_lasso, n_folds<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>dml_plr_lasso.fit()</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dml_plr_lasso.summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        coef   std err         t     P&gt;|t|     2.5 %    97.5 %
+tg -0.071176  0.035419 -2.009508  0.044483 -0.140596 -0.001755</code></pre>
+</div>
+</div></div>
+<div id="7b00ef6b" class="cell markdown">
+<p>The Lasso-based DoubleML gives a very similar estimate of -0.0712 (p=0.044), compared to -0.0736 (p=0.038) with Random Forest. This consistency across learners is reassuring — it suggests the result is robust and not an artifact of a particular ML model choice. Both methods agree: the bonus reduces unemployment duration by about 7%.</p>
+<section id="comparing-all-estimates" class="level2">
+<h2 class="anchored" data-anchor-id="comparing-all-estimates">Comparing All Estimates</h2>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div id="cell-fig-coefficient-comparison" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:31.768536Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:31.768330Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:31.989205Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:31.988409Z&quot;}}" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>lasso_coef <span class="op">=</span> dml_plr_lasso.coef[<span class="dv">0</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>lasso_se <span class="op">=</span> dml_plr_lasso.se[<span class="dv">0</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>lasso_ci <span class="op">=</span> dml_plr_lasso.confint().values[<span class="dv">0</span>]</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>methods <span class="op">=</span> [<span class="st">"Naive OLS"</span>, <span class="st">"OLS + Covariates"</span>, <span class="st">"DoubleML (RF)"</span>, <span class="st">"DoubleML (Lasso)"</span>]</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>coefs <span class="op">=</span> [naive_coef, ols_full_coef, rf_coef, lasso_coef]</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"#999999"</span>, <span class="st">"#666666"</span>, <span class="st">"#6a9bcc"</span>, <span class="st">"#d97757"</span>]</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>ax.barh(methods, coefs, color<span class="op">=</span>colors, edgecolor<span class="op">=</span><span class="st">"white"</span>, height<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>ax.errorbar(rf_coef, <span class="dv">2</span>, xerr<span class="op">=</span>[[rf_coef <span class="op">-</span> rf_ci[<span class="dv">0</span>]], [rf_ci[<span class="dv">1</span>] <span class="op">-</span> rf_coef]],</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>            fmt<span class="op">=</span><span class="st">"none"</span>, color<span class="op">=</span><span class="st">"black"</span>, capsize<span class="op">=</span><span class="dv">5</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>ax.errorbar(lasso_coef, <span class="dv">3</span>, xerr<span class="op">=</span>[[lasso_coef <span class="op">-</span> lasso_ci[<span class="dv">0</span>]], [lasso_ci[<span class="dv">1</span>] <span class="op">-</span> lasso_coef]],</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>            fmt<span class="op">=</span><span class="st">"none"</span>, color<span class="op">=</span><span class="st">"black"</span>, capsize<span class="op">=</span><span class="dv">5</span>, linewidth<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Estimated Coefficient (Effect on Log Unemployment Duration)"</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Naive OLS vs Double Machine Learning Estimates"</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>plt.savefig(IMAGES_DIR <span class="op">/</span> <span class="st">"tut_doubleml_coefficient_comparison.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-coefficient-comparison" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-coefficient-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
+<a href="notebook-05_files/figure-html/fig-coefficient-comparison-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;3: Comparison of causal effect estimates across methods. Error bars show 95% confidence intervals for DoubleML methods."><img src="notebook-05_files/figure-html/fig-coefficient-comparison-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-coefficient-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Comparison of causal effect estimates across methods. Error bars show 95% confidence intervals for DoubleML methods.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div>
+<div id="ef3a8193" class="cell markdown">
+<p>The comparison reveals a clear pattern: all four methods find a negative effect (the bonus shortens unemployment), but the magnitude differs. The naive OLS (-0.086) gives the largest estimate because it confounds the bonus effect with covariate effects. Adding covariates linearly (-0.072) brings the estimate closer to the DoubleML results (-0.074 and -0.071), which properly account for potentially non-linear confounding. The DoubleML estimates also come with rigorous confidence intervals — something the naive OLS cannot provide for a causal interpretation.</p>
+<section id="confidence-intervals" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-intervals">Confidence Intervals</h3>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="cell-fig-confint" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:31.991551Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:31.991336Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:32.202159Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:32.201007Z&quot;}}" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>y_pos <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">"DoubleML (Random Forest)"</span>, <span class="st">"DoubleML (Lasso)"</span>]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>point_estimates <span class="op">=</span> [rf_coef, lasso_coef]</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>ci_low <span class="op">=</span> [rf_ci[<span class="dv">0</span>], lasso_ci[<span class="dv">0</span>]]</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>ci_high <span class="op">=</span> [rf_ci[<span class="dv">1</span>], lasso_ci[<span class="dv">1</span>]]</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, (est, lo, hi, label) <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">zip</span>(point_estimates, ci_low, ci_high, labels)):</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    ax.plot([lo, hi], [i, i], color<span class="op">=</span><span class="st">"#6a9bcc"</span> <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="st">"#d97757"</span>, linewidth<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    ax.plot(est, i, <span class="st">"o"</span>, color<span class="op">=</span><span class="st">"black"</span>, markersize<span class="op">=</span><span class="dv">8</span>, zorder<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    ax.text(hi <span class="op">+</span> <span class="fl">0.005</span>, i, <span class="ss">f"</span><span class="sc">{</span>est<span class="sc">:.4f}</span><span class="ss"> [</span><span class="sc">{</span>lo<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>hi<span class="sc">:.4f}</span><span class="ss">]"</span>, va<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>ax.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">"black"</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>, linestyle<span class="op">=</span><span class="st">"--"</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(y_pos)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>ax.set_yticklabels(labels)</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Treatment Effect Estimate (95% CI)"</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">"Confidence Intervals: DoubleML Estimates"</span>)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>plt.savefig(IMAGES_DIR <span class="op">/</span> <span class="st">"tut_doubleml_confint.png"</span>, dpi<span class="op">=</span><span class="dv">300</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div id="fig-confint" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-confint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
+<a href="notebook-05_files/figure-html/fig-confint-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;4: 95% confidence intervals for the DoubleML causal effect estimates using two different ML learners."><img src="notebook-05_files/figure-html/fig-confint-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-confint-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: 95% confidence intervals for the DoubleML causal effect estimates using two different ML learners.
+</figcaption>
+</figure>
+</div>
+</div>
+</div></div>
+<div id="7dd04bfc" class="cell markdown">
+<p>Both confidence intervals are entirely to the left of zero, confirming a statistically significant negative effect. The intervals largely overlap, showing that the two ML approaches give consistent results. The RF interval ([-0.143, -0.004]) is slightly wider than the Lasso interval ([-0.141, -0.002]), but both tell the same story: the bonus reduces unemployment duration.</p>
+<section id="summary-table" class="level2">
+<h2 class="anchored" data-anchor-id="summary-table">Summary Table</h2>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:32.204365Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:32.204171Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:32.231112Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:32.230302Z&quot;}}" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>results_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Method"</span>: [<span class="st">"Naive OLS"</span>, <span class="st">"OLS + Covariates"</span>, <span class="st">"DoubleML (RF)"</span>, <span class="st">"DoubleML (Lasso)"</span>],</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Coefficient"</span>: [<span class="ss">f"</span><span class="sc">{</span>naive_coef<span class="sc">:.4f}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>ols_full_coef<span class="sc">:.4f}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>rf_coef<span class="sc">:.4f}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>lasso_coef<span class="sc">:.4f}</span><span class="ss">"</span>],</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Std Error"</span>: [<span class="st">"—"</span>, <span class="st">"—"</span>, <span class="ss">f"</span><span class="sc">{</span>rf_se<span class="sc">:.4f}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>lasso_se<span class="sc">:.4f}</span><span class="ss">"</span>],</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"p-value"</span>: [<span class="st">"—"</span>, <span class="st">"—"</span>, <span class="ss">f"</span><span class="sc">{</span>rf_pval<span class="sc">:.4f}</span><span class="ss">"</span>, <span class="ss">f"</span><span class="sc">{</span>dml_plr_lasso<span class="sc">.</span>pval[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>],</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"95% CI"</span>: [<span class="st">"—"</span>, <span class="st">"—"</span>, <span class="ss">f"[</span><span class="sc">{</span>rf_ci[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>rf_ci[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">]"</span>, <span class="ss">f"[</span><span class="sc">{</span>lasso_ci[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">, </span><span class="sc">{</span>lasso_ci[<span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">]"</span>],</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>results_df.to_csv(TABLES_DIR <span class="op">/</span> <span class="st">"tut_doubleml_results.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>Markdown(results_df.to_markdown(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="tbl-doubleml-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="14" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-09T02:30:32.204365Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-09T02:30:32.204171Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-09T02:30:32.231112Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-09T02:30:32.230302Z&quot;}}">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-doubleml-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Comparison of treatment effect estimates across methods.
+</figcaption>
+<div aria-describedby="tbl-doubleml-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 19%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: left;">Std Error</th>
+<th style="text-align: left;">p-value</th>
+<th style="text-align: left;">95% CI</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Naive OLS</td>
+<td style="text-align: right;">-0.0855</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OLS + Covariates</td>
+<td style="text-align: right;">-0.0717</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">—</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">DoubleML (RF)</td>
+<td style="text-align: right;">-0.0736</td>
+<td style="text-align: left;">0.0354</td>
+<td style="text-align: left;">0.0378</td>
+<td style="text-align: left;">[-0.1430, -0.0041]</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DoubleML (Lasso)</td>
+<td style="text-align: right;">-0.0712</td>
+<td style="text-align: left;">0.0354</td>
+<td style="text-align: left;">0.0445</td>
+<td style="text-align: left;">[-0.1406, -0.0018]</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div></div>
+</div></div>
+<div id="01c8fc17" class="cell markdown">
+<p>The table summarizes all four approaches. The key finding is that the DoubleML estimates (around -0.07) are slightly smaller in magnitude than the naive OLS (-0.086), suggesting that naive OLS slightly overestimates the bonus effect. Both DoubleML methods produce statistically significant results (p &lt; 0.05) with proper causal confidence intervals — a major advantage over naive OLS, which cannot claim causal validity.</p>
+<section id="discussion" class="level2">
+<h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>This case study demonstrates a complete causal inference workflow using Double Machine Learning. The Pennsylvania Bonus experiment provides a clean setting to illustrate the key ideas:</p>
+<ol type="1">
+<li><p><strong>The bonus works:</strong> Our DoubleML estimate suggests that offering a cash bonus reduces unemployment duration by approximately 7%, controlling for demographics and labor market conditions. This effect is statistically significant at the 5% level.</p></li>
+<li><p><strong>Naive methods overestimate:</strong> The naive OLS estimate (-0.086) is about 17% larger than the DoubleML estimate (-0.074), showing that even in a randomized experiment with good covariate balance, confounding adjustment matters.</p></li>
+<li><p><strong>Results are robust:</strong> Using two very different ML methods (Random Forest and Lasso) produces nearly identical causal estimates, strengthening our confidence in the finding.</p></li>
+<li><p><strong>DoubleML provides valid inference:</strong> Unlike prediction-focused ML, DoubleML produces standard errors, p-values, and confidence intervals that are asymptotically valid — meaning they can be used for hypothesis testing and policy decisions.</p></li>
+</ol>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
+<ul>
+<li>The cross-fitting approach relies on the assumption that all confounders are observed. If there are important unobserved confounders (like worker motivation), the estimate may still be biased.</li>
+<li>The dataset is from the 1980s, and labor market conditions have changed substantially since then.</li>
+<li>With 5,099 observations, the confidence intervals are relatively wide, meaning the true effect could be anywhere from a 0.4% to a 14.3% reduction.</li>
+</ul>
+</section>
+</section>
+<section id="exercises" class="level2">
+<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<ol type="1">
+<li><p><strong>Different treatment variable:</strong> Replace <code>tg</code> with <code>dep1</code> (number of dependents) as the treatment variable. How does the DoubleML estimate differ from naive OLS? What does this tell you about confounding?</p></li>
+<li><p><strong>Try the IRM model:</strong> DoubleML also implements the Interactive Regression Model (<code>DoubleMLIRM</code>), which is designed for binary treatments. Replace <code>DoubleMLPLR</code> with <code>DoubleMLIRM</code> and compare the results. Hint: you will need to change the learner for <code>ml_m</code> to a classifier.</p></li>
+<li><p><strong>Simulate known effects:</strong> Use <code>doubleml.datasets.make_plr_CCDDHNR2018(alpha=0.5)</code> to generate synthetic data where the true causal effect is 0.5. Does DoubleML recover this known effect? How do the confidence intervals compare to the bonus dataset?</p></li>
+</ol>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li><a href="https://docs.doubleml.org/stable/intro/intro.html">DoubleML — An Object-Oriented Implementation of Double Machine Learning in Python</a></li>
+<li><a href="https://doi.org/10.1111/ectj.12097">Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen, C., Newey, W., &amp; Robins, J. (2018). Double/debiased machine learning for treatment and structural parameters. <em>The Econometrics Journal</em>, 21(1), C1–C68.</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html">scikit-learn — Random Forest Regressor Documentation</a></li>
+<li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LassoCV.html">scikit-learn — LassoCV Documentation</a></li>
+</ol>
+</section>
+</div>
+     </main>
+<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>  </div> <!-- /content -->  <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script> 
+  
+</body></html>

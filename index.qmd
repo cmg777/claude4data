@@ -1,30 +1,27 @@
 ---
-title: "[FILL: Title of the paper]"
-subtitle: "[FILL: Subtitle of the paper]"
+title: "Computational Notebooks in Python, R, and Stata"
+subtitle: "A Multi-Language Guide to Data Science Workflows"
 
 author:
-  - name: "[FILL: Author One]"
+  - name: "Carlos Mendez"
     affiliations:
-      - name: "[FILL: University]"
-        city: "[FILL: City]"
-        country: "[FILL: Country]"
-    orcid: "[FILL: 0000-0000-0000-0000]"
-    email: "[FILL: email@example.com]"
+      - name: "Nagoya University"
+        city: "Nagoya"
+        country: "Japan"
+    orcid: "0000-0001-5765-2741"
+    email: "carlos@gsid.nagoya-u.ac.jp"
     corresponding: true
-  - name: "[FILL: Author Two]"
-    affiliations:
-      - name: "[FILL: University]"
-        city: "[FILL: City]"
-        country: "[FILL: Country]"
-    orcid: "[FILL: 0000-0000-0000-0000]"
 
 abstract: |
-  [FILL: Write your abstract here. Summarize the research question, methods, key findings, and implications.]
+  This document introduces computational notebooks as a practical tool for data science across three programming languages: Python, R, and Stata. Through five companion notebooks, we demonstrate how Jupyter-based environments support reproducible workflows ranging from exploratory data analysis to machine learning and causal inference. The first three notebooks present a common data exploration task implemented independently in Python, R, and Stata, illustrating how each language handles data generation, visualization, and summary statistics within the same notebook platform. The fourth notebook introduces Random Forest regression for predicting Bolivia's Municipal Sustainable Development Index from satellite image embeddings. The fifth notebook demonstrates Double Machine Learning for causal inference using the Pennsylvania Reemployment Bonus experiment. Together, these notebooks provide a hands-on reference for researchers and students working across multiple computational environments.
 
 keywords:
-  - "[FILL: keyword 1]"
-  - "[FILL: keyword 2]"
-  - "[FILL: keyword 3]"
+  - "computational notebooks"
+  - "reproducible research"
+  - "Python"
+  - "R"
+  - "Stata"
+  - "data science"
 
 date: today
 
@@ -33,44 +30,25 @@ bibliography: references.bib
 
 ## Introduction {#sec-introduction}
 
-Regional economic disparities remain a central concern in development economics.
-Understanding the relationship between GDP per capita and life expectancy
-across regions is critical for designing **effective policy interventions**.
+Computational notebooks have become a standard tool for reproducible data science, combining code, output, and narrative in a single document. While Python dominates the Jupyter ecosystem, researchers in the social sciences and economics often work in R or Stata. This document demonstrates that all three languages can be used effectively within Jupyter notebooks, and that the same analytical tasks can be accomplished across environments.
 
-This paper uses a novel synthetic dataset to examine these patterns,
-employing both parametric and non-parametric methods [@keola2015monitoring].
+The companion notebooks use data from the [DS4Bolivia](https://github.com/quarcs-lab/ds4bolivia) project as a running example. The dataset covers 339 Bolivian municipalities and includes the Municipal Sustainable Development Index (IMDS), 64-dimensional satellite image embeddings, and regional identifiers.
 
-Our results suggest a strong positive correlation between economic output
-and health outcomes, with significant heterogeneity across geographic clusters.
+The five notebooks are organized as follows:
 
-This study contributes to the literature in two ways. First, we provide
-a multi-language reproducible workflow. Second, we demonstrate how
-*modern tools* can enhance transparency in empirical research.
+- [N1: Sample Data Exploration](notebooks/notebook-01.ipynb) — Exploratory data analysis in Python
+- [N2: Sample R Analysis](notebooks/notebook-02.ipynb) — The same exploration in R
+- [N3: Sample Stata Analysis](notebooks/notebook-03.ipynb) — The same exploration in Stata
+- [N4: Introduction to Machine Learning — Random Forest Regression](notebooks/notebook-04.ipynb) — Predicting sustainable development from satellite embeddings
+- [N5: Introduction to Causal Inference — Double Machine Learning](notebooks/notebook-05.ipynb) — Estimating causal effects with debiased ML methods
 
-The rest of this article is organized as follows.
-@sec-literature provides an overview of the related literature.
-@sec-data introduces the data and methods.
-@sec-results presents the results and discussion.
-Finally, @sec-conclusion offers some concluding remarks.
+Each section below introduces one notebook, summarizes its content, and embeds selected figures and tables. Readers are encouraged to open the full notebooks for complete code and discussion.
 
-## Related literature {#sec-literature}
+## Data Exploration in Python {#sec-python}
 
-The relationship between income and health has been extensively studied
-since the seminal work of @keola2015monitoring. Recent advances
-in spatial econometrics have enabled more nuanced analyses of regional
-disparities^[See also the World Bank regional development reports.].
+The first notebook ([N1: Sample Data Exploration](notebooks/notebook-01.ipynb)) demonstrates a standard exploratory data analysis workflow in Python. It generates a synthetic dataset of 80 regions grouped into four geographic clusters, each with simulated GDP per capita and life expectancy values. The notebook illustrates how to set up a reproducible environment using a shared configuration file (`config.py`), create publication-quality visualizations with Matplotlib and Seaborn, and compute summary statistics with Pandas.
 
-## Data and methods {#sec-data}
-
-[FILL: Describe the data sources, variables, and sample.]
-
-[FILL: Explain the analytical methods and models used.]
-
-### Data
-
-[FILL: Describe the dataset. Include sources, time period, and key variables.]
-
-The following figure, generated in [N1: Sample Data Exploration](notebooks/notebook-01.ipynb), provides an overview of the data.
+The scatter plot below shows the relationship between GDP per capita and life expectancy across the simulated regions, colored by geographic cluster.
 
 {{< embed notebooks/notebook-01.ipynb#fig-sample >}}
 
@@ -78,39 +56,112 @@ The following table reports summary statistics by region.
 
 {{< embed notebooks/notebook-01.ipynb#tbl-summary >}}
 
-The same analysis is replicated in R ([N2: Sample R Analysis](notebooks/notebook-02.ipynb)) and Stata ([N3: Sample Stata Analysis](notebooks/notebook-03.ipynb)) to
-demonstrate multi-language support.
+This notebook serves as a template that researchers can adapt to their own datasets. The key takeaway is the basic workflow: load data, visualize distributions and relationships, and summarize key variables — all within a single reproducible document.
+
+## Data Exploration in R {#sec-r}
+
+The second notebook ([N2: Sample R Analysis](notebooks/notebook-02.ipynb)) replicates the same exploratory analysis using R. It demonstrates how to run R code inside a Jupyter notebook using the IRkernel, generate equivalent visualizations with ggplot2, and produce formatted tables with `knitr::kable()`.
+
+The scatter plot below shows the same GDP-life expectancy relationship rendered with ggplot2.
 
 {{< embed notebooks/notebook-02.ipynb#fig-r-sample >}}
 
 {{< embed notebooks/notebook-02.ipynb#tbl-r-summary >}}
 
+Although this notebook is straightforward, it highlights several practical points for R users: configuring an R kernel in Jupyter, sourcing a shared configuration file (`config.R`) for reproducibility, and using R's visualization and table-formatting ecosystem within the notebook environment. For researchers more comfortable in R than Python, this notebook provides a familiar entry point into the Jupyter workflow.
+
+## Data Exploration in Stata {#sec-stata}
+
+The third notebook ([N3: Sample Stata Analysis](notebooks/notebook-03.ipynb)) completes the multi-language comparison by performing the same analysis in Stata. It uses the `nbstata` kernel, which allows Stata commands to run directly inside Jupyter notebooks — a relatively recent development that brings Stata into the computational notebook ecosystem.
+
+The scatter plot below shows the GDP-life expectancy relationship using Stata's `twoway scatter` graphics.
+
 {{< embed notebooks/notebook-03.ipynb#fig-stata-sample >}}
 
 {{< embed notebooks/notebook-03.ipynb#stata-summary >}}
 
-### Methods
+This notebook is particularly valuable for researchers who rely on Stata for their primary analysis. It demonstrates that Stata users do not need to abandon their preferred tool to benefit from the reproducibility and documentation advantages of computational notebooks. The notebook covers data generation with Stata syntax, graphing with `twoway`, and summary statistics with `tabstat`.
 
-[FILL: Describe the econometric or statistical methods.]
+## Machine Learning with Random Forest {#sec-ml}
 
-## Results and discussion {#sec-results}
+The fourth notebook ([N4: Introduction to Machine Learning — Random Forest Regression](notebooks/notebook-04.ipynb)) moves beyond exploratory analysis to introduce a complete machine learning workflow in Python. It predicts Bolivia's Municipal Sustainable Development Index (IMDS) from 64-dimensional satellite image embeddings using Random Forest regression.
 
-[FILL: Present and interpret the main findings.]
+### Target variable
 
-[FILL: Discuss implications and compare with existing literature.]
+The IMDS scores across 339 municipalities range from 0 to 100 and follow a roughly bell-shaped distribution with a slight right skew (mean = 51.1, median = 50.5).
 
-## Concluding remarks {#sec-conclusion}
+{{< embed notebooks/notebook-04.ipynb#fig-target-distribution >}}
 
-[FILL: Summarize the main findings and their implications.]
+### Model performance
 
-[FILL: Discuss limitations and directions for future research.]
+The dataset is split into 271 training and 68 test municipalities. A baseline Random Forest model is trained with 5-fold cross-validation, followed by hyperparameter tuning via randomized search over 50 parameter combinations. The table below compares the baseline and tuned models on the held-out test set.
+
+{{< embed notebooks/notebook-04.ipynb#tbl-ml-results >}}
+
+Both models achieve an R-squared of approximately 0.23 and an RMSE of about 6.5 points, indicating that satellite embeddings capture meaningful but limited development signals. The scatter plot of actual versus predicted values illustrates the typical regression-to-the-mean pattern.
+
+{{< embed notebooks/notebook-04.ipynb#fig-actual-vs-predicted >}}
+
+### Feature importance
+
+A key advantage of Random Forest models is their interpretability through feature importance measures. The permutation importance plot below shows the top features ranked by their contribution to predictive accuracy.
+
+{{< embed notebooks/notebook-04.ipynb#fig-importance-permutation >}}
+
+Importance is distributed across many embedding dimensions rather than concentrated in a few, suggesting that multiple aspects of the satellite imagery contribute to predicting sustainable development outcomes.
+
+### Partial dependence
+
+Partial dependence plots reveal non-linear relationships between individual features and the predicted IMDS. Several features exhibit threshold effects where the marginal relationship changes at specific values.
+
+{{< embed notebooks/notebook-04.ipynb#fig-partial-dependence >}}
+
+For full details on the methodology and hyperparameter search, see the [complete notebook](notebooks/notebook-04.ipynb).
+
+## Causal Inference with Double Machine Learning {#sec-causal}
+
+The fifth notebook ([N5: Introduction to Causal Inference — Double Machine Learning](notebooks/notebook-05.ipynb)) introduces causal inference methods using the Pennsylvania Reemployment Bonus experiment as a case study. It demonstrates how Double Machine Learning (DoubleML) corrects for the confounding bias that affects naive regression estimates.
+
+### The research question
+
+The central question is whether offering a cash bonus to unemployed workers causally reduces the duration of unemployment. The dataset includes 5,099 workers — 3,354 in the control group and 1,745 who received the bonus treatment.
+
+{{< embed notebooks/notebook-05.ipynb#fig-outcome-by-treatment >}}
+
+### Comparing estimation methods
+
+The notebook compares four estimation approaches: naive OLS (without covariates), OLS with covariates, DoubleML with Random Forest learners, and DoubleML with Lasso learners. Naive OLS overestimates the treatment effect by approximately 17% compared to the debiased DoubleML estimates.
+
+{{< embed notebooks/notebook-05.ipynb#fig-coefficient-comparison >}}
+
+### Results
+
+The DoubleML estimates indicate that the bonus reduces log unemployment duration by approximately 0.07 (about 7%), and this effect is statistically significant. The table below summarizes the results across all methods.
+
+{{< embed notebooks/notebook-05.ipynb#tbl-doubleml-results >}}
+
+The confidence intervals for the DoubleML estimates lie entirely to the left of zero, confirming statistical significance. The results are robust across different ML learners (Random Forest and Lasso).
+
+{{< embed notebooks/notebook-05.ipynb#fig-confint >}}
+
+For the full methodological treatment — including the Partially Linear Regression framework, cross-fitting procedure, and discussion of assumptions — see the [complete notebook](notebooks/notebook-05.ipynb).
+
+## Concluding Remarks {#sec-conclusion}
+
+This document has introduced five computational notebooks spanning three programming languages and three analytical approaches:
+
+- **Notebooks 1–3** demonstrate that Python, R, and Stata can all operate within the Jupyter notebook environment, producing comparable results for the same exploratory analysis task. This lowers barriers for researchers who prefer one language but want the benefits of reproducible, self-documenting workflows.
+- **Notebook 4** provides a hands-on introduction to machine learning with Random Forest regression, showing how satellite image embeddings can predict municipal development outcomes — explaining approximately 23% of the variance in Bolivia's IMDS.
+- **Notebook 5** introduces causal inference with Double Machine Learning, illustrating how debiased estimation corrects for confounding bias relative to naive OLS approaches.
+
+Together, these notebooks serve as a practical reference for researchers and students learning to work with computational notebooks across multiple programming environments.
 
 ## Acknowledgments {.appendix}
 
-[FILL: Acknowledge funding sources, collaborators, and data providers.]
+This research uses data from the [DS4Bolivia](https://github.com/quarcs-lab/ds4bolivia) project. The analytical workflow was developed at Nagoya University.
 
-## Data and code availability {.appendix}
+## Data and Code Availability {.appendix}
 
-The data and code used in this study are available at [FILL: repository URL].
+The data and code used in this study are available at [https://github.com/quarcs-lab/ds4bolivia](https://github.com/quarcs-lab/ds4bolivia). All notebooks are fully reproducible using the `uv` environment manager and the dependencies specified in `pyproject.toml`.
 
 ## References {.unnumbered}

@@ -213,17 +213,26 @@
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">      
 
-       <section id="overview" class="level2">
+       <div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid figure-img"></p>
+<figcaption>Open In Colab</figcaption>
+</figure>
+</div>
+<section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>This notebook demonstrates the template workflow: generating synthetic data, producing labeled figures and tables that are embedded in the manuscript via Quarto’s <code>{{&lt; embed &gt;}}</code> shortcode.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="b2c3d4e5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.172066Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.171927Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.225528Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.225073Z&quot;}}" data-execution_count="1">
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="b2c3d4e5" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">".."</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> config <span class="im">import</span> set_seeds, DATA_DIR</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>set_seeds()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"google.colab"</span> <span class="kw">in</span> sys.modules:</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>git clone <span class="op">--</span>depth <span class="dv">1</span> https:<span class="op">//</span>github.com<span class="op">/</span>cmg777<span class="op">/</span>claude4data.git <span class="op">/</span>content<span class="op">/</span>claude4data <span class="dv">2</span><span class="op">&gt;/</span>dev<span class="op">/</span>null <span class="op">||</span> true</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">%</span>cd <span class="op">/</span>content<span class="op">/</span>claude4data<span class="op">/</span>notebooks</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">".."</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> config <span class="im">import</span> set_seeds, DATA_DIR</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>set_seeds()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="c3d4e5f6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.226936Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.226827Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.528340Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.527799Z&quot;}}" data-execution_count="2">
+<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="c3d4e5f6" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -231,7 +240,7 @@
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sns.set_theme(style<span class="op">=</span><span class="st">"whitegrid"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-fig-sample" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.529747Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.529626Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.608118Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.607671Z&quot;}}" data-execution_count="3">
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-fig-sample" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate synthetic cross-sectional data</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">80</span></span>
@@ -265,7 +274,7 @@
 <div id="fig-sample" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-01_files/figure-html/fig-sample-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster."><img src="notebook-01_files/figure-html/fig-sample-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-01_files/figure-html/fig-sample-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster."><img src="notebook-01_files/figure-html/fig-sample-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster.
@@ -274,7 +283,7 @@ Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expec
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.609280Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.609182Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.624122Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.623714Z&quot;}}" data-execution_count="4">
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> (</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    df.groupby(<span class="st">"Region"</span>)[[<span class="st">"GDP per capita (USD)"</span>, <span class="st">"Life expectancy (years)"</span>]]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    .agg([<span class="st">"mean"</span>, <span class="st">"std"</span>, <span class="st">"count"</span>])</span>
@@ -283,7 +292,7 @@ Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expec
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>summary.columns <span class="op">=</span> [<span class="ss">f"</span><span class="sc">{</span>col<span class="sc">}</span><span class="ss"> (</span><span class="sc">{</span>stat<span class="sc">}</span><span class="ss">)"</span> <span class="cf">for</span> col, stat <span class="kw">in</span> summary.columns]</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>Markdown(summary.to_markdown())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-02-27T07:08:00.609280Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-02-27T07:08:00.609182Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-02-27T07:08:00.624122Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-02-27T07:08:00.623714Z&quot;}}">
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="tbl-summary" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Summary statistics by region.
