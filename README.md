@@ -18,8 +18,9 @@ uv sync
 uv run jupyter execute --inplace notebooks/notebook-01.ipynb
 uv run jupyter execute --inplace notebooks/notebook-04.ipynb
 
-# 4. Run the standalone ML script
+# 4. Run the standalone scripts
 uv run python code/ml_intro_rf.py
+uv run python code/tut_doubleml.py
 
 # 5. Render the manuscript (HTML + PDF + Word)
 quarto render
@@ -43,6 +44,7 @@ flowchart LR
         NB2["notebook-02.ipynb<br/>(R)"]
         NB3["notebook-03.ipynb<br/>(Stata)"]
         NB4["notebook-04.ipynb<br/>(Python — ML)"]
+        NB5["notebook-05.ipynb<br/>(Python — Causal)"]
     end
 
     subgraph Manuscript ["Manuscript Source"]
@@ -63,6 +65,7 @@ flowchart LR
     NB2 -- embed --> QMD
     NB3 -- embed --> QMD
     NB4 -- embed --> QMD
+    NB5 -- embed --> QMD
     QMD --> HTML
     QMD --> PDF
     QMD --> DOCX
@@ -80,6 +83,7 @@ flowchart LR
 | [notebook-02](notebooks/notebook-02.ipynb) | R | Sample R analysis — mirrors notebook-01 in R | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-02.ipynb) |
 | [notebook-03](notebooks/notebook-03.ipynb) | Stata | Sample Stata analysis — mirrors notebook-01 in Stata | — |
 | [notebook-04](notebooks/notebook-04.ipynb) | Python | Introduction to Machine Learning — Random Forest Regression | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-04.ipynb) |
+| [notebook-05](notebooks/notebook-05.ipynb) | Python | Introduction to Causal Inference — Double Machine Learning | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-05.ipynb) |
 
 All notebooks are paired with `.md:myst` files via [Jupytext](https://jupytext.readthedocs.io/) for clean version control. Python and R notebooks include Colab-aware setup cells that automatically clone the repository when running in Google Colab.
 
@@ -408,9 +412,9 @@ Annotation notes on papers can be stored as Markdown files in `references/`.
 | `notebooks/` | Computational notebooks | `.ipynb` + `.md:myst` pairs (Python, R, Stata). Outputs are embedded in the manuscript via `{{< embed >}}`. See [notebooks/README.md](notebooks/README.md). |
 | `data/` | Processed datasets | Transformed data produced by notebooks or scripts. |
 | `data/rawData/` | Raw source data | **Never modify these files.** Contains `ds4bolivia_merged.csv` (339 municipalities). |
-| `code/` | Standalone scripts | `ml_intro_rf.py` — Random Forest regression for IMDS prediction. |
-| `images/` | Figures and plots | 7 ML figures (`ml_*.png`). |
-| `tables/` | Output tables | `ml_rf_results.csv`, `ml_rf_best_params.csv`. |
+| `code/` | Standalone scripts | `ml_intro_rf.py` — Random Forest regression; `tut_doubleml.py` — DoubleML causal inference. |
+| `images/` | Figures and plots | 7 ML figures (`ml_*.png`), 4 DoubleML figures (`tut_doubleml_*.png`). |
+| `tables/` | Output tables | `ml_rf_results.csv`, `ml_rf_best_params.csv`, `tut_doubleml_results.csv`. |
 | `latex/` | Overleaf sync staging | `index.tex` (tracked, shared with Overleaf) + `.baseline.tex` (gitignored, for diffing). |
 | `slides/` | Quarto presentations | Revealjs slide decks. See [slides/README.md](slides/README.md). |
 | `references/` | Annotated bibliography | Markdown notes on papers cited in the project. |
@@ -420,7 +424,7 @@ Annotation notes on papers can be stored as Markdown files in `references/`.
 | `handoffs/` | Session logs | Timestamped Markdown reports (`YYYYMMDD_HHMM.md`) for cross-session continuity. |
 | `legacy/` | Archived materials | Old versions of files moved here instead of being deleted. |
 | `_manuscript/` | Rendered outputs | **Auto-generated** (gitignored). Contains HTML, PDF, Word, and notebook preview pages. |
-| `.claude/skills/` | Claude Code skills | `ml-intro` skill for generating ML tutorial workflows. |
+| `.claude/skills/` | Claude Code skills | `ml-intro` for ML tutorials; `data-science-tutorial` for general case-study tutorials. |
 
 ### Root-Level Files
 
@@ -452,6 +456,7 @@ Skills are defined in [`.claude/skills/`](.claude/skills/). Type `/project:<name
 | Skill | What It Does | Definition |
 | ----- | ------------ | ---------- |
 | `/project:ml-intro` | Create an introductory Random Forest ML workflow (script + notebook) predicting IMDS from satellite embeddings | [SKILL.md](.claude/skills/ml-intro/SKILL.md) |
+| `/project:data-science-tutorial` | Create a pedagogical case-study tutorial (script + notebook) on any data science topic from user-provided references and dataset | [SKILL.md](.claude/skills/data-science-tutorial/SKILL.md) |
 
 ### Session Continuity
 

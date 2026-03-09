@@ -50,6 +50,7 @@ These are non-negotiable behavioral constraints.
 | `jupytext.toml` | Cell metadata filter |
 | `notebooks/` | Jupyter notebooks (`.ipynb` + `.md:myst` pairs) |
 | `code/ml_intro_rf.py` | Standalone Random Forest ML script |
+| `code/tut_doubleml.py` | Standalone DoubleML causal inference script |
 | `data/rawData/` | Raw source data (never modify) |
 | `scripts/render.sh` | Clean render + Overleaf staging |
 | `handoffs/` | Session handoff reports |
