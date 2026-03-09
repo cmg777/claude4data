@@ -28,7 +28,7 @@ format:
     code-block-bg: true
     code-block-border-left: "#4758AB"
     code-copy: hover
-    code-overflow: wrap
+    code-overflow: scroll
     toc: true
     toc-depth: 3
     code-fold: false
