@@ -17,6 +17,8 @@ manuscript:
       title: "N3: Sample Stata Analysis"
     - notebook: notebooks/notebook-04.ipynb
       title: "N4: Introduction to Machine Learning — Random Forest Regression"
+    - notebook: notebooks/notebook-05.ipynb
+      title: "N5: Introduction to Causal Inference — Double Machine Learning"
 
 format:
   html:

@@ -1,0 +1,76 @@
+{
+  "skill_name": "data-science-tutorial",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/project:data-science-tutorial double machine learning dataset: DS4Bolivia references: https://docs.doubleml.org/stable/intro/intro.html",
+      "expected_output": "Creates code/tut_doubleml.py and notebooks/notebook-NN.ipynb + .md with a DoubleML case-study tutorial using DS4Bolivia data. Fetches DoubleML docs to inform implementation. Frames as a causal inference case study: does satellite-observed urbanization causally affect municipal development? Includes PLR or IRM model, cross-fitting visualization, treatment effect estimation, and interpretation cells. References section includes DoubleML docs and DS4Bolivia.",
+      "files": [],
+      "assertions": [
+        {"text": "Script code/tut_doubleml.py exists and is runnable with uv run python"},
+        {"text": "Script imports from config.py and calls set_seeds()"},
+        {"text": "Script uses exact DS4Bolivia raw GitHub URLs (master branch) with local caching"},
+        {"text": "Notebook .md uses correct MyST Jupytext frontmatter with formats: ipynb,md:myst"},
+        {"text": "Colab badge URL points to correct notebook-NN.ipynb path"},
+        {"text": "First code cell detects google.colab and clones repo"},
+        {"text": "Imports from config.py and calls set_seeds() in notebook"},
+        {"text": "Loads data from DS4Bolivia with caching to data/rawData/"},
+        {"text": "Uses doubleml library (DoubleMLPLR or DoubleMLIRM) for causal inference"},
+        {"text": "Case study introduction motivates a causal question about Bolivian municipalities"},
+        {"text": "All plt.savefig() calls target images/ directory with tut_doubleml_ prefix"},
+        {"text": "At least 3 figures saved to images/"},
+        {"text": "Figure cells use #| label: fig-* directives"},
+        {"text": "Single-line markdown paragraphs (no hard line breaks within paragraphs)"},
+        {"text": "Notebook contains interpretation markdown after at least 5 code cells referencing specific numeric output values"},
+        {"text": "References section at end includes DoubleML docs URL and DS4Bolivia repository URL"},
+        {"text": "Learning objectives listed as bullet points"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "/project:data-science-tutorial k-means clustering dataset: DS4Bolivia",
+      "expected_output": "Creates code/tut_kmeans.py and notebooks/notebook-NN.ipynb + .md with a k-means clustering case-study tutorial using DS4Bolivia satellite embeddings. Frames as: can we identify distinct groups of municipalities based on satellite imagery? Includes elbow/silhouette analysis, cluster visualization, and profile interpretation.",
+      "files": [],
+      "assertions": [
+        {"text": "Script code/tut_kmeans.py exists and is runnable"},
+        {"text": "Script imports from config.py and calls set_seeds()"},
+        {"text": "Uses DS4Bolivia data with A00-A63 satellite embeddings as clustering features"},
+        {"text": "Notebook .md uses correct MyST Jupytext frontmatter"},
+        {"text": "Colab badge and setup cell present and correct"},
+        {"text": "Implements KMeans from scikit-learn"},
+        {"text": "Includes at least one method for choosing number of clusters (elbow or silhouette)"},
+        {"text": "Case study introduction motivates grouping Bolivian municipalities"},
+        {"text": "All plt.savefig() calls target images/ directory with tut_kmeans_ prefix"},
+        {"text": "At least 3 figures saved to images/"},
+        {"text": "Figure cells use #| label: fig-* directives"},
+        {"text": "Single-line markdown paragraphs"},
+        {"text": "Notebook contains interpretation markdown after at least 5 code cells referencing specific numeric output values"},
+        {"text": "References section at end includes DS4Bolivia repository URL"},
+        {"text": "No doubleml or other unrelated libraries imported"}
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "/project:data-science-tutorial gradient boosting regression dataset: DS4Bolivia references: https://scikit-learn.org/stable/modules/ensemble.html#gradient-boosting",
+      "expected_output": "Creates code/tut_gradient_boosting.py and notebooks/notebook-NN.ipynb + .md with a gradient boosting case-study tutorial predicting IMDS from satellite embeddings. Frames as: can gradient boosting outperform Random Forest for predicting municipal development? Includes learning curves, feature importance, and comparison metrics.",
+      "files": [],
+      "assertions": [
+        {"text": "Script code/tut_gradient_boosting.py exists and is runnable"},
+        {"text": "Script imports from config.py and calls set_seeds()"},
+        {"text": "Uses imds as target variable and A00-A63 as features"},
+        {"text": "Notebook .md uses correct MyST Jupytext frontmatter"},
+        {"text": "Colab badge and setup cell present and correct"},
+        {"text": "Implements GradientBoostingRegressor or HistGradientBoostingRegressor from scikit-learn"},
+        {"text": "Uses train_test_split with test_size=0.2 and random_state=RANDOM_SEED"},
+        {"text": "Case study introduction frames a clear predictive question"},
+        {"text": "All plt.savefig() calls target images/ directory with tut_gradient_boosting_ prefix"},
+        {"text": "At least 3 figures saved to images/"},
+        {"text": "Includes evaluation metrics (R², RMSE, MAE)"},
+        {"text": "Single-line markdown paragraphs"},
+        {"text": "Notebook contains interpretation markdown after at least 5 code cells referencing specific numeric values"},
+        {"text": "References section at end includes scikit-learn docs URL and DS4Bolivia repository URL"},
+        {"text": "Learning objectives listed as bullet points"}
+      ]
+    }
+  ]
+}

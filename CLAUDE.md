@@ -54,6 +54,7 @@ These are non-negotiable behavioral constraints.
 | `scripts/render.sh` | Clean render + Overleaf staging |
 | `handoffs/` | Session handoff reports |
 | `.claude/skills/ml-intro/` | ML intro skill (Random Forest tutorial generation) |
+| `.claude/skills/data-science-tutorial/` | Data science tutorial skill (case-study generator) |
 | `.env` | API keys and secrets (gitignored, never commit) |
 
 ---
@@ -65,6 +66,7 @@ Invoke with `/project:<name>`.
 | Skill | What It Does |
 | ----- | ------------ |
 | `/project:ml-intro` | Create an introductory Random Forest ML workflow (script + notebook) predicting Bolivia's IMDS from satellite embeddings. Accepts optional target variable argument. |
+| `/project:data-science-tutorial` | Create a pedagogical case-study tutorial (script + notebook) on any data science topic. User provides topic, dataset, and reference materials (e.g., library docs URL). |
 
 ---
 

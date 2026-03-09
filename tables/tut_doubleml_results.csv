@@ -1,0 +1,5 @@
+Method,Coefficient,Std Error,p-value,95% CI
+Naive OLS,-0.0855,—,—,—
+OLS + Covariates,-0.0717,—,—,—
+DoubleML (RF),-0.0736,0.0354,0.0378,"[-0.1430, -0.0041]"
+DoubleML (Lasso),-0.0712,0.0354,0.0445,"[-0.1406, -0.0018]"
