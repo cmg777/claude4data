@@ -155,10 +155,10 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a74871fe4945b66d259aafc266475145.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1b794dde4d5eb0bce87522f6fe102643.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -214,16 +214,17 @@
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">      
 
-       <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid figure-img"></p>
-<figcaption>Open In Colab</figcaption>
-</figure>
-</div>
+       <p><a href="https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-04.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>This notebook introduces machine learning through a practical application: predicting Bolivia’s Municipal Sustainable Development Index (IMDS) from satellite image embeddings using Random Forest regression. IMDS is a composite index (0–100 scale) that captures how well each of Bolivia’s 339 municipalities is progressing toward sustainable development goals. Satellite embeddings are 64-dimensional feature vectors extracted from 2017 satellite imagery — they compress visual information about land use, urbanization, and terrain into numbers a model can learn from.</p>
-<p><strong>Learning objectives:</strong> - Understand the Random Forest algorithm and why it works well for tabular data - Follow ML best practices: train/test split, cross-validation, hyperparameter tuning - Interpret model performance metrics (R², RMSE, MAE) - Analyze feature importance and partial dependence plots</p>
+<p><strong>Learning objectives:</strong></p>
+<ul>
+<li>Understand the Random Forest algorithm and why it works well for tabular data</li>
+<li>Follow ML best practices: train/test split, cross-validation, hyperparameter tuning</li>
+<li>Interpret model performance metrics (R², RMSE, MAE)</li>
+<li>Analyze feature importance and partial dependence plots</li>
+</ul>
 <div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="414b9730" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;execution&quot;,&quot;value&quot;:{&quot;iopub.execute_input&quot;:&quot;2026-03-08T13:19:52.550359Z&quot;,&quot;iopub.status.busy&quot;:&quot;2026-03-08T13:19:52.550155Z&quot;,&quot;iopub.status.idle&quot;:&quot;2026-03-08T13:19:52.754806Z&quot;,&quot;shell.execute_reply&quot;:&quot;2026-03-08T13:19:52.753899Z&quot;}}" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"google.colab"</span> <span class="kw">in</span> sys.modules:</span>
@@ -332,7 +333,7 @@ Name: imds, dtype: float64</code></pre>
 <div id="fig-target-distribution" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-target-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-04_files/figure-html/fig-target-distribution-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: Distribution of IMDS scores across Bolivia’s municipalities. The dashed line marks the mean, the dotted line marks the median."><img src="notebook-04_files/figure-html/fig-target-distribution-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-04_files/figure-html/fig-target-distribution-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Distribution of IMDS scores across Bolivia’s municipalities. The dashed line marks the mean, the dotted line marks the median."><img src="notebook-04_files/figure-html/fig-target-distribution-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-target-distribution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Distribution of IMDS scores across Bolivia’s municipalities. The dashed line marks the mean, the dotted line marks the median.
@@ -363,7 +364,7 @@ Figure&nbsp;1: Distribution of IMDS scores across Bolivia’s municipalities. Th
 <div id="fig-embedding-correlations" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-embedding-correlations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-04_files/figure-html/fig-embedding-correlations-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;2: Correlation matrix of the top-10 most correlated satellite embedding dimensions with IMDS."><img src="notebook-04_files/figure-html/fig-embedding-correlations-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-04_files/figure-html/fig-embedding-correlations-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Correlation matrix of the top-10 most correlated satellite embedding dimensions with IMDS."><img src="notebook-04_files/figure-html/fig-embedding-correlations-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-embedding-correlations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;2: Correlation matrix of the top-10 most correlated satellite embedding dimensions with IMDS.
@@ -533,7 +534,7 @@ Tuned Test MAE:  4.72</code></pre>
 <div id="fig-actual-vs-predicted" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-actual-vs-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-04_files/figure-html/fig-actual-vs-predicted-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;3: Actual vs predicted IMDS scores on the test set. The dashed line represents perfect prediction."><img src="notebook-04_files/figure-html/fig-actual-vs-predicted-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-04_files/figure-html/fig-actual-vs-predicted-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Actual vs predicted IMDS scores on the test set. The dashed line represents perfect prediction."><img src="notebook-04_files/figure-html/fig-actual-vs-predicted-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-actual-vs-predicted-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;3: Actual vs predicted IMDS scores on the test set. The dashed line represents perfect prediction.
@@ -563,7 +564,7 @@ Figure&nbsp;3: Actual vs predicted IMDS scores on the test set. The dashed line 
 <div id="fig-residuals" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-04_files/figure-html/fig-residuals-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;4: Residuals (actual minus predicted) vs predicted IMDS values. Random scatter around zero indicates no systematic bias."><img src="notebook-04_files/figure-html/fig-residuals-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-04_files/figure-html/fig-residuals-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Residuals (actual minus predicted) vs predicted IMDS values. Random scatter around zero indicates no systematic bias."><img src="notebook-04_files/figure-html/fig-residuals-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-residuals-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;4: Residuals (actual minus predicted) vs predicted IMDS values. Random scatter around zero indicates no systematic bias.
@@ -597,7 +598,7 @@ Figure&nbsp;4: Residuals (actual minus predicted) vs predicted IMDS values. Rand
 <div id="fig-importance-mdi" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-importance-mdi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-04_files/figure-html/fig-importance-mdi-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;5: Top-20 satellite embedding features ranked by Mean Decrease in Impurity."><img src="notebook-04_files/figure-html/fig-importance-mdi-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-04_files/figure-html/fig-importance-mdi-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5: Top-20 satellite embedding features ranked by Mean Decrease in Impurity."><img src="notebook-04_files/figure-html/fig-importance-mdi-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-importance-mdi-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5: Top-20 satellite embedding features ranked by Mean Decrease in Impurity.
@@ -630,7 +631,7 @@ Figure&nbsp;5: Top-20 satellite embedding features ranked by Mean Decrease in Im
 <div id="fig-importance-permutation" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-importance-permutation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-04_files/figure-html/fig-importance-permutation-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;6: Top-20 satellite embedding features ranked by permutation importance (mean decrease in R² when feature is shuffled)."><img src="notebook-04_files/figure-html/fig-importance-permutation-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-04_files/figure-html/fig-importance-permutation-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;6: Top-20 satellite embedding features ranked by permutation importance (mean decrease in R² when feature is shuffled)."><img src="notebook-04_files/figure-html/fig-importance-permutation-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-importance-permutation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6: Top-20 satellite embedding features ranked by permutation importance (mean decrease in R² when feature is shuffled).
@@ -661,7 +662,7 @@ Figure&nbsp;6: Top-20 satellite embedding features ranked by permutation importa
 <div id="fig-partial-dependence" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-partial-dependence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-04_files/figure-html/fig-partial-dependence-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;7: Partial dependence plots for the top-6 most important satellite embedding features, showing how each feature’s value affects the predicted IMDS score."><img src="notebook-04_files/figure-html/fig-partial-dependence-output-1.png" class="img-fluid figure-img"></a>
+<a href="notebook-04_files/figure-html/fig-partial-dependence-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;7: Partial dependence plots for the top-6 most important satellite embedding features, showing how each feature’s value affects the predicted IMDS score."><img src="notebook-04_files/figure-html/fig-partial-dependence-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-partial-dependence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7: Partial dependence plots for the top-6 most important satellite embedding features, showing how each feature’s value affects the predicted IMDS score.
@@ -743,7 +744,59 @@ Table&nbsp;1: Random Forest regression results: baseline vs tuned model performa
 </section>
 </div>
      </main>
-<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+<!-- /main column -->  <script>
+// Rebuild TOC for Quarto manuscript notebook preview pages
+// Quarto generates truncated TOCs for notebook previews; this script
+// rebuilds the TOC from actual headings on the page.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var headings = document.querySelectorAll(
+    "main.content section[class^='level'] > h2.anchored, main.content section[class^='level'] > h3.anchored"
+  );
+  if (headings.length <= 2) return;
+
+  var tocLinks = toc.querySelectorAll("a.nav-link");
+  if (tocLinks.length >= headings.length) return;
+
+  var ul = document.createElement("ul");
+  var currentH2Li = null;
+  var currentSubUl = null;
+
+  headings.forEach(function (h) {
+    var id = h.closest("section").id;
+    var text = h.textContent;
+    var level = h.tagName === "H2" ? 2 : 3;
+
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = "#" + id;
+    a.className = "nav-link";
+    a.setAttribute("data-scroll-target", "#" + id);
+    a.textContent = text;
+    li.appendChild(a);
+
+    if (level === 2) {
+      ul.appendChild(li);
+      currentH2Li = li;
+      currentSubUl = null;
+    } else if (level === 3 && currentH2Li) {
+      if (!currentSubUl) {
+        currentSubUl = document.createElement("ul");
+        currentSubUl.className = "collapse";
+        currentH2Li.appendChild(currentSubUl);
+      }
+      currentSubUl.appendChild(li);
+    }
+  });
+
+  var title = toc.querySelector("#toc-title");
+  toc.innerHTML = "";
+  if (title) toc.appendChild(title);
+  toc.appendChild(ul);
+});
+</script>  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();

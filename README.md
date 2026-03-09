@@ -441,6 +441,8 @@ Annotation notes on papers can be stored as Markdown files in `references/`.
 | `config.py` | Python reproducibility config — seed (42), project paths | Rarely — only if adding new path constants |
 | `config.R` | R reproducibility config — seed (42), project paths | Rarely — only if adding new path constants |
 | `jupytext.toml` | Jupytext config — strips `_sphinx_cell_id`, `execution`, and `vscode` metadata | Rarely — do not remove the `cell_metadata_filter` |
+| `custom.scss` | Custom SCSS for notebook styling — badge alignment, code cell polish, hide `In [N]:` labels | When tweaking notebook page appearance |
+| `rebuild-toc.html` | JavaScript that rebuilds truncated TOCs on notebook preview pages | Rarely — only if Quarto changes TOC generation |
 | `.python-version` | Pins Python to 3.12 for `uv` | Only if upgrading Python |
 | `.gitignore` | Git ignore rules | When adding new file types to exclude |
 | `.env` | API keys and secrets (**gitignored**) | When adding credentials (never commit this file) |

@@ -56,6 +56,8 @@ These are non-negotiable behavioral constraints.
 | `handoffs/` | Session handoff reports |
 | `.claude/skills/ml-intro/` | ML intro skill (Random Forest tutorial generation) |
 | `.claude/skills/data-science-tutorial/` | Data science tutorial skill (case-study generator) |
+| `custom.scss` | Custom SCSS for notebook styling (badge alignment, code cell polish, hide execution counts) |
+| `rebuild-toc.html` | JavaScript to rebuild truncated TOCs on notebook preview pages |
 | `.github/workflows/deploy-pages.yml` | GitHub Pages deployment (auto-deploys `_manuscript/` on push) |
 | `.env` | API keys and secrets (gitignored, never commit) |
 

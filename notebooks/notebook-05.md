@@ -14,9 +14,11 @@ kernelspec:
 
 ---
 title: "N5: Introduction to Causal Inference — Double Machine Learning"
+toc: true
+toc-depth: 3
 ---
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-05.ipynb)
+<a href="https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-05.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
 ## Case Study: Does a Cash Bonus Shorten Unemployment?
 

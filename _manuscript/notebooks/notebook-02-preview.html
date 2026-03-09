@@ -155,10 +155,10 @@
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-8b4baf804e461d9b72633f0de59a0cac.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a74871fe4945b66d259aafc266475145.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1b794dde4d5eb0bce87522f6fe102643.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -213,12 +213,7 @@
 </div>
 <main class="content quarto-banner-title-block" id="quarto-document-content">      
 
-       <div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid figure-img"></p>
-<figcaption>Open In Colab</figcaption>
-</figure>
-</div>
+       <p><a href="https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-02.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>This notebook demonstrates the R workflow: generating synthetic data, producing labeled figures and tables that are embedded in the manuscript via Quarto’s <code>{{&lt; embed &gt;}}</code> shortcode. It mirrors <code>notebook-01</code> (Python) using R.</p>
@@ -263,7 +258,7 @@
 <div id="fig-r-sample" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-r-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="notebook-02_files/figure-html/fig-r-sample-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster (R)."><img src="notebook-02_files/figure-html/fig-r-sample-output-1.png" width="420" height="420" class="figure-img"></a>
+<a href="notebook-02_files/figure-html/fig-r-sample-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster (R)."><img src="notebook-02_files/figure-html/fig-r-sample-output-1.png" width="420" height="420" class="figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-r-sample-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Synthetic regional indicators: GDP per capita vs.&nbsp;life expectancy across 80 simulated regions, colored by geographic cluster (R).
@@ -313,7 +308,59 @@ Table&nbsp;1: Summary statistics by region (R).
 </div></div>
 </section>
      </main>
-<!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
+<!-- /main column -->  <script>
+// Rebuild TOC for Quarto manuscript notebook preview pages
+// Quarto generates truncated TOCs for notebook previews; this script
+// rebuilds the TOC from actual headings on the page.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var headings = document.querySelectorAll(
+    "main.content section[class^='level'] > h2.anchored, main.content section[class^='level'] > h3.anchored"
+  );
+  if (headings.length <= 2) return;
+
+  var tocLinks = toc.querySelectorAll("a.nav-link");
+  if (tocLinks.length >= headings.length) return;
+
+  var ul = document.createElement("ul");
+  var currentH2Li = null;
+  var currentSubUl = null;
+
+  headings.forEach(function (h) {
+    var id = h.closest("section").id;
+    var text = h.textContent;
+    var level = h.tagName === "H2" ? 2 : 3;
+
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = "#" + id;
+    a.className = "nav-link";
+    a.setAttribute("data-scroll-target", "#" + id);
+    a.textContent = text;
+    li.appendChild(a);
+
+    if (level === 2) {
+      ul.appendChild(li);
+      currentH2Li = li;
+      currentSubUl = null;
+    } else if (level === 3 && currentH2Li) {
+      if (!currentSubUl) {
+        currentSubUl = document.createElement("ul");
+        currentSubUl.className = "collapse";
+        currentH2Li.appendChild(currentSubUl);
+      }
+      currentSubUl.appendChild(li);
+    }
+  });
+
+  var title = toc.querySelector("#toc-title");
+  toc.innerHTML = "";
+  if (title) toc.appendChild(title);
+  toc.appendChild(ul);
+});
+</script>  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();

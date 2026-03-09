@@ -1,0 +1,53 @@
+<script>
+// Rebuild TOC for Quarto manuscript notebook preview pages
+// Quarto generates truncated TOCs for notebook previews; this script
+// rebuilds the TOC from actual headings on the page.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+
+  var headings = document.querySelectorAll(
+    "main.content section[class^='level'] > h2.anchored, main.content section[class^='level'] > h3.anchored"
+  );
+  if (headings.length <= 2) return;
+
+  var tocLinks = toc.querySelectorAll("a.nav-link");
+  if (tocLinks.length >= headings.length) return;
+
+  var ul = document.createElement("ul");
+  var currentH2Li = null;
+  var currentSubUl = null;
+
+  headings.forEach(function (h) {
+    var id = h.closest("section").id;
+    var text = h.textContent;
+    var level = h.tagName === "H2" ? 2 : 3;
+
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    a.href = "#" + id;
+    a.className = "nav-link";
+    a.setAttribute("data-scroll-target", "#" + id);
+    a.textContent = text;
+    li.appendChild(a);
+
+    if (level === 2) {
+      ul.appendChild(li);
+      currentH2Li = li;
+      currentSubUl = null;
+    } else if (level === 3 && currentH2Li) {
+      if (!currentSubUl) {
+        currentSubUl = document.createElement("ul");
+        currentSubUl.className = "collapse";
+        currentH2Li.appendChild(currentSubUl);
+      }
+      currentSubUl.appendChild(li);
+    }
+  });
+
+  var title = toc.querySelector("#toc-title");
+  toc.innerHTML = "";
+  if (title) toc.appendChild(title);
+  toc.appendChild(ul);
+});
+</script>

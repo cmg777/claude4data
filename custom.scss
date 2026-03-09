@@ -1,0 +1,37 @@
+/*-- scss:rules --*/
+
+/* Left-align Colab badges */
+.cell-output p:has(a[href*="colab"]),
+p:has(a[href*="colab"]) {
+  text-align: left;
+}
+
+/* Code cell improvements */
+div.sourceCode {
+  border-radius: 6px;
+  margin: 1em 0;
+}
+
+/* Output cells */
+.cell-output-stdout pre,
+.cell-output-display {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  padding: 0.75em 1em;
+  margin: 0.5em 0 1em 0;
+  border-left: 3px solid #dee2e6;
+}
+
+/* Hide In [N]: execution count labels and make code cells full-width */
+.cell-decorator {
+  display: none;
+}
+
+.cell-container {
+  display: block;
+}
+
+/* Better spacing between notebook cells */
+.cell {
+  margin-bottom: 1.5em;
+}
