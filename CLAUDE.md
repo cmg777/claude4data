@@ -16,7 +16,7 @@ For full documentation (installation, workflows, Overleaf sync, reproducibility)
 
 | Field | Value |
 | ----- | ----- |
-| **Title** | Predicting Municipal Sustainable Development from Satellite Imagery in Bolivia |
+| **Title** | Computational Notebooks in Python, R, and Stata |
 | **Authors** | Carlos Mendez (Nagoya University) |
 | **Stage** | Analysis |
 | **Primary tools** | Python, R, Stata, Quarto, LaTeX |
@@ -56,6 +56,7 @@ These are non-negotiable behavioral constraints.
 | `handoffs/` | Session handoff reports |
 | `.claude/skills/ml-intro/` | ML intro skill (Random Forest tutorial generation) |
 | `.claude/skills/data-science-tutorial/` | Data science tutorial skill (case-study generator) |
+| `.github/workflows/deploy-pages.yml` | GitHub Pages deployment (auto-deploys `_manuscript/` on push) |
 | `.env` | API keys and secrets (gitignored, never commit) |
 
 ---

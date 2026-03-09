@@ -1,8 +1,10 @@
-# Predicting Municipal Sustainable Development from Satellite Imagery in Bolivia
+# Computational Notebooks in Python, R, and Stata
 
-> Built on `project20XXy` — a reusable, multi-language research project template using [Quarto](https://quarto.org/).
+> A multi-language guide to data science workflows — built with [Quarto](https://quarto.org/).
 
-This project predicts Bolivia's Municipal Sustainable Development Index (IMDS) from satellite image embeddings using Random Forest regression. It uses data from the [DS4Bolivia](https://github.com/quarcs-lab/ds4bolivia) repository covering all 339 Bolivian municipalities, combining SDG indices with 64-dimensional feature vectors extracted from 2017 satellite imagery.
+This project demonstrates how Jupyter-based computational notebooks support reproducible data science workflows across Python, R, and Stata. Five companion notebooks cover exploratory data analysis, machine learning (Random Forest regression), and causal inference (Double Machine Learning), using data from the [DS4Bolivia](https://github.com/quarcs-lab/ds4bolivia) repository covering Bolivia's 339 municipalities.
+
+**Live manuscript:** <https://cmg777.github.io/claude4data/>
 
 ## Quick Start
 
@@ -423,7 +425,8 @@ Annotation notes on papers can be stored as Markdown files in `references/`.
 | `scripts/` | Build utilities | `render.sh` — clean render pipeline with Overleaf staging. |
 | `handoffs/` | Session logs | Timestamped Markdown reports (`YYYYMMDD_HHMM.md`) for cross-session continuity. |
 | `legacy/` | Archived materials | Old versions of files moved here instead of being deleted. |
-| `_manuscript/` | Rendered outputs | **Auto-generated** (gitignored). Contains HTML, PDF, Word, and notebook preview pages. |
+| `_manuscript/` | Rendered outputs | **Auto-generated**, tracked in git. Contains HTML, PDF, Word, and notebook preview pages. Deployed to GitHub Pages on push. |
+| `.github/workflows/` | CI/CD | `deploy-pages.yml` — deploys `_manuscript/` to GitHub Pages on push to `master`. |
 | `.claude/skills/` | Claude Code skills | `ml-intro` for ML tutorials; `data-science-tutorial` for general case-study tutorials. |
 
 ### Root-Level Files
