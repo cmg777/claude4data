@@ -20,22 +20,28 @@ toc-depth: 3
 
 <a href="https://colab.research.google.com/github/cmg777/claude4data/blob/master/notebooks/notebook-04.ipynb" target="_blank"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
 
-## Overview
+## 1. Introduction
 
 This notebook introduces machine learning through a practical application: predicting Bolivia's Municipal Sustainable Development Index (IMDS) from satellite image embeddings using Random Forest regression. IMDS is a composite index (0–100 scale) that captures how well each of Bolivia's 339 municipalities is progressing toward sustainable development goals. Satellite embeddings are 64-dimensional feature vectors extracted from 2017 satellite imagery — they compress visual information about land use, urbanization, and terrain into numbers a model can learn from.
 
+The distinctive feature of this notebook is **how** we evaluate the model. Instead of a single 80/20 train/test split, we use **5-fold cross-validation** so that every municipality receives an honest, *out-of-fold* prediction — a prediction made by a forest that never saw it during training. The train/test split and hyperparameter tuning are deferred to the appendices.
+
 **Learning objectives:**
 
-- Understand the Random Forest algorithm and why it works well for tabular data
-- Follow ML best practices: train/test split, cross-validation, hyperparameter tuning
-- Interpret model performance metrics (R², RMSE, MAE)
-- Analyze feature importance and partial dependence plots
+- Explain how a Random Forest works (decision trees, bagging, random feature subsets).
+- Motivate *why* a single train/test split is unreliable on a small dataset, and what k-fold cross-validation does instead.
+- Generate out-of-fold predictions with `cross_val_predict`.
+- Report performance as a mean ± standard deviation across folds, and explain why the standard deviation matters.
+- Compare the distribution of predictions to the distribution of actual values.
+- Interpret MDI and permutation feature importance and partial dependence plots.
+- Decide when hyperparameter tuning is worth the effort (Appendix B).
 
 ```{code-cell} ipython3
 import sys
 if "google.colab" in sys.modules:
     !git clone --depth 1 https://github.com/cmg777/claude4data.git /content/claude4data 2>/dev/null || true
     %cd /content/claude4data/notebooks
+    !pip install -q optuna
 sys.path.insert(0, "..")
 from config import set_seeds, RANDOM_SEED, IMAGES_DIR, TABLES_DIR, DATA_DIR
 
@@ -47,358 +53,508 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy.stats import randint
-from sklearn.model_selection import train_test_split, cross_val_score, RandomizedSearchCV
+from scipy.stats import gaussian_kde, ks_2samp
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from sklearn.inspection import PartialDependenceDisplay, permutation_importance
+from sklearn.metrics import r2_score, mean_absolute_error
+from sklearn.model_selection import KFold, cross_validate, cross_val_predict
 from IPython.display import Markdown
 
 # Configuration
 TARGET = "imds"
 TARGET_LABEL = "IMDS (Municipal Sustainable Development Index)"
 FEATURE_COLS = [f"A{i:02d}" for i in range(64)]
+N_FOLDS = 5
+
+# Site palette + two extra fold colors so all five folds are distinguishable
+COLOR_PRIMARY, COLOR_ACCENT, COLOR_DARK, COLOR_TEAL = "#6a9bcc", "#d97757", "#141413", "#00d4c8"
+FOLD_COLORS = ["#6a9bcc", "#d97757", "#00d4c8", "#8e6fb0", "#e0a23a"]
+
+plt.rcParams.update({
+    "figure.dpi": 110, "savefig.dpi": 300, "savefig.bbox": "tight",
+    "axes.spines.top": False, "axes.spines.right": False,
+    "axes.grid": True, "grid.alpha": 0.25, "font.size": 11,
+})
+
+def rmse(a, b):
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    return float(np.sqrt(np.mean((a - b) ** 2)))
 
 DS4BOLIVIA_BASE = "https://raw.githubusercontent.com/quarcs-lab/ds4bolivia/master"
 CACHE_PATH = DATA_DIR / "rawData" / "ds4bolivia_merged.csv"
 ```
 
-## Data Loading
+## 2. Data
 
-The data comes from the [DS4Bolivia](https://github.com/quarcs-lab/ds4bolivia) repository, which provides standardized datasets for studying Bolivian development. We merge three tables on `asdf_id` — the unique identifier for each municipality: SDG indices (our target variables), satellite embeddings (our features), and region names (for context).
+### 2.1 Loading and merging the data
+
+The data come from the [DS4Bolivia](https://github.com/quarcs-lab/ds4bolivia) repository. We merge three tables on `asdf_id` — the unique municipality identifier: SDG indices (the target), satellite embeddings (the features), and region names (context).
 
 ```{code-cell} ipython3
 if CACHE_PATH.exists():
-    print(f"Loading cached data from {CACHE_PATH}")
     df = pd.read_csv(CACHE_PATH)
 else:
-    print("Downloading data from DS4Bolivia...")
     sdg = pd.read_csv(f"{DS4BOLIVIA_BASE}/sdg/sdg.csv")
-    embeddings = pd.read_csv(
-        f"{DS4BOLIVIA_BASE}/satelliteEmbeddings/satelliteEmbeddings2017.csv"
-    )
+    embeddings = pd.read_csv(f"{DS4BOLIVIA_BASE}/satelliteEmbeddings/satelliteEmbeddings2017.csv")
     regions = pd.read_csv(f"{DS4BOLIVIA_BASE}/regionNames/regionNames.csv")
-
     df = sdg.merge(embeddings, on="asdf_id").merge(regions, on="asdf_id")
     CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(CACHE_PATH, index=False)
-    print(f"Cached merged data to {CACHE_PATH}")
 
 X = df[FEATURE_COLS]
 y = df[TARGET]
 mask = X.notna().all(axis=1) & y.notna()
-X = X[mask]
-y = y[mask]
+X = X[mask].reset_index(drop=True)
+y = y[mask].reset_index(drop=True)
 
 print(f"Dataset shape: {df.shape}")
 print(f"Observations after dropping missing: {len(y)}")
-print(f"\nTarget variable ({TARGET}) summary:")
 print(y.describe().round(2))
 ```
 
-All 339 Bolivian municipalities loaded successfully with no missing values — the dataset provides complete national coverage. The merged data has 88 columns: the 64 satellite embedding features, SDG indices, and region identifiers. IMDS scores range from 35.70 to 80.20 with a mean of 51.05 and standard deviation of 6.77, meaning most municipalities cluster within about 7 points of the national average on the 0–100 scale.
+### 2.2 The target and the features
 
-## Exploratory Data Analysis
+All 339 municipalities load with no missing values. IMDS scores range from 35.70 to 80.20 with a mean of 51.05 and standard deviation of 6.77 — most municipalities cluster within about 7 points of the national average. Keep that 6.77 in mind: it is the yardstick for our errors and the spread the model will try, and partly fail, to reproduce.
 
-Before building any model, we explore the data to understand its structure. EDA helps us spot issues — skewed distributions, outliers, or weak feature correlations — that could affect model performance. It also builds intuition about what patterns the model might find.
+## 3. Exploratory data analysis
 
-### Target Distribution
-
-The histogram below shows how IMDS values are distributed across municipalities. The shape of this distribution matters: a highly skewed target can bias predictions toward the majority range.
+### 3.1 Target distribution
 
 ```{code-cell} ipython3
-#| label: fig-target-distribution
-#| fig-cap: "Distribution of IMDS scores across Bolivia's municipalities. The dashed line marks the mean, the dotted line marks the median."
-
 fig, ax = plt.subplots(figsize=(8, 5))
-ax.hist(y, bins=30, edgecolor="white", alpha=0.8, color="#6a9bcc")
-ax.axvline(y.mean(), color="#d97757", linestyle="--", linewidth=2, label=f"Mean = {y.mean():.1f}")
-ax.axvline(y.median(), color="#141413", linestyle=":", linewidth=2, label=f"Median = {y.median():.1f}")
-ax.set_xlabel(TARGET_LABEL)
-ax.set_ylabel("Count")
-ax.set_title(f"Distribution of {TARGET_LABEL}")
+ax.hist(y, bins=30, edgecolor="white", alpha=0.85, color=COLOR_PRIMARY)
+ax.axvline(y.mean(), color=COLOR_ACCENT, linestyle="--", linewidth=2, label=f"Mean = {y.mean():.1f}")
+ax.axvline(y.median(), color=COLOR_DARK, linestyle=":", linewidth=2, label=f"Median = {y.median():.1f}")
+ax.set_xlabel(TARGET_LABEL); ax.set_ylabel("Count")
+ax.set_title("Distribution of IMDS across 339 municipalities")
 ax.legend()
-plt.savefig(IMAGES_DIR / "ml_target_distribution.png", dpi=300, bbox_inches="tight")
+plt.savefig(IMAGES_DIR / "ml_target_distribution.png")
 plt.show()
 ```
 
-The distribution is roughly bell-shaped with a slight right skew — the mean (51.1) sits just above the median (50.5), indicating a small tail of higher-performing municipalities. Most scores fall between 47 and 55, meaning the majority of Bolivia's municipalities have similar mid-range development levels. The handful of outliers above 70 likely correspond to larger urban centers like La Paz, Santa Cruz, and Cochabamba, which have significantly higher development infrastructure.
+The distribution is roughly bell-shaped with a slight right skew — the mean (51.1) sits just above the median (50.5). Most scores fall between 47 and 55; the handful of outliers above 70 are larger urban centers like La Paz, Santa Cruz, and Cochabamba. These extremes are exactly the municipalities a low-signal model will struggle with.
 
-### Embedding Correlations
-
-Next we examine which satellite embedding dimensions are most correlated with the target. Strong correlations suggest the model has useful signal to learn from; weak correlations across the board would be a warning sign.
+### 3.2 Embedding correlations
 
 ```{code-cell} ipython3
-#| label: fig-embedding-correlations
-#| fig-cap: "Correlation matrix of the top-10 most correlated satellite embedding dimensions with IMDS."
-
 correlations = X.corrwith(y).abs().sort_values(ascending=False)
 top10_features = correlations.head(10).index.tolist()
-corr_matrix = df[top10_features + [TARGET]].corr()
+corr_matrix = df.loc[mask, top10_features + [TARGET]].corr()
 
 fig, ax = plt.subplots(figsize=(10, 8))
 sns.heatmap(corr_matrix, annot=True, fmt=".2f", cmap="RdBu_r", center=0,
             square=True, ax=ax, vmin=-1, vmax=1)
-ax.set_title(f"Correlations: Top-10 Embeddings & {TARGET_LABEL}")
-plt.savefig(IMAGES_DIR / "ml_embedding_correlations.png", dpi=300, bbox_inches="tight")
+ax.set_title("Correlations: top-10 embeddings & IMDS")
+plt.savefig(IMAGES_DIR / "ml_embedding_correlations.png")
 plt.show()
 ```
 
-The heatmap reveals that the strongest individual correlations between embedding dimensions and IMDS are moderate (in the 0.25–0.40 range), which is typical for satellite-derived features predicting complex socioeconomic outcomes. Several embedding dimensions are also correlated with each other, suggesting they capture overlapping spatial patterns — the Random Forest can handle this multicollinearity well since it selects feature subsets at each split.
+The strongest single correlation is about 0.37 (dimension A30); the rest of the top ten sit in the 0.25–0.35 range. These are *moderate* correlations — an early hint that no single feature will carry the model. A Random Forest handles the multicollinearity among embeddings gracefully because it selects feature subsets at each split.
 
-## Train/Test Split
+## 4. The baseline Random Forest model
 
-We split the data into training (80%) and test (20%) sets *before* any model fitting. This is a fundamental ML practice: if the model ever "sees" the test data during training or tuning, our performance estimate will be overly optimistic — a problem called **data leakage**. The `random_state` ensures the same split every time we run the notebook, making results reproducible.
+A **Random Forest** averages many decision trees, each grown on a bootstrap sample with random feature subsets:
 
-```{code-cell} ipython3
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=RANDOM_SEED
-)
-print(f"Training set: {len(X_train)} municipalities")
-print(f"Test set:     {len(X_test)} municipalities")
-```
+$$\hat{y} = \frac{1}{B} \sum_{b=1}^{B} T_b(\mathbf{x})$$
 
-The split gives us 271 municipalities for training and 68 for testing. With only 339 total observations, this is a relatively small dataset for ML — the test set of 68 means each test prediction represents about 1.5% of the data. This makes cross-validation especially important for getting reliable performance estimates, since a single 68-sample test set could be unrepresentative by chance.
-
-## Baseline Model
-
-Before tuning anything, we establish a baseline using a Random Forest with default hyperparameters. **Random Forest** works by building many decision trees on random subsets of the data and features, then averaging their predictions. This "wisdom of crowds" approach reduces overfitting compared to a single decision tree.
-
-### Cross-Validation
-
-We evaluate the baseline with 5-fold cross-validation on the training set. Instead of a single train/validation split, k-fold CV rotates through 5 different validation sets and averages the scores. This gives a more reliable and stable performance estimate, especially important with smaller datasets like ours.
+Each tree $T_b$ sees different rows and features, so the trees make different errors and averaging cancels much of the noise. $B$ is `n_estimators` (100 by default). We keep scikit-learn's defaults — the honest reference point. (Appendix B confirms tuning barely helps here.)
 
 ```{code-cell} ipython3
 baseline_rf = RandomForestRegressor(n_estimators=100, random_state=RANDOM_SEED)
-cv_scores = cross_val_score(baseline_rf, X_train, y_train, cv=5, scoring="r2")
-
-print(f"5-Fold CV R² scores: {cv_scores.round(4)}")
-print(f"Mean CV R²:          {cv_scores.mean():.4f} (+/- {cv_scores.std():.4f})")
 ```
 
-The 5-fold CV R² scores range from 0.152 to 0.345, with a mean of 0.2526 (+/- 0.0728). This means the baseline model explains about 25% of the variation in IMDS on average, but the high variability across folds (standard deviation of 0.07) reflects the small dataset — different subsets of 271 municipalities can look quite different from each other. An R² around 0.25 is a reasonable starting point for predicting a complex social outcome from satellite imagery alone.
+## 5. Cross-validation: a better way to test predictions
+
+### 5.1 Why not just one train/test split?
+
+With only 339 municipalities, a 20% test set is just 68 points, and the score depends heavily on which municipalities land in it — the estimate is noisy and wastes data. Appendix A shows that across 200 random splits the test R² wanders from about −0.09 to 0.46 for the *same model on the same data*.
+
+### 5.2 What is k-fold cross-validation?
+
+Shuffle the data into $k$ folds and run $k$ rounds: each round holds out one fold and trains on the other $k-1$. Every observation is tested exactly once. We use $k = 5$ and score three metrics at once. (scikit-learn reports RMSE and MAE as negative numbers so "higher is better" holds for every scorer; we flip the sign.)
 
 ```{code-cell} ipython3
-baseline_rf.fit(X_train, y_train)
-baseline_pred = baseline_rf.predict(X_test)
-baseline_r2 = r2_score(y_test, baseline_pred)
-baseline_rmse = np.sqrt(mean_squared_error(y_test, baseline_pred))
-baseline_mae = mean_absolute_error(y_test, baseline_pred)
+kf = KFold(n_splits=N_FOLDS, shuffle=True, random_state=RANDOM_SEED)
 
-print(f"Baseline Test R²:   {baseline_r2:.4f}")
-print(f"Baseline Test RMSE: {baseline_rmse:.2f}")
-print(f"Baseline Test MAE:  {baseline_mae:.2f}")
-```
-
-On the held-out test set, the baseline achieves R² = 0.2307, RMSE = 6.52, and MAE = 4.68. In practical terms, the model's predictions are typically off by about 4.7 IMDS points (MAE) on a scale where most values fall between 47 and 55. The RMSE of 6.52 is higher than the MAE, indicating some larger errors are pulling it up. This baseline gives us a concrete reference — any improvement from tuning should beat these numbers.
-
-## Hyperparameter Tuning
-
-The baseline model uses scikit-learn's defaults, but we can often do better by searching for optimal hyperparameters. **RandomizedSearchCV** is more efficient than exhaustive grid search — it samples random combinations and evaluates each with cross-validation. Here's what each hyperparameter controls:
-
-- **n_estimators**: Number of trees in the forest (more trees = more stable but slower)
-- **max_depth**: How deep each tree can grow (deeper = more complex patterns but risk overfitting)
-- **min_samples_split**: Minimum samples needed to split a node (higher = more regularization)
-- **min_samples_leaf**: Minimum samples in a leaf node (higher = smoother predictions)
-- **max_features**: How many features each tree considers per split (fewer = more diverse trees)
-
-```{code-cell} ipython3
-param_distributions = {
-    "n_estimators": [100, 200, 300, 500],
-    "max_depth": [None, 10, 20, 30],
-    "min_samples_split": randint(2, 11),
-    "min_samples_leaf": randint(1, 5),
-    "max_features": ["sqrt", "log2", None],
-}
-
-search = RandomizedSearchCV(
-    RandomForestRegressor(random_state=RANDOM_SEED),
-    param_distributions=param_distributions,
-    n_iter=50,
-    cv=5,
-    scoring="r2",
-    random_state=RANDOM_SEED,
-    n_jobs=-1,
+cv = cross_validate(
+    baseline_rf, X, y, cv=kf,
+    scoring=("r2", "neg_root_mean_squared_error", "neg_mean_absolute_error"),
 )
-search.fit(X_train, y_train)
+fold_r2   = cv["test_r2"]
+fold_rmse = -cv["test_neg_root_mean_squared_error"]
+fold_mae  = -cv["test_neg_mean_absolute_error"]
 
-print(f"Best CV R²: {search.best_score_:.4f}")
-print(f"\nBest parameters:")
-for param, value in search.best_params_.items():
-    print(f"  {param}: {value}")
+print("Per-fold R²:", fold_r2.round(3))
+print(f"Mean R²: {fold_r2.mean():.3f} ± {fold_r2.std():.3f}")
 ```
 
-The best configuration found uses 500 trees with max_depth=30, max_features=sqrt, min_samples_leaf=1, and min_samples_split=4. The best CV R² of 0.2721 is modestly higher than the baseline's 0.2526 — about a 2 percentage point improvement in explained variance. The tuning selected a deeper, more complex model (max_depth=30 vs the default of unlimited) while constraining feature subsampling to sqrt(64)=8 features per split, which encourages tree diversity.
+### 5.3 Out-of-fold predictions for every municipality
 
-## Model Evaluation
-
-Now we evaluate the tuned model on the held-out test set — data the model has never seen during training or tuning. Three complementary metrics tell us different things:
-
-- **R²** (coefficient of determination): What fraction of the target's variance the model explains. R² = 1.0 is perfect; R² = 0 means the model is no better than predicting the mean.
-- **RMSE** (Root Mean Squared Error): Average prediction error in the same units as the target. Penalizes large errors more heavily.
-- **MAE** (Mean Absolute Error): Average absolute error. More robust to outliers than RMSE.
+`cross_val_predict` runs the same five rounds and records the prediction for each held-out fold, producing one out-of-fold (OOF) prediction per municipality. We pass the *same* `kf` so the folds match the metrics above, and we record each point's fold.
 
 ```{code-cell} ipython3
-best_rf = search.best_estimator_
-tuned_pred = best_rf.predict(X_test)
-tuned_r2 = r2_score(y_test, tuned_pred)
-tuned_rmse = np.sqrt(mean_squared_error(y_test, tuned_pred))
-tuned_mae = mean_absolute_error(y_test, tuned_pred)
+oof_pred = cross_val_predict(baseline_rf, X, y, cv=kf)
 
-print(f"Tuned Test R²:   {tuned_r2:.4f}")
-print(f"Tuned Test RMSE: {tuned_rmse:.2f}")
-print(f"Tuned Test MAE:  {tuned_mae:.2f}")
+fold_id = np.empty(len(y), dtype=int)
+for k, (_, test_idx) in enumerate(kf.split(X), start=1):
+    fold_id[test_idx] = k
+
+pooled_r2 = r2_score(y, oof_pred)
+print(f"Out-of-fold predictions: {len(oof_pred)} municipalities")
+print(f"Pooled out-of-fold R²:   {pooled_r2:.3f}")
 ```
 
-The tuned model achieves R² = 0.2297, RMSE = 6.52, and MAE = 4.72 on the test set — essentially identical to the baseline (R² = 0.2307, RMSE = 6.52, MAE = 4.68). This is a common finding with small datasets: the tuning improved CV performance slightly but the gains didn't transfer to the specific test set. The model explains about 23% of IMDS variation, meaning satellite embeddings capture real but limited predictive signal for municipal development.
+## 6. Evaluating predictions across folds
 
-### Actual vs Predicted
-
-This scatter plot shows how well the model's predictions match reality. Points falling exactly on the dashed 45° line would indicate perfect predictions; scatter around the line shows prediction error.
+### 6.1 Per-fold performance metrics
 
 ```{code-cell} ipython3
-#| label: fig-actual-vs-predicted
-#| fig-cap: "Actual vs predicted IMDS scores on the test set. The dashed line represents perfect prediction."
-
-fig, ax = plt.subplots(figsize=(7, 7))
-ax.scatter(y_test, tuned_pred, alpha=0.6, edgecolors="white", linewidth=0.5, color="#6a9bcc")
-lims = [min(y_test.min(), tuned_pred.min()) - 2, max(y_test.max(), tuned_pred.max()) + 2]
-ax.plot(lims, lims, "--", color="#d97757", linewidth=2, label="Perfect prediction")
-ax.set_xlim(lims)
-ax.set_ylim(lims)
-ax.set_xlabel(f"Actual {TARGET_LABEL}")
-ax.set_ylabel(f"Predicted {TARGET_LABEL}")
-ax.set_title(f"Actual vs Predicted {TARGET_LABEL}")
-ax.legend()
-ax.set_aspect("equal")
-plt.savefig(IMAGES_DIR / "ml_actual_vs_predicted.png", dpi=300, bbox_inches="tight")
-plt.show()
-```
-
-The scatter shows moderate agreement between actual and predicted IMDS values, with noticeable spread around the 45-degree line. Predictions tend to cluster in the 47–55 range (near the training mean), with the model struggling to predict extreme values — municipalities with very high or low IMDS scores are pulled toward the center. This "regression to the mean" effect is typical when the model has limited predictive power.
-
-### Residual Analysis
-
-Residuals (actual − predicted) should ideally be randomly scattered around zero with no obvious pattern. Patterns in residuals can reveal systematic biases — for example, if the model consistently underpredicts high-IMDS municipalities, it suggests the features miss something important about well-developed areas.
-
-```{code-cell} ipython3
-#| label: fig-residuals
-#| fig-cap: "Residuals (actual minus predicted) vs predicted IMDS values. Random scatter around zero indicates no systematic bias."
-
-residuals = y_test - tuned_pred
-fig, ax = plt.subplots(figsize=(8, 5))
-ax.scatter(tuned_pred, residuals, alpha=0.6, edgecolors="white", linewidth=0.5, color="#6a9bcc")
-ax.axhline(0, color="#d97757", linestyle="--", linewidth=2)
-ax.set_xlabel(f"Predicted {TARGET_LABEL}")
-ax.set_ylabel("Residuals")
-ax.set_title("Residuals vs Predicted Values")
-plt.savefig(IMAGES_DIR / "ml_residuals.png", dpi=300, bbox_inches="tight")
-plt.show()
-```
-
-The residuals appear roughly randomly scattered around zero, which is encouraging — there's no strong systematic bias. However, the spread is wider at the extremes, suggesting the model's errors are larger for municipalities with unusually high or low predicted IMDS. This heteroscedasticity is consistent with the regression-to-the-mean pattern seen in the scatter plot above.
-
-## Feature Importance
-
-Which satellite embedding dimensions matter most for predicting IMDS? We compare two methods that answer this question differently:
-
-### Mean Decrease in Impurity (MDI)
-
-MDI measures how much each feature reduces prediction error across all splits in all trees. It's fast to compute (built into the trained model) but can be biased toward high-cardinality or correlated features.
-
-```{code-cell} ipython3
-#| label: fig-importance-mdi
-#| fig-cap: "Top-20 satellite embedding features ranked by Mean Decrease in Impurity."
-
-mdi_importance = pd.Series(best_rf.feature_importances_, index=FEATURE_COLS)
-top20_mdi = mdi_importance.sort_values(ascending=False).head(20)
-
-fig, ax = plt.subplots(figsize=(10, 6))
-top20_mdi.sort_values().plot.barh(ax=ax, color="#6a9bcc", edgecolor="white")
-ax.set_xlabel("Mean Decrease in Impurity")
-ax.set_title(f"Top-20 Feature Importance (MDI) for {TARGET_LABEL}")
-plt.savefig(IMAGES_DIR / "ml_feature_importance_mdi.png", dpi=300, bbox_inches="tight")
-plt.show()
-```
-
-The MDI plot shows that importance is distributed across many embedding dimensions rather than concentrated in just a few. This suggests the satellite imagery captures multiple independent visual patterns relevant to development — no single dimension dominates. However, MDI can be inflated for continuous features, so we'll cross-check with permutation importance next.
-
-### Permutation Importance
-
-Permutation importance is more reliable: it randomly shuffles each feature and measures how much the model's accuracy drops. A large drop means the feature was important; no drop means the feature could be removed without loss. Unlike MDI, permutation importance is evaluated on the test set and is not biased by feature scale or cardinality.
-
-```{code-cell} ipython3
-#| label: fig-importance-permutation
-#| fig-cap: "Top-20 satellite embedding features ranked by permutation importance (mean decrease in R² when feature is shuffled)."
-
-perm_result = permutation_importance(
-    best_rf, X_test, y_test, n_repeats=10, random_state=RANDOM_SEED, n_jobs=-1
-)
-perm_importance = pd.Series(perm_result.importances_mean, index=FEATURE_COLS)
-top20_perm = perm_importance.sort_values(ascending=False).head(20)
-
-fig, ax = plt.subplots(figsize=(10, 6))
-top20_perm.sort_values().plot.barh(ax=ax, color="#d97757", edgecolor="white")
-ax.set_xlabel("Mean Decrease in R² (Permutation)")
-ax.set_title(f"Top-20 Feature Importance (Permutation) for {TARGET_LABEL}")
-plt.savefig(IMAGES_DIR / "ml_feature_importance_permutation.png", dpi=300, bbox_inches="tight")
-plt.show()
-```
-
-Permutation importance gives a more trustworthy picture: it measures the actual drop in R² when each feature is shuffled. The ranking differs somewhat from MDI, which is expected — permutation importance is less biased and directly measures predictive contribution on the test set. The top features here are the ones that genuinely help the model distinguish between municipalities with different IMDS levels.
-
-## Partial Dependence Plots
-
-Partial dependence plots show the marginal effect of a single feature on predictions, averaging over all other features. They reveal non-linear relationships that a simple correlation coefficient can't capture — for example, a feature might have no effect below a threshold but a strong effect above it. We plot the top-6 most important features (by permutation importance).
-
-```{code-cell} ipython3
-#| label: fig-partial-dependence
-#| fig-cap: "Partial dependence plots for the top-6 most important satellite embedding features, showing how each feature's value affects the predicted IMDS score."
-
-top6_features = perm_importance.sort_values(ascending=False).head(6).index.tolist()
-fig, axes = plt.subplots(2, 3, figsize=(15, 8))
-PartialDependenceDisplay.from_estimator(
-    best_rf, X_train, top6_features, ax=axes.ravel(),
-    grid_resolution=50, n_jobs=-1
-)
-fig.suptitle(f"Partial Dependence Plots — Top-6 Features for {TARGET_LABEL}", fontsize=14)
-plt.tight_layout(rect=[0, 0, 1, 0.95])
-plt.savefig(IMAGES_DIR / "ml_partial_dependence.png", dpi=300, bbox_inches="tight")
-plt.show()
-```
-
-The partial dependence plots reveal non-linear relationships between the top features and predicted IMDS. Some dimensions show threshold effects — the predicted IMDS changes sharply at certain embedding values then levels off. These non-linearities justify using Random Forest over a linear model, as a linear regression would miss these step-like patterns. The embedding dimensions likely correspond to visual landscape features (urbanization, vegetation cover, infrastructure density) that change abruptly between rural and urban municipalities.
-
-## Summary and Results
-
-```{code-cell} ipython3
-#| label: tbl-ml-results
-#| tbl-cap: "Random Forest regression results: baseline vs tuned model performance on the test set."
-
-results_df = pd.DataFrame({
-    "Metric": ["R²", "RMSE", "MAE"],
-    "Baseline": [f"{baseline_r2:.4f}", f"{baseline_rmse:.2f}", f"{baseline_mae:.2f}"],
-    "Tuned": [f"{tuned_r2:.4f}", f"{tuned_rmse:.2f}", f"{tuned_mae:.2f}"],
+fold_table = pd.DataFrame({
+    "Fold": list(range(1, N_FOLDS + 1)) + ["Mean", "Std"],
+    "n": [int((fold_id == k).sum()) for k in range(1, N_FOLDS + 1)] + ["", ""],
+    "R2": list(fold_r2.round(3)) + [round(fold_r2.mean(), 3), round(fold_r2.std(), 3)],
+    "RMSE": list(fold_rmse.round(2)) + [round(fold_rmse.mean(), 2), round(fold_rmse.std(), 2)],
+    "MAE": list(fold_mae.round(2)) + [round(fold_mae.mean(), 2), round(fold_mae.std(), 2)],
 })
-results_df.to_csv(TABLES_DIR / "ml_rf_results.csv", index=False)
-
-params_df = pd.DataFrame(
-    [{"Parameter": k, "Value": v} for k, v in search.best_params_.items()]
-)
-params_df.to_csv(TABLES_DIR / "ml_rf_best_params.csv", index=False)
-
-Markdown(results_df.to_markdown(index=False))
+fold_table.to_csv(TABLES_DIR / "ml_cv_fold_metrics.csv", index=False)
+Markdown(fold_table.to_markdown(index=False))
 ```
 
-The summary table confirms that tuning provided negligible improvement over the baseline for this dataset: both models achieve R² around 0.23, RMSE of 6.52, and MAE near 4.7. The key takeaway is that satellite embeddings explain roughly a quarter of the variation in Bolivia's Municipal Sustainable Development Index — a meaningful signal that demonstrates remote sensing data captures real development-related patterns, while also highlighting that the majority of development variation is driven by factors not visible from space.
+Look at the R² column. Fold 4 reaches about 0.45 while fold 3 comes in *negative* — on those 68 municipalities the forest did slightly worse than predicting the national average. Same model, same data; only the luck of the fold differs. This is the most important table in the notebook.
 
-### Limitations and Next Steps
+### 6.2 Why the standard deviation matters
 
-This analysis demonstrates that satellite embeddings contain real predictive signal for municipal development outcomes, but several limitations apply:
+Reporting only "R² = 0.22" would hide the most important part: the standard deviation (≈ 0.17) is almost as large as the mean. A single split would have handed us one of these numbers with no way to know which. The figure shows each metric fold-by-fold with the mean (dashed) and a ±1 SD band.
 
-- **Moderate R²**: The model captures meaningful patterns but leaves much variation unexplained — development is driven by many factors invisible from space (governance, migration, informal economy).
-- **Temporal mismatch**: We use 2017 satellite imagery with SDG indices from a potentially different period.
-- **Feature interpretability**: Embedding dimensions (A00–A63) are abstract; connecting them to physical landscape features requires further analysis.
-- **Small sample**: With only 339 municipalities, complex models risk overfitting despite cross-validation.
+```{code-cell} ipython3
+fig, axes = plt.subplots(1, 3, figsize=(15, 4.5))
+folds = np.arange(1, N_FOLDS + 1)
+for ax, (name, vals, color) in zip(axes, [
+        ("R²", fold_r2, COLOR_PRIMARY), ("RMSE", fold_rmse, COLOR_ACCENT), ("MAE", fold_mae, COLOR_TEAL)]):
+    ax.bar(folds, vals, color=color, edgecolor="white", alpha=0.9, width=0.65)
+    m, s = vals.mean(), vals.std()
+    ax.axhspan(m - s, m + s, color=COLOR_DARK, alpha=0.08)
+    ax.axhline(m, color=COLOR_DARK, linestyle="--", linewidth=1.5)
+    ax.set_xticks(folds); ax.set_xlabel("Fold"); ax.set_ylabel(name)
+    ax.set_title(f"{name}: {m:.3f} ± {s:.3f}")
+plt.savefig(IMAGES_DIR / "ml_per_fold_metrics.png")
+plt.show()
+```
 
-**Next steps** could include: trying other algorithms (gradient boosting, regularized regression), incorporating additional features (geographic, demographic), or using explainability tools like SHAP values for richer interpretation.
+The three metrics partly disagree about which fold is hardest, because R² is measured relative to each fold's own variance: a fold of unusually similar municipalities inflates its R² even when absolute errors are small. No single metric is the whole story.
+
+### 6.3 Pooled vs averaged R²
+
+There are two defensible ways to summarize R² across folds. The **average of the per-fold R²** (paired with a standard deviation) weights every fold equally; the **pooled out-of-fold R²** computes a single R² over all 339 predictions and weights every observation equally. Here they nearly coincide (0.224 vs 0.225) but need not. Use the per-fold mean ± SD to communicate uncertainty and the pooled OOF predictions for plotting. With only five folds the SD is itself rough; `RepeatedKFold` reruns the procedure with different shuffles for a more stable estimate.
+
+## 7. Actual vs predicted — all municipalities
+
+### 7.1 The out-of-fold scatter, colored by fold
+
+```{code-cell} ipython3
+residuals = np.asarray(y) - oof_pred
+
+fig, ax = plt.subplots(figsize=(7.2, 7.2))
+for k in range(1, N_FOLDS + 1):
+    m = fold_id == k
+    ax.scatter(y[m], oof_pred[m], s=34, alpha=0.75, edgecolors="white",
+               linewidth=0.4, color=FOLD_COLORS[k - 1], label=f"Fold {k}")
+lims = [y.min() - 2, y.max() + 2]
+ax.plot(lims, lims, "--", color=COLOR_DARK, linewidth=1.8, label="Perfect prediction")
+ax.set_xlim(lims); ax.set_ylim(lims); ax.set_aspect("equal")
+ax.set_xlabel("Actual IMDS"); ax.set_ylabel("Predicted IMDS (out-of-fold)")
+ax.set_title("Out-of-fold predictions for all 339 municipalities")
+ax.text(0.04, 0.95, f"Pooled OOF R² = {pooled_r2:.3f}", transform=ax.transAxes,
+        va="top", bbox=dict(boxstyle="round", fc="white", ec=COLOR_DARK, alpha=0.8))
+ax.legend(loc="lower right", ncol=2, fontsize=9)
+plt.savefig(IMAGES_DIR / "ml_actual_vs_predicted.png")
+plt.show()
+```
+
+The fold colors are thoroughly intermingled — confirmation that shuffling mixed the municipalities well. More substantively, the cloud is flatter than the 45-degree line: low-IMDS municipalities are predicted too high and high-IMDS too low. The town with the highest actual IMDS (80.2) is predicted at only about 51. This **regression to the mean** is the fingerprint of a model with limited signal.
+
+### 7.2 Residual analysis
+
+```{code-cell} ipython3
+fig, ax = plt.subplots(figsize=(8, 5))
+for k in range(1, N_FOLDS + 1):
+    m = fold_id == k
+    ax.scatter(oof_pred[m], residuals[m], s=30, alpha=0.7, edgecolors="white",
+               linewidth=0.4, color=FOLD_COLORS[k - 1], label=f"Fold {k}")
+ax.axhline(0, color=COLOR_DARK, linestyle="--", linewidth=1.8)
+ax.set_xlabel("Predicted IMDS (out-of-fold)"); ax.set_ylabel("Residual (actual − predicted)")
+ax.set_title("Out-of-fold residuals vs predicted values")
+ax.legend(loc="upper right", ncol=2, fontsize=9)
+plt.savefig(IMAGES_DIR / "ml_residuals.png")
+plt.show()
+```
+
+The cloud is centered near zero but tilts upward on the right, where the largest positive residuals sit — the high-IMDS municipalities the model under-predicts. The spread is also a little wider at the extremes (mild heteroscedasticity). The well-mixed colors confirm this is a property of the model, not one unlucky fold.
+
+## 8. Comparing distributions — predicted vs actual
+
+### 8.1 Overlapping histograms
+
+```{code-cell} ipython3
+ks_stat, ks_p = ks_2samp(np.asarray(y), oof_pred)
+bins = np.linspace(y.min() - 2, y.max() + 2, 28)
+grid = np.linspace(y.min() - 2, y.max() + 2, 300)
+
+fig, ax = plt.subplots(figsize=(8.5, 5))
+ax.hist(y, bins=bins, density=True, alpha=0.45, color=COLOR_PRIMARY, edgecolor="white", label="Actual")
+ax.hist(oof_pred, bins=bins, density=True, alpha=0.45, color=COLOR_ACCENT, edgecolor="white", label="Predicted (OOF)")
+ax.plot(grid, gaussian_kde(np.asarray(y))(grid), color=COLOR_PRIMARY, linewidth=2)
+ax.plot(grid, gaussian_kde(oof_pred)(grid), color=COLOR_ACCENT, linewidth=2)
+ax.axvline(y.mean(), color=COLOR_PRIMARY, linestyle=":", linewidth=1.6)
+ax.axvline(oof_pred.mean(), color=COLOR_ACCENT, linestyle=":", linewidth=1.6)
+ax.set_xlabel("IMDS"); ax.set_ylabel("Density")
+ax.set_title(f"Predicted vs actual distribution  (KS = {ks_stat:.3f}, p = {ks_p:.3g})")
+ax.legend()
+plt.savefig(IMAGES_DIR / "ml_distribution_overlap.png")
+plt.show()
+```
+
+The two distributions share almost the same center but very different widths. The predictions form a tall, narrow spike around 51 while the actual scores spread into both tails.
+
+### 8.2 Summary statistics and a KS test
+
+```{code-cell} ipython3
+dist_stats = pd.DataFrame({
+    "Statistic": ["Mean", "Std", "Min", "Max"],
+    "Actual": [y.mean(), y.std(), y.min(), y.max()],
+    "Predicted (OOF)": [oof_pred.mean(), oof_pred.std(), oof_pred.min(), oof_pred.max()],
+}).round(2)
+dist_stats.to_csv(TABLES_DIR / "ml_distribution_stats.csv", index=False)
+print(dist_stats.to_string(index=False))
+print(f"\nKS statistic = {ks_stat:.3f}  (p = {ks_p:.3g})")
+print(f"Predicted SD is {100*(1-oof_pred.std()/y.std()):.0f}% smaller than actual SD")
+```
+
+The means match almost exactly (the model is unbiased on average), but the predicted standard deviation is only about half the actual, and the predicted range collapses inward. The KS test firmly rejects equal distributions. This **variance compression** is the mathematically expected behavior of any regression with modest $R^2$: a model that explains ~22% of the variance *should* produce predictions with much less spread than the truth. A good average and a good $R^2$ do not guarantee that predictions reproduce the real distribution — checking it is a quick, revealing diagnostic.
+
+## 9. Which satellite features matter?
+
+For interpretation we fit one baseline forest on all 339 municipalities (cross-validation already gave the honest performance estimate).
+
+```{code-cell} ipython3
+rf_full = RandomForestRegressor(n_estimators=100, random_state=RANDOM_SEED).fit(X, y)
+```
+
+### 9.1 Mean decrease in impurity (MDI)
+
+```{code-cell} ipython3
+mdi = pd.Series(rf_full.feature_importances_, index=FEATURE_COLS)
+top20 = mdi.sort_values(ascending=False).head(20)
+fig, ax = plt.subplots(figsize=(10, 6))
+top20.sort_values().plot.barh(ax=ax, color=COLOR_PRIMARY, edgecolor="white")
+ax.set_xlabel("Mean decrease in impurity")
+ax.set_title("Top-20 feature importance (MDI) for IMDS")
+plt.savefig(IMAGES_DIR / "ml_feature_importance_mdi.png")
+plt.show()
+```
+
+One dimension dominates: **A30** accounts for about 12% of the total impurity reduction, roughly twice the next feature, A59. After those two the importance falls into a long tail. This matches the correlation heatmap and tells us the forest leans on a small handful of visual signals.
+
+### 9.2 Permutation importance
+
+```{code-cell} ipython3
+perm = permutation_importance(rf_full, X, y, n_repeats=10, random_state=RANDOM_SEED, n_jobs=-1)
+perm_imp = pd.Series(perm.importances_mean, index=FEATURE_COLS)
+top20 = perm_imp.sort_values(ascending=False).head(20)
+fig, ax = plt.subplots(figsize=(10, 6))
+top20.sort_values().plot.barh(ax=ax, color=COLOR_ACCENT, edgecolor="white")
+ax.set_xlabel("Mean decrease in R² (permutation)")
+ax.set_title("Top-20 feature importance (permutation) for IMDS")
+plt.savefig(IMAGES_DIR / "ml_feature_importance_permutation.png")
+plt.show()
+```
+
+Shuffling **A30** alone costs about 0.25 in R² — larger than the model's entire OOF R², because removing the best feature drags the model below the mean-prediction baseline. A59 is again second, followed by A26, A36, A13. The close agreement between two very different methods is reassuring.
+
+## 10. Partial dependence plots
+
+```{code-cell} ipython3
+top6 = perm_imp.sort_values(ascending=False).head(6).index.tolist()
+fig, axes = plt.subplots(2, 3, figsize=(15, 8))
+PartialDependenceDisplay.from_estimator(rf_full, X, top6, ax=axes.ravel(), grid_resolution=50, n_jobs=-1)
+fig.suptitle("Partial dependence — top-6 features for IMDS", fontsize=14)
+plt.tight_layout(rect=[0, 0, 1, 0.95])
+plt.savefig(IMAGES_DIR / "ml_partial_dependence.png")
+plt.show()
+```
+
+The curves are clearly non-linear — several dimensions (A30 most visibly) show a threshold effect: flat, then a rise over a narrow band, then a plateau. These step-like shapes justify a Random Forest over a linear model. Even the most important feature moves the prediction by only a few IMDS points, consistent with the modest R².
+
+## 11. Summary and key takeaways
+
+```{code-cell} ipython3
+summary = pd.DataFrame({
+    "Metric": ["R²", "RMSE", "MAE"],
+    "Per-fold mean ± SD": [
+        f"{fold_r2.mean():.3f} ± {fold_r2.std():.3f}",
+        f"{fold_rmse.mean():.2f} ± {fold_rmse.std():.2f}",
+        f"{fold_mae.mean():.2f} ± {fold_mae.std():.2f}"],
+    "Pooled OOF": [f"{pooled_r2:.3f}", f"{rmse(y, oof_pred):.2f}", f"{mean_absolute_error(y, oof_pred):.2f}"],
+})
+summary.to_csv(TABLES_DIR / "ml_rf_results.csv", index=False)
+Markdown(summary.to_markdown(index=False))
+```
+
+- **Cross-validation over a single split** gave an honest prediction for every municipality and a standard deviation that exposed how unstable the model is across slices of the country.
+- **The spread matters.** Per-fold R² ranged from negative to ~0.45; reporting only the mean would mislead.
+- **Data insight.** Satellite embeddings explain roughly a fifth of IMDS variation; A30 and A59 carry most of it, with non-linear threshold effects.
+- **Distributions, not just points.** Predictions match the center but reproduce only half the spread (KS p < 0.001) — the expected behavior of a low-R² model.
+- **Tuning is optional** — Appendix B shows it improves CV R² by less than the fold-to-fold noise.
+
+## 12. Limitations and next steps
+
+- **Modest R²** — much variation is driven by factors invisible from space (governance, migration, informal economy).
+- **Variance compression** — predictions are pulled toward the mean, so the model cannot reliably rank the most extreme municipalities.
+- **Temporal mismatch** — 2017 imagery vs SDG indices from a potentially different period.
+- **Feature interpretability** — embedding dimensions (A00–A63) are abstract.
+- **Small sample** — every estimate carries real uncertainty, which is why CV and its SD matter.
+
+**Next steps:** combine embeddings with administrative/survey data, try gradient boosting, or use SHAP values.
+
+## Appendix A — The train/test split approach
+
+The classic alternative to cross-validation is a single 80/20 split — simpler and faster, and the right tool when data are plentiful.
+
+```{code-cell} ipython3
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+rf = RandomForestRegressor(n_estimators=100, random_state=42).fit(X_train, y_train)
+single_split_r2 = r2_score(y_test, rf.predict(X_test))
+print(f"Train: {len(X_train)}  Test: {len(X_test)}")
+print(f"Test R²: {single_split_r2:.3f}")
+```
+
+That number looks reassuringly close to the cross-validated 0.225 — but it is one draw from a lottery. We repeat the split under 200 seeds.
+
+```{code-cell} ipython3
+split_r2 = []
+for seed in range(200):
+    Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=seed)
+    m = RandomForestRegressor(n_estimators=100, random_state=42).fit(Xtr, ytr)
+    split_r2.append(r2_score(yte, m.predict(Xte)))
+split_r2 = np.array(split_r2)
+
+fig, ax = plt.subplots(figsize=(8.5, 5))
+ax.hist(split_r2, bins=30, color=COLOR_PRIMARY, alpha=0.8, edgecolor="white")
+ax.axvline(single_split_r2, color=COLOR_DARK, linestyle=":", linewidth=2,
+           label=f"One split (seed 42) = {single_split_r2:.3f}")
+ax.axvline(pooled_r2, color=COLOR_ACCENT, linestyle="--", linewidth=2,
+           label=f"5-fold CV (pooled OOF) = {pooled_r2:.3f}")
+ax.set_xlabel("Test R²"); ax.set_ylabel("Count")
+ax.set_title(f"Test R² over 200 random splits (range {split_r2.min():.2f} to {split_r2.max():.2f})")
+ax.legend()
+plt.savefig(IMAGES_DIR / "ml_appendix_split_variability.png")
+plt.show()
+```
+
+The same model on the same data scores anywhere from about −0.09 to 0.46 depending only on which municipalities land in the test set. The cross-validated estimate sits sensibly in the middle, comes with a standard deviation, and uses every observation for both training and testing. On small datasets, be deeply suspicious of any number from a single split.
+
+## Appendix B — Hyperparameter tuning: grid vs random vs Optuna
+
+All three methods optimize the *same* 5-fold cross-validated R² (the `kf` from Section 5) over the *same* space, so they are directly comparable.
+
+### B.1 Grid search
+
+**Grid search** tries *every combination* of a discrete set of values — thorough and reproducible, but the number of fits explodes and it never sees values between grid points.
+
+```{code-cell} ipython3
+from sklearn.model_selection import GridSearchCV
+
+grid = GridSearchCV(
+    RandomForestRegressor(random_state=42),
+    param_grid={"n_estimators": [100, 300], "max_depth": [None, 20], "max_features": ["sqrt", 1.0]},
+    cv=kf, scoring="r2", n_jobs=-1,
+).fit(X, y)
+print(f"Grid best CV R²: {grid.best_score_:.3f}  {grid.best_params_}")
+```
+
+### B.2 Random search
+
+**Random search** samples random combinations (including continuous ranges) for a fixed budget. For the same budget it usually beats grid search (Bergstra & Bengio, 2012): most hyperparameters barely matter, so random sampling spends more of its budget on the few that do.
+
+```{code-cell} ipython3
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint
+
+rand = RandomizedSearchCV(
+    RandomForestRegressor(random_state=42),
+    param_distributions={
+        "n_estimators": [100, 200, 300, 500], "max_depth": [None, 10, 20, 30],
+        "min_samples_split": randint(2, 11), "min_samples_leaf": randint(1, 5),
+        "max_features": ["sqrt", "log2", 1.0]},
+    n_iter=40, cv=kf, scoring="r2", random_state=42, n_jobs=-1,
+).fit(X, y)
+print(f"Random best CV R²: {rand.best_score_:.3f}  {rand.best_params_}")
+```
+
+### B.3 Bayesian optimization with Optuna
+
+Grid and random search are memoryless. **Optuna** is a Bayesian optimizer whose default **TPE** sampler builds a model of which regions score well and concentrates trials there. You write an `objective` that *suggests* a value for each hyperparameter and returns the score to maximize.
+
+```{code-cell} ipython3
+import optuna
+optuna.logging.set_verbosity(optuna.logging.WARNING)
+from sklearn.model_selection import cross_val_score
+
+baseline_cv_r2 = float(fold_r2.mean())
+
+def objective(trial):
+    params = {
+        "n_estimators": trial.suggest_int("n_estimators", 100, 500, step=100),
+        "max_depth": trial.suggest_categorical("max_depth", [None, 10, 20, 30]),
+        "min_samples_split": trial.suggest_int("min_samples_split", 2, 10),
+        "min_samples_leaf": trial.suggest_int("min_samples_leaf", 1, 4),
+        "max_features": trial.suggest_categorical("max_features", ["sqrt", "log2", 1.0]),
+    }
+    model = RandomForestRegressor(random_state=42, **params)
+    return cross_val_score(model, X, y, cv=kf, scoring="r2", n_jobs=-1).mean()
+
+study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=42))
+study.optimize(objective, n_trials=40)
+print(f"Optuna best CV R²: {study.best_value:.3f}  {study.best_params}")
+
+trial_vals = np.array([t.value for t in study.trials if t.value is not None])
+running_best = np.maximum.accumulate(trial_vals)
+fig, ax = plt.subplots(figsize=(8.5, 5))
+ax.scatter(np.arange(1, len(trial_vals) + 1), trial_vals, s=28, alpha=0.6, color=COLOR_PRIMARY, label="Trial CV R²")
+ax.plot(np.arange(1, len(trial_vals) + 1), running_best, color=COLOR_ACCENT, linewidth=2, label="Best so far")
+ax.axhline(baseline_cv_r2, color=COLOR_DARK, linestyle=":", linewidth=1.8, label=f"Baseline = {baseline_cv_r2:.3f}")
+ax.set_xlabel("Optuna trial"); ax.set_ylabel("Mean 5-fold CV R²")
+ax.set_title("Optuna search history (TPE sampler)")
+ax.legend()
+plt.savefig(IMAGES_DIR / "ml_appendix_optuna_history.png")
+plt.show()
+```
+
+### B.4 Did tuning help?
+
+```{code-cell} ipython3
+methods = ["Baseline", "Grid", "Random", "Optuna"]
+scores = [baseline_cv_r2, float(grid.best_score_), float(rand.best_score_), float(study.best_value)]
+fig, ax = plt.subplots(figsize=(8, 5))
+bars = ax.bar(methods, scores, color=[COLOR_DARK, COLOR_PRIMARY, COLOR_TEAL, COLOR_ACCENT],
+              edgecolor="white", alpha=0.9, width=0.6)
+for b, s in zip(bars, scores):
+    ax.text(b.get_x() + b.get_width() / 2, s + 0.002, f"{s:.3f}", ha="center", va="bottom")
+ax.set_ylabel("Best mean 5-fold CV R²"); ax.set_ylim(0, max(scores) * 1.18)
+ax.set_title("Tuning buys almost nothing over the baseline")
+plt.savefig(IMAGES_DIR / "ml_appendix_tuning_comparison.png")
+plt.show()
+
+tuning_df = pd.DataFrame({"Method": methods, "Best CV R2": [round(s, 4) for s in scores]})
+tuning_df.to_csv(TABLES_DIR / "ml_tuning_comparison.csv", index=False)
+best = max([("Grid", grid.best_score_, grid.best_params_),
+            ("Random", rand.best_score_, rand.best_params_),
+            ("Optuna", study.best_value, study.best_params)], key=lambda t: t[1])
+pd.DataFrame([{"Parameter": k, "Value": ("None" if v is None else v)} for k, v in best[2].items()]) \
+    .to_csv(TABLES_DIR / "ml_rf_best_params.csv", index=False)
+Markdown(tuning_df.to_markdown(index=False))
+```
+
+The methods rank as theory predicts (Optuna ≥ random ≥ grid for equal budgets), but the improvement is tiny — well within the fold-to-fold standard deviation from Section 6. The tuning gain is smaller than the noise, which is why the main analysis keeps the defaults. Spend effort on tuning when a baseline and a learning curve suggest there is headroom to win.
